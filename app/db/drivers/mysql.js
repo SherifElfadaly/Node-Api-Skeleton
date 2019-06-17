@@ -12,7 +12,7 @@ class MysqlAdapter {
      *
      * @return  {void}
      */
-  constructor(modelName, config = global.container.config, mysql = global.container.mysql, util = global.container.util) {
+  constructor(modelName, config = container.config, mysql = container.mysql, util = container.util) {
     this.config = config;
     this.mysql = mysql;
     this.util = util;

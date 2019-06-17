@@ -1,4 +1,4 @@
-const userController = global.container.userController;
+const userController = container.userController;
 
 module.exports = (router) => {
   router.get('/all', userController.all);

@@ -48,6 +48,9 @@
         130,
         4
       ]
+    },
+    "globals": {
+      "container": true
     }
   },
   "eslintIgnore": [

@@ -1,4 +1,4 @@
-const DB = global.container.DB;
+const DB = container.DB;
 
 /**
  * User model
