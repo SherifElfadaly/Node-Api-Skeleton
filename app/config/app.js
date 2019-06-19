@@ -5,5 +5,5 @@ module.exports = {
   db_driver: process.env.DB_DRIVER || '',
   db_user: process.env.DB_USER || '',
   db_password: process.env.DB_PASSWORD || '',
-  db_database: process.env.DB_DATABASE || '',
+  db_name: process.env.DB_NAME || '',
 };

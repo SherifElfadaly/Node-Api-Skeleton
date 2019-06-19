@@ -1,16 +1,16 @@
-const DB = container.DB;
+const Model = container.Model;
 
 /**
  * User model
  */
-class User extends DB {
+class User extends Model {
   /**
-   * Init new object
+   * Return table name for this model.
    *
-   * @return  {void}
+   * @return  {string}
    */
-  constructor() {
-    super('users');
+  static get tableName() {
+    return 'users';
   }
 }
 

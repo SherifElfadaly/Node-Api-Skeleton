@@ -19,7 +19,7 @@ class UserRepository {
    * @return  {object}
    */
   async all() {
-    return await this.user.all();
+    return await this.user.query();
   }
 
   /**
@@ -30,7 +30,7 @@ class UserRepository {
    * @return  {object}
    */
   async find(id) {
-    return await this.user.find(id);
+    return await this.user.query().findById(id);
   }
 }
 

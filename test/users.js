@@ -2,20 +2,18 @@
 require('dotenv').config();
 const expect = require('chai').expect;
 const container = require('../app/config/services');
-const userModel = container.userModel;
+const userRepository = container.userRepository;
 
-describe('usereModel', () => {
+describe('userRepository', () => {
   it('should return array of users', async () => {
-    const result = await userModel.all();
+    const result = await userRepository.all();
     expect(result).to.be.an('array');
   });
 
   it('should return user with id 1', async () => {
-    const result = await userModel.find(1);
+    const result = await userRepository.find(1);
     expect(result.id).to.equal(1);
   });
 });
 
-after(function() {
-  userModel.disconnect();
-});
+after(() => container.knex.destroy());

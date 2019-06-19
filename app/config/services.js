@@ -8,6 +8,8 @@ global.container = bottle.container;
    */
 bottle.constant('config', require('./app'));
 bottle.constant('mysql', require('mysql'));
+bottle.constant('knex', require('./db').knex);
+bottle.constant('Model', require('./db').Model);
 bottle.constant('util', require('util'));
 bottle.constant('bodyParser', require('body-parser'));
 
