@@ -8,7 +8,8 @@
     "test": "nyc mocha",
     "lint": "eslint .",
     "lint-fix": "npm run lint -- --fix",
-    "pretest": "npm run lint"
+    "pretest": "npm run lint",
+    "knex": "node -r dotenv/config ./node_modules/knex/bin/cli.js --knexfile app/config/knexfile.js"
   },
   "author": "",
   "license": "ISC",
