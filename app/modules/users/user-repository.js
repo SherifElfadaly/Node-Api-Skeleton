@@ -1,7 +1,9 @@
+const Repository = container.repository;
+
 /**
  * User repo
  */
-class UserRepository {
+class UserRepository extends Repository {
   /**
    * Init new object
    *
@@ -10,27 +12,8 @@ class UserRepository {
    * @return  {void}
    */
   constructor(userModel) {
-    this.user = userModel;
-  }
-
-  /**
-   * Return all users
-   *
-   * @return  {object}
-   */
-  async all() {
-    return await this.user.query();
-  }
-
-  /**
-   * find user by id
-   *
-   * @param   {number}  id
-   *
-   * @return  {object}
-   */
-  async find(id) {
-    return await this.user.query().findById(id);
+    super();
+    this.model = userModel;
   }
 }
 

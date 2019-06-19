@@ -6,7 +6,7 @@ const userRepository = container.userRepository;
 
 describe('userRepository', () => {
   it('should return array of users', async () => {
-    const result = await userRepository.all();
+    const result = await userRepository.all([], 'id', false);
     expect(result).to.be.an('array');
   });
 

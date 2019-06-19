@@ -12,6 +12,7 @@ bottle.constant('knex', require('./db').knex);
 bottle.constant('Model', require('./db').Model);
 bottle.constant('util', require('util'));
 bottle.constant('bodyParser', require('body-parser'));
+bottle.constant('sprintf', require('sprintf-js').sprintf);
 
 /**
    * Call all registered providers.
