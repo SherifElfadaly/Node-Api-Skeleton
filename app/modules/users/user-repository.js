@@ -12,8 +12,7 @@ class UserRepository extends Repository {
    * @return  {void}
    */
   constructor(userModel) {
-    super();
-    this.model = userModel;
+    super(userModel);
   }
 }
 
