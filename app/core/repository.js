@@ -53,14 +53,14 @@ class Repository {
    *
    * @param   {number}  page
    * @param   {number}  perPage
-   * @param   {array}   relations
+   * @param   {string}  relations
    * @param   {string}  sortBy
    * @param   {boolean} desc
    * @param   {string}  columns
    *
    * @return  {array}
    */
-  paginate(page = 1, perPage = 15, relations = [], sortBy = 'created_at', desc = true, columns = '*') {
+  paginate(page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
     const sort = desc ? 'desc' : 'asc';
 
     return this.model.query().
@@ -78,14 +78,14 @@ class Repository {
    * @param   {object}  conditions
    * @param   {number}  page
    * @param   {number}  perPage
-   * @param   {array}   relations
+   * @param   {string}  relations
    * @param   {string}  sortBy
    * @param   {boolean} desc
    * @param   {string}  columns
    *
    * @return  {array}
    */
-  paginateBy(conditions, page = 1, perPage = 15, relations = [], sortBy = 'created_at', desc = true, columns = '*') {
+  paginateBy(conditions, page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
     const sort = desc ? 'desc' : 'asc';
     conditions = this.constructConditions(conditions, this.model);
 
@@ -94,6 +94,62 @@ class Repository {
         whereRaw(conditions.conditionString, conditions.conditionValues).
         limit(perPage).
         offset(page - 1).
+        select(columns).
+        orderBy(sortBy, sort);
+  }
+
+  /**
+   * Save the given data.
+   *
+   * @param   {array}  data
+   * @param   {string} allowedRelations
+   * @param   {array}  upsertOptions
+   *
+   * @return  {object}
+   */
+  async save(data, allowedRelations= '[]', upsertOptions = []) {
+    const model = await container.transaction(container.knex, async (trx) => {
+      const query = this.model.query(trx);
+
+      return data.id ?
+        query.allowUpsert(allowedRelations).upsertGraph(data, upsertOptions) :
+        query.allowInsert(allowedRelations).insertGraph(data);
+    });
+
+    return model;
+  }
+
+  /**
+   * Delete record based on the given condition.
+   *
+   * @param   {number}  id
+   * @param   {string}  attribute
+   *
+   * @return  {void}
+   */
+  delete(id, attribute = 'id') {
+    this.model.query().where(attribute, id).delete();
+  }
+
+  /**
+   * Find all records with relations
+   * based on the given conditions.
+   *
+   * @param   {object}  conditions
+   * @param   {string}  relations
+   * @param   {string}  sortBy
+   * @param   {boolean} desc
+   * @param   {string}  columns
+   *
+   * @return  {array}
+   */
+  findBy(conditions, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
+    const sort = desc ? 'desc' : 'asc';
+    conditions = this.constructConditions(conditions, this.model);
+
+    return this.model.query().
+        eager(relations).
+        whereRaw(conditions.conditionString, conditions.conditionValues).
         select(columns).
         orderBy(sortBy, sort);
   }
@@ -109,6 +165,7 @@ class Repository {
   constructConditions(conditions) {
     let conditionString = '';
     let conditionValues = [];
+
     Object.keys(conditions).forEach((key) => {
       let value = conditions[key];
 
