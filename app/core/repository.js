@@ -27,6 +27,7 @@ class Repository {
     const sort = desc ? 'desc' : 'asc';
 
     return this.model.query().
+        whereNotDeleted().
         eager(relations).
         select(columns).
         orderBy(sortBy, sort);
@@ -43,6 +44,7 @@ class Repository {
    */
   find(id, relations = '[]', columns = '*') {
     return this.model.query().
+        whereNotDeleted().
         eager(relations).
         findById(id).
         select(columns);
@@ -65,6 +67,7 @@ class Repository {
     conditions = this.constructConditions(conditions, this.model);
 
     return this.model.query().
+        whereNotDeleted().
         eager(relations).
         whereRaw(conditions.conditionString, conditions.conditionValues).
         select(columns).
@@ -87,6 +90,7 @@ class Repository {
     const sort = desc ? 'desc' : 'asc';
 
     return this.model.query().
+        whereNotDeleted().
         eager(relations).
         limit(perPage).
         offset(page - 1).
@@ -113,6 +117,7 @@ class Repository {
     conditions = this.constructConditions(conditions, this.model);
 
     return this.model.query().
+        whereNotDeleted().
         eager(relations).
         whereRaw(conditions.conditionString, conditions.conditionValues).
         limit(perPage).
