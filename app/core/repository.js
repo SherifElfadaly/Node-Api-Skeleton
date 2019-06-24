@@ -16,14 +16,14 @@ class Repository {
   /**
    * Fetch all records with relations.
    *
-   * @param   {array}   relations
+   * @param   {string}  relations
    * @param   {string}  sortBy
    * @param   {boolean} desc
    * @param   {string}  columns
    *
    * @return  {array}
    */
-  all(relations = [], sortBy = 'created_at', desc = true, columns = '*') {
+  all(relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
     const sort = desc ? 'desc' : 'asc';
 
     return this.model.query().
@@ -36,12 +36,12 @@ class Repository {
    * Fetch record based on the given id.
    *
    * @param   {number}  id
-   * @param   {array}   relations
+   * @param   {string}  relations
    * @param   {string}  columns
    *
    * @return  {object}
    */
-  find(id, relations = [], columns = '*') {
+  find(id, relations = '[]', columns = '*') {
     return this.model.query().
         eager(relations).
         findById(id).
@@ -49,7 +49,30 @@ class Repository {
   }
 
   /**
-   * Paginate all records with relations.
+   * Find all records with relations
+   * based on the given conditions.
+   *
+   * @param   {object}  conditions
+   * @param   {string}  relations
+   * @param   {string}  sortBy
+   * @param   {boolean} desc
+   * @param   {string}  columns
+   *
+   * @return  {array}
+   */
+  findBy(conditions, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
+    const sort = desc ? 'desc' : 'asc';
+    conditions = this.constructConditions(conditions, this.model);
+
+    return this.model.query().
+        eager(relations).
+        whereRaw(conditions.conditionString, conditions.conditionValues).
+        select(columns).
+        orderBy(sortBy, sort);
+  }
+
+  /**
+   * Paginate records with relations.
    *
    * @param   {number}  page
    * @param   {number}  perPage
@@ -72,7 +95,7 @@ class Repository {
   }
 
   /**
-   * Paginate all records with relations
+   * Paginate records with relations
    * based on the given conditions.
    *
    * @param   {object}  conditions
@@ -99,7 +122,23 @@ class Repository {
   }
 
   /**
-   * Save the given data.
+   * insert the given data.
+   *
+   * @param   {array}  data
+   * @param   {string} allowedRelations
+   *
+   * @return  {object}
+   */
+  async insert(data, allowedRelations= '[]') {
+    const model = await container.transaction(container.knex, async (trx) => {
+      return this.model.query(trx).allowInsert(allowedRelations).insertGraph(data);
+    });
+
+    return model;
+  }
+
+  /**
+   * Update the given data.
    *
    * @param   {array}  data
    * @param   {string} allowedRelations
@@ -107,13 +146,9 @@ class Repository {
    *
    * @return  {object}
    */
-  async save(data, allowedRelations= '[]', upsertOptions = []) {
+  async update(data, allowedRelations= '[]', upsertOptions = []) {
     const model = await container.transaction(container.knex, async (trx) => {
-      const query = this.model.query(trx);
-
-      return data.id ?
-        query.allowUpsert(allowedRelations).upsertGraph(data, upsertOptions) :
-        query.allowInsert(allowedRelations).insertGraph(data);
+      return this.model.query(trx).allowUpsert(allowedRelations).upsertGraph(data, upsertOptions);
     });
 
     return model;
@@ -129,29 +164,6 @@ class Repository {
    */
   delete(id, attribute = 'id') {
     this.model.query().where(attribute, id).delete();
-  }
-
-  /**
-   * Find all records with relations
-   * based on the given conditions.
-   *
-   * @param   {object}  conditions
-   * @param   {string}  relations
-   * @param   {string}  sortBy
-   * @param   {boolean} desc
-   * @param   {string}  columns
-   *
-   * @return  {array}
-   */
-  findBy(conditions, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    const sort = desc ? 'desc' : 'asc';
-    conditions = this.constructConditions(conditions, this.model);
-
-    return this.model.query().
-        eager(relations).
-        whereRaw(conditions.conditionString, conditions.conditionValues).
-        select(columns).
-        orderBy(sortBy, sort);
   }
 
   /**

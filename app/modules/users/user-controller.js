@@ -1,14 +1,9 @@
-/**
- * public vairable hold the repo for express route to work.
- *
- * @var  {string}
- */
-let repo;
+const Controller = container.controller;
 
 /**
  * User Controller
  */
-class UserController {
+class UserController extends Controller {
   /**
    * Init new object
    *
@@ -17,31 +12,7 @@ class UserController {
    * @return  {void}
    */
   constructor(userRepository) {
-    repo = this.repo = userRepository;
-  }
-
-  /**
-   * Return all users
-   *
-   * @param   {object}  req
-   * @param   {object}  res
-   *
-   * @return  {void}
-   */
-  async all(req, res) {
-    return res.json(await repo.all());
-  }
-
-  /**
-   * find user by id
-   *
-   * @param   {object}  req
-   * @param   {object}  res
-   *
-   * @return  {void}
-   */
-  async find(req, res) {
-    return res.json(await repo.find(req.params.id));
+    super(userRepository);
   }
 }
 

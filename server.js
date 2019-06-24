@@ -5,4 +5,4 @@ require('./app/config/services');
 require('./app/middlewares')(app);
 require('./app/routes')(app, express);
 
-app.listen(global.container.config.port);
+app.listen(container.config.port);
