@@ -28,7 +28,9 @@
     "objection": "^1.6.9",
     "objection-password": "^2.0.0",
     "objection-soft-delete": "^1.0.5",
-    "sprintf-js": "^1.1.2"
+    "sprintf-js": "^1.1.2",
+    "winston": "^3.2.1",
+    "winston-mail": "^1.5.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
