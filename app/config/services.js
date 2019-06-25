@@ -16,7 +16,7 @@ bottle.constant('util', require('util'));
 bottle.constant('bodyParser', require('body-parser'));
 bottle.constant('sprintf', require('sprintf-js').sprintf);
 bottle.constant('noCase', require('no-case'));
-
+bottle.constant('asyncWrapper', require('./exceptionHandler').asyncWrapper);
 /**
    * Call all registered providers.
    */
