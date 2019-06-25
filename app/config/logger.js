@@ -1,8 +1,7 @@
 const winston = require('winston');
-const Mail = require('winston-mail').Mail;
+require('winston-mail').Mail;
 
 const logger = winston.createLogger({
-
   transports: [
     new winston.transports.File({filename: 'logs/exception-logs.log'}),
     new winston.transports.File({filename: 'logs/exception-error-logs.log', level: 'error'}),
