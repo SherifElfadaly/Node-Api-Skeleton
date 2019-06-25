@@ -20,6 +20,13 @@ class Controller {
     globalRepo = repo;
     globalGetRelations = this.getRelations;
     modelName = container.noCase(this.constructor.name, null, '_').split('_')[0];
+
+    // eslint-disable-next-line no-undef
+    return new Proxy(this, {
+      get: (controller, name) => {
+        return container.asyncWrapper(controller[name]);
+      },
+    });
   }
 
   /**
