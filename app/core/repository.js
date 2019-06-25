@@ -127,6 +127,31 @@ class Repository {
   }
 
   /**
+   * Paginate deleted records based on the given conditions.
+   *
+   * @param   {object}  conditions
+   * @param   {number}  page
+   * @param   {number}  perPage
+   * @param   {string}  sortBy
+   * @param   {boolean} desc
+   * @param   {string}  columns
+   *
+   * @return  {array}
+   */
+  deleted(conditions, page = 1, perPage = 15, sortBy = 'created_at', desc = true, columns = '*') {
+    const sort = desc ? 'desc' : 'asc';
+    conditions = this.constructConditions(conditions, this.model);
+
+    return this.model.query().
+        whereDeleted().
+        whereRaw(conditions.conditionString, conditions.conditionValues).
+        limit(perPage).
+        offset(page - 1).
+        select(columns).
+        orderBy(sortBy, sort);
+  }
+
+  /**
    * insert the given data.
    *
    * @param   {array}  data
@@ -169,6 +194,30 @@ class Repository {
    */
   delete(id, attribute = 'id') {
     this.model.query().where(attribute, id).delete();
+  }
+
+  /**
+   * Hard delete record based on the given condition.
+   *
+   * @param   {number}  id
+   * @param   {string}  attribute
+   *
+   * @return  {void}
+   */
+  hardDelete(id, attribute = 'id') {
+    this.model.query().where(attribute, id).hardDelete();
+  }
+
+  /**
+   * Restore deleted record based on the given condition.
+   *
+   * @param   {number}  id
+   * @param   {string}  attribute
+   *
+   * @return  {void}
+   */
+  restore(id, attribute = 'id') {
+    this.model.query().where(attribute, id).undelete();
   }
 
   /**

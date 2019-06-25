@@ -47,8 +47,7 @@ class Controller {
   }
 
   /**
-   * Fetch all records from the repo
-   * based on the given conditions.
+   * Fetch all records from the repo based on the given conditions.
    *
    * @param   {object}  req
    * @param   {object}  res
@@ -73,8 +72,7 @@ class Controller {
   }
 
   /**
-   * Paginate records from the repo
-   * based on the given conditions.
+   * Paginate records from the repo based on the given conditions.
    *
    * @param   {object}  req
    * @param   {object}  res
@@ -84,6 +82,18 @@ class Controller {
   async paginateBy(req, res) {
     return res.json(await globalRepo.paginateBy(req.body, req.params.page, req.params.perPage,
         globalGetRelations('paginateBy'), req.params.sortBy, req.params.desc));
+  }
+
+  /**
+   * Paginate deleted records based on the given conditions.
+   *
+   * @param   {object}  req
+   * @param   {object}  res
+   *
+   * @return  {array}
+   */
+  async deleted(req, res) {
+    return res.json(await globalRepo.deleted(req.body, req.params.page, req.params.perPage, req.params.sortBy, req.params.desc));
   }
 
   /**
@@ -120,6 +130,30 @@ class Controller {
    */
   async delete(req, res) {
     return res.json(await globalRepo.delete(req.params.id));
+  }
+
+  /**
+   * Hard delete record from the repo based on the given id.
+   *
+   * @param   {object}  req
+   * @param   {object}  res
+   *
+   * @return  {object}
+   */
+  async hardDelete(req, res) {
+    return res.json(await globalRepo.hardDelete(req.params.id));
+  }
+
+  /**
+   * Restore deleted record from the repo based on the given id.
+   *
+   * @param   {object}  req
+   * @param   {object}  res
+   *
+   * @return  {object}
+   */
+  async restore(req, res) {
+    return res.json(await globalRepo.restore(req.params.id));
   }
 
   /**
