@@ -1,9 +1,8 @@
-const Logger = container.logger;
-
 /**
+ * Router exception handler wrapper.
+ *
  * @param {CallableFunction} cb Controller body
  * @return {function (req,res,next)}  exception free controller logic as a function
- * Router exception handler wrapper
  */
 module.exports.asyncWrapper = (cb) => {
   return (req, res, next) => {
@@ -21,16 +20,39 @@ module.exports.asyncWrapper = (cb) => {
 };
 
 /**
+ * Error handling middleWare.
+ *
  * @param {object} app express object
- * Error handling middleWare
  */
-module.exports.errHandler = (app) => {
+module.exports.errorHandler = (app) => {
   app.use((err, req, res, next) => {
-    const statusCode = err.statusCode || 500;
-    const exceptionBody = err.response || err.message || 'Unidentified Error';
+    let statusCode = err.statusCode || 500;
+    let exceptionBody = [err.response || err.message || 'Unidentified Error'];
 
-    Logger.log('error', statusCode + ' ' + exceptionBody);
-    res.status(err.statusCode || 500).json({message: err.response || err.message || 'Unidentified Error'});
+    /**
+     * Catch joi validation errors.
+     */
+    if (err.error && err.error.isJoi) {
+      statusCode = 422;
+      exceptionBody = [];
+
+      /**
+       * Map errors to display message only.
+       */
+      err.error.details.map((error) => {
+        exceptionBody.push(error.message);
+      });
+    }
+
+    /**
+     * Log error using custom logger.
+     */
+    container.logger.log('error', statusCode + ' ' + exceptionBody);
+
+    /**
+     * Send response to the client.
+     */
+    res.status(statusCode || 500).json({errors: exceptionBody});
   });
 };
 

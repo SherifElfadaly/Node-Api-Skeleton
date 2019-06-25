@@ -2,11 +2,21 @@ const winston = require('winston');
 require('winston-mail').Mail;
 
 const logger = winston.createLogger({
+  /**
+   * Write all logs to exception-log
+   * Write logs with level error to exception-error-logs.
+   *
+   * @return  {array}
+   */
   transports: [
     new winston.transports.File({filename: 'logs/exception-logs.log'}),
     new winston.transports.File({filename: 'logs/exception-error-logs.log', level: 'error'}),
 
   ],
+
+  /**
+   * Combine the current datetime to the log entry.
+   */
   format: winston.format.combine(
       winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
       winston.format.splat(),
@@ -15,8 +25,10 @@ const logger = winston.createLogger({
   ),
 });
 
-// SHOW console logs while not @ production level
-if (process.env.NODE_ENV !== 'production') {
+/**
+ * Show console logs while not @ production level.
+ */
+if (container.config.node_env !== 'production') {
   logger.add(new winston.transports.Console({
     format: winston.format.combine(
         winston.format.colorize({all: true}),
@@ -25,8 +37,10 @@ if (process.env.NODE_ENV !== 'production') {
   }));
 }
 
-// MODIFY for sending logs emails @ production level
-if (process.env.NODE_ENV == 'production') {
+/**
+ * Modify for sending logs emails @ production level.
+ */
+if (container.config.node_env == 'production') {
   logger.add(new winston.transports.Mail({
     to: 'toAddress',
     from: 'fromAddress',

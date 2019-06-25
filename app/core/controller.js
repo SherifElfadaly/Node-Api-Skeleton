@@ -21,6 +21,9 @@ class Controller {
     globalGetRelations = this.getRelations;
     modelName = container.noCase(this.constructor.name, null, '_').split('_')[0];
 
+    /**
+     * Wrap every method with asyncWrapper exception handler.
+     */
     // eslint-disable-next-line no-undef
     return new Proxy(this, {
       get: (controller, name) => {

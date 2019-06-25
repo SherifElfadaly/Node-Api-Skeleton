@@ -7,6 +7,6 @@ Model.knex(knex);
 
 module.exports = {
   'knex': knex,
-  'Model': password(softDelete({columnName: 'deleted'})(Model)),
+  'Model': softDelete({columnName: 'deleted'})(password(Model)),
   'transaction': transaction,
 };

@@ -187,10 +187,10 @@ class Repository {
    * @param   {number}  id
    * @param   {string}  attribute
    *
-   * @return  {void}
+   * @return  {number}
    */
   delete(id, attribute = 'id') {
-    this.model.query().where(attribute, id).delete();
+    return this.model.query().where(attribute, id).delete();
   }
 
   /**
@@ -199,10 +199,10 @@ class Repository {
    * @param   {number}  id
    * @param   {string}  attribute
    *
-   * @return  {void}
+   * @return  {number}
    */
   hardDelete(id, attribute = 'id') {
-    this.model.query().where(attribute, id).hardDelete();
+    return this.model.query().where(attribute, id).hardDelete();
   }
 
   /**
@@ -211,10 +211,10 @@ class Repository {
    * @param   {number}  id
    * @param   {string}  attribute
    *
-   * @return  {void}
+   * @return  {object}
    */
   restore(id, attribute = 'id') {
-    this.model.query().where(attribute, id).undelete();
+    return this.model.query().where(attribute, id).undelete();
   }
 
   /**

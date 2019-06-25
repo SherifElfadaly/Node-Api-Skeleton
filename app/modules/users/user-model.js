@@ -15,18 +15,27 @@ class User extends Model {
 
   /**
    * Set created at before insert.
+   *
+   * @param   {object}  context
+   *
+   * @return  {void}
    */
-  $beforeInsert() {
+  $beforeInsert(context) {
     this.created_at = container.moment().format('YYYY-MM-DD hh:mm:ss');
-    super.$beforeInsert();
+    super.$beforeInsert(context);
   }
 
   /**
    * Set updated at before update.
+   *
+   * @param   {object}  queryOptions
+   * @param   {object}  context
+   *
+   * @return  {void}
    */
-  $beforeUpdate() {
+  $beforeUpdate(queryOptions, context) {
     this.updated_at = container.moment().format('YYYY-MM-DD hh:mm:ss');
-    super.$beforeUpdate();
+    super.$beforeUpdate(queryOptions, context);
   }
 }
 
