@@ -16,6 +16,12 @@ bottle.constant('util', require('util'));
 bottle.constant('bodyParser', require('body-parser'));
 bottle.constant('sprintf', require('sprintf-js').sprintf);
 bottle.constant('noCase', require('no-case'));
+bottle.constant('moment', require('moment'));
+bottle.constant('joi', require('joi'));
+bottle.constant('validator', require('express-joi-validation')({
+  'joi': container.joi,
+  'passError': true,
+}));
 
 /**
    * Call all registered providers.
