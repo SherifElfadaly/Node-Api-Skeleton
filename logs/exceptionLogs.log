@@ -1,0 +1,30 @@
+info: This is an information message. {"timestamp":"2019-06-25 13:34:00"}
+info: This is an information message. {"timestamp":"2019-06-25 13:34:16"}
+error: 500 ER_ACCESS_DENIED_ERROR: Access denied for user ''@'localhost' (using password: NO) {"timestamp":"2019-06-25 13:34:21"}
+error: 500 ER_ACCESS_DENIED_ERROR: Access denied for user ''@'localhost' (using password: NO) {"timestamp":"2019-06-25 13:35:02"}
+info: This is an information message. {"timestamp":"2019-06-25 13:35:08"}
+info: This is an information message. {"timestamp":"2019-06-25 13:35:33"}
+info: This is an information message. {"timestamp":"2019-06-25 13:35:38"}
+info: This is an information message. {"timestamp":"2019-06-25 13:41:08"}
+info: This is an information message. {"timestamp":"2019-06-25 13:41:12"}
+info: This is an information message. {"timestamp":"2019-06-25 13:41:30"}
+info: This is an information message. {"timestamp":"2019-06-25 13:41:32"}
+info: This is an information message. {"timestamp":"2019-06-25 13:41:36"}
+info: This is an information message. {"timestamp":"2019-06-25 13:42:47"}
+info: This is an information message. {"timestamp":"2019-06-25 13:43:47"}
+info: This is an information message. {"timestamp":"2019-06-25 13:43:53"}
+info: This is an information message. {"timestamp":"2019-06-25 13:43:58"}
+info: This is an information message. {"timestamp":"2019-06-25 13:44:30"}
+info: This is an information message. {"timestamp":"2019-06-25 13:44:32"}
+info: This is an information message. {"timestamp":"2019-06-25 13:44:38"}
+info: This is an information message. {"timestamp":"2019-06-25 13:44:43"}
+info: This is an information message. {"timestamp":"2019-06-25 13:44:47"}
+info: This is an information message. {"timestamp":"2019-06-25 13:44:49"}
+info: This is an information message. {"timestamp":"2019-06-25 13:45:12"}
+info: This is an information message. {"timestamp":"2019-06-25 13:45:16"}
+info: This is an information message. {"timestamp":"2019-06-25 13:45:17"}
+info: This is an information message. {"timestamp":"2019-06-25 13:46:03"}
+error: 500 ER_ACCESS_DENIED_ERROR: Access denied for user ''@'localhost' (using password: NO) {"timestamp":"2019-06-25 13:46:15"}
+error: 500 ER_ACCESS_DENIED_ERROR: Access denied for user ''@'localhost' (using password: NO) {"timestamp":"2019-06-25 13:52:28"}
+error: 500 ER_ACCESS_DENIED_ERROR: Access denied for user ''@'localhost' (using password: NO) {"timestamp":"2019-06-25 13:53:09"}
+error: 500 ER_ACCESS_DENIED_ERROR: Access denied for user ''@'localhost' (using password: NO) {"timestamp":"2019-06-25 13:55:40"}

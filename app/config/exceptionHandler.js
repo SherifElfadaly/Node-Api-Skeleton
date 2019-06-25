@@ -1,3 +1,4 @@
+const Logger=container.logger;
 
 /**
  * @param {CallableFunction} cb Controller body
@@ -26,16 +27,10 @@ module.exports.asyncWrapper = (cb) => {
 module.exports.errHandler = (app) => {
   app.use((err, req, res, next) => {
     const statusCode=err.statusCode || 500;
-    const exceptionBody=err.response || err.message || 'error';
+    const exceptionBody=err.response || err.message || 'Unidentified Error';
 
-    const logsPath=require('path').join(__dirname, '..', '..', 'logs', 'exceptionLogs.txt');
-
-    const logData=new Date().toLocaleString()+
-      ' '+statusCode+
-      ' '+exceptionBody+
-      '\n';
-
-    require('fs').appendFile(logsPath, logData, (err)=>{});
+    Logger.log('error', statusCode+' '+exceptionBody);
     res.status(err.statusCode || 500).json({message: err.response || err.message || 'Unidentified Error'});
   });
 };
+
