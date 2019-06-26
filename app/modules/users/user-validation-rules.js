@@ -1,7 +1,7 @@
 const rules = {
   'insert': container.joi.object({
     email: container.joi.string().required().email(),
-    password: container.joi.string().required(),
+    pass: container.joi.string().required(),
   }),
 };
 

@@ -19,7 +19,9 @@ bottle.constant('noCase', require('no-case'));
 bottle.constant('moment', require('moment'));
 bottle.constant('logger', require('./logger'));
 bottle.constant('asyncWrapper', require('./exception-handler').asyncWrapper);
+bottle.constant('mapper', require('object-mapper'));
 bottle.constant('joi', require('joi'));
+bottle.constant('mung', require('express-mung'));
 bottle.constant('validator', require('express-joi-validation')({
   'joi': container.joi,
   'passError': true,
