@@ -8,7 +8,7 @@ module.exports.asyncWrapper = (cb) => {
   return (req, res, next) => {
     try {
       const wrappedRoute = cb(req, res, next);
-      if (wrappedRoute.catch) {
+      if (wrappedRoute && wrappedRoute.catch) {
         wrappedRoute.catch((err) => {
           next(err);
         });
