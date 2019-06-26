@@ -21,8 +21,10 @@ class User extends Model {
    * @return  {void}
    */
   $beforeInsert(context) {
-    this.created_at = container.moment().format('YYYY-MM-DD hh:mm:ss');
-    super.$beforeInsert(context);
+    // eslint-disable-next-line no-undef
+    return Promise.resolve(super.$beforeInsert(context)).then(() => {
+      this.created_at = container.moment().format('YYYY-MM-DD hh:mm:ss');
+    });
   }
 
   /**
@@ -34,8 +36,10 @@ class User extends Model {
    * @return  {void}
    */
   $beforeUpdate(queryOptions, context) {
-    this.updated_at = container.moment().format('YYYY-MM-DD hh:mm:ss');
-    super.$beforeUpdate(queryOptions, context);
+    // eslint-disable-next-line no-undef
+    return Promise.resolve(super.$beforeUpdate(queryOptions, context)).then(() => {
+      this.updated_at = container.moment().format('YYYY-MM-DD hh:mm:ss');
+    });
   }
 }
 

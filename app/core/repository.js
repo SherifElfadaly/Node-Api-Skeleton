@@ -92,7 +92,7 @@ class Repository {
     return this.model.query().
         whereNotDeleted().
         eager(relations).
-        page(page, perPage).
+        page(page - 1, perPage).
         select(columns).
         orderBy(sortBy, sort);
   }
@@ -119,7 +119,7 @@ class Repository {
         whereNotDeleted().
         eager(relations).
         whereRaw(conditions.conditionString, conditions.conditionValues).
-        page(page, perPage).
+        page(page - 1, perPage).
         select(columns).
         orderBy(sortBy, sort);
   }
@@ -143,7 +143,7 @@ class Repository {
     return this.model.query().
         whereDeleted().
         whereRaw(conditions.conditionString, conditions.conditionValues).
-        page(page, perPage).
+        page(page - 1, perPage).
         select(columns).
         orderBy(sortBy, sort);
   }
