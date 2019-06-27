@@ -17,7 +17,7 @@ bottle.constant('bodyParser', require('body-parser'));
 bottle.constant('sprintf', require('sprintf-js').sprintf);
 bottle.constant('noCase', require('no-case'));
 bottle.constant('moment', require('moment'));
-bottle.constant('logger', require('./logger'));
+bottle.constant('logger', require('../helpers/logger'));
 bottle.constant('asyncWrapper', require('./exception-handler').asyncWrapper);
 bottle.constant('objectMapper', require('object-mapper'));
 bottle.constant('mapper', require('../helpers/mappers'));
