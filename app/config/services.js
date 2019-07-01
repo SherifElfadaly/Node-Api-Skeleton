@@ -9,6 +9,7 @@ global.container = bottle.container;
 bottle.service('ErrorHandlers', require('../helpers/ErrorHandlers'));
 bottle.constant('config', require('./app'));
 bottle.constant('relations', require('./relations'));
+bottle.constant('handlebars', require('express-handlebars'));
 bottle.constant('mysql', require('mysql'));
 bottle.constant('knex', require('./db').knex);
 bottle.constant('Model', require('./db').Model);

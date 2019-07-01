@@ -6,60 +6,68 @@ module.exports = (router) => {
   /**
    * List all users.
    *
-   * @mapperSchema fetchSchema
+   * @apiName      list
+   * @mapperSchema responseSchema
    */
-  router.get('/', mapper['fetch'](userMappers.fetchSchema, true), userController.all);
+  router.get('/', mapper['fetch'](userMappers.responseSchema, true), userController.all);
 
   /**
    * Finde user by id.
    *
-   * @mapperSchema fetchSchema
+   * @apiName      find
+   * @mapperSchema responseSchema
    */
-  router.get('/:id', mapper['fetch'](userMappers.fetchSchema), userController.find);
+  router.get('/:id', mapper['fetch'](userMappers.responseSchema), userController.find);
 
   /**
    * Paginate users.
    *
-   * @mapperSchema fetchSchema
+   * @apiName      paginate
+   * @mapperSchema responseSchema
    */
-  router.get('/:page/:perPage', mapper['fetch'](userMappers.fetchSchema, true, true), userController.paginate);
+  router.get('/:page/:perPage', mapper['fetch'](userMappers.responseSchema, true, true), userController.paginate);
 
   /**
    * Find all users by the given conditions.
    *
-   * @mapperSchema fetchSchema
+   * @apiName      filter
+   * @mapperSchema responseSchema
    */
-  router.post('/filter', mapper['fetch'](userMappers.fetchSchema, true), userController.findBy);
+  router.post('/filter', mapper['fetch'](userMappers.responseSchema, true), userController.findBy);
 
   /**
    * Paginate users by the given conditions.
    *
-   * @mapperSchema fetchSchema
+   * @apiName      fliterPaginate
+   * @mapperSchema responseSchema
    */
-  router.post('/filter/:page/:perPage', mapper['fetch'](userMappers.fetchSchema, true, true), userController.paginateBy);
+  router.post('/filter/:page/:perPage', mapper['fetch'](userMappers.responseSchema, true, true), userController.paginateBy);
 
   /**
    * Create new user.
    *
-   * @mapperSchema    fetchSchema
+   * @apiName         insert
+   * @mapperSchema    responseSchema
    * @validationRules insert
    */
-  router.post('/', container.userValidationRules('insert'), mapper['request'](userMappers.requestSchema),
-      mapper['fetch'](userMappers.fetchSchema), userController.insert);
+  router.post('/', container.userValidationRules.apply('insert'), mapper['request'](userMappers.requestSchema),
+      mapper['fetch'](userMappers.responseSchema), userController.insert);
 
   /**
    * Update the given user.
    *
-   * @mapperSchema    fetchSchema
+   * @apiName         update
+   * @mapperSchema    responseSchema
    * @validationRules insert
    */
-  router.put('/', container.userValidationRules('update'), mapper['request'](userMappers.requestSchema),
-      mapper['fetch'](userMappers.fetchSchema), userController.update);
+  router.put('/', container.userValidationRules.apply('update'), mapper['request'](userMappers.requestSchema),
+      mapper['fetch'](userMappers.responseSchema), userController.update);
 
   /**
    * Delete the given user.
    *
-   * @mapperSchema    fetchSchema
+   * @apiName         delete
+   * @mapperSchema    responseSchema
    * @validationRules insert
    */
   router.delete('/:id', userController.delete);

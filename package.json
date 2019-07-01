@@ -30,7 +30,6 @@
     "objection": "^1.6.9",
     "objection-password": "^2.0.0",
     "objection-soft-delete": "^1.0.5",
-    "parse-comments": "^1.0.0",
     "sprintf-js": "^1.1.2",
     "winston": "^3.2.1",
     "winston-mail": "^1.5.2"
@@ -39,8 +38,12 @@
     "chai": "^4.2.0",
     "eslint": "^5.16.0",
     "eslint-config-google": "^0.13.0",
+    "express-handlebars": "^3.1.0",
+    "joi-to-swagger": "^3.1.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
+    "parse-comments": "^1.0.0",
+    "pluralize": "^8.0.0",
     "sinon": "^7.3.2"
   },
   "eslintConfig": {
@@ -69,6 +72,7 @@
     }
   },
   "eslintIgnore": [
-    "node_modules"
+    "node_modules",
+    "public"
   ]
 }

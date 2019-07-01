@@ -1,8 +1,8 @@
 module.exports = {
   /**
-   * Schema for fetching mappers.
+   * Schema for response mappers.
    */
-  'fetchSchema': {
+  'responseSchema': {
     'id': 'id',
     'email': 'email',
     'created_at': 'created_at',
