@@ -6,6 +6,7 @@ global.container = bottle.container;
 /**
    * Register read only dependencies.
    */
+bottle.service('ErrorHandlers', require('../helpers/ErrorHandlers'));
 bottle.constant('config', require('./app'));
 bottle.constant('relations', require('./relations'));
 bottle.constant('mysql', require('mysql'));

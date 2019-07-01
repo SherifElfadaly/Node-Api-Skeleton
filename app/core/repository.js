@@ -42,12 +42,16 @@ class Repository {
    *
    * @return  {object}
    */
-  find(id, relations = '[]', columns = '*') {
-    return this.model.query().
+  async find(id, relations = '[]', columns = '*') {
+    const model = await this.model.query().
         whereNotDeleted().
         eager(relations).
         findById(id).
         select(columns);
+
+    if (! model) container.ErrorHandlers.notFound();
+
+    return model;
   }
 
   /**
