@@ -8,7 +8,7 @@ module.exports = {
      *
      * @return  {array}
      */
-  'fetch': (schema, returnArray = false, isPagination = false) => {
+  'response': (schema, returnArray = false, isPagination = false) => {
     return container.mung.json((body, req, res) => {
       /**
          * Map array of objects.
@@ -28,10 +28,16 @@ module.exports = {
 
         /**
            * Map single object.
+           * If Array map each row on the array 
+           * Otherwise return a array of that single object 
            */
-        return body.map((obj) => {
-          return container.objectMapper(obj, schema);
-        });
+
+        if (Array.isArray(body)) {
+          return body.map((obj) => {
+            return container.objectMapper(obj, schema);
+          });
+        }
+        else return [container.objectMapper(body, schema)];
       }
 
       return container.objectMapper(body, schema);
