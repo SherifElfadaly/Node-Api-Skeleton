@@ -72,6 +72,9 @@ module.exports = async (router) => {
 
   return {
     modules: modules,
+    headers: {
+      'Content-Type': 'application/json',
+    },
     conditions: [
       {
         'title': 'email equal John@Doe.com:',

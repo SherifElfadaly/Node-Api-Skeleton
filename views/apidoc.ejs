@@ -106,6 +106,24 @@
                                             <p><%= api.description %></p>
                                             <pre><%= host + api.path %></pre>
 
+                                            <h4>Headers</h4>
+                                            <table class="table table-bordered"> 
+                                                <thead> 
+                                                    <tr> 
+                                                        <th>Field</th> 
+                                                        <th>Value</th> 
+                                                    </tr> 
+                                                </thead> 
+                                                <tbody> 
+                                                    <% Object.keys(data.headers).forEach((name) => { %>
+                                                        <tr> 
+                                                            <td><%= name %></td> 
+                                                            <td><%= data.headers[name] %></td> 
+                                                        </tr> 
+                                                    <% }); %>
+                                                </tbody> 
+                                            </table>
+
                                             <% if (api.params.length) { %>
                                                 <h4>Parametars</h4>
                                                 <table class="table table-bordered"> 

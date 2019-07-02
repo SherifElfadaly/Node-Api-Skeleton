@@ -60,7 +60,7 @@ module.exports = (router) => {
    * @mapperSchema    responseSchema
    * @validationRules insert
    */
-  router.put('/', container.userValidationRules.apply('update'), mapper['request'](userMappers.requestSchema),
+  router.patch('/', container.userValidationRules.apply('update'), mapper['request'](userMappers.requestSchema),
       mapper['fetch'](userMappers.responseSchema), userController.update);
 
   /**
