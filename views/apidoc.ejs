@@ -59,24 +59,24 @@
             <div class="page-sidebar-wrapper">
                 <div class="page-sidebar navbar-collapse collapse">
                     <ul class="page-sidebar-menu  page-header-fixed" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-                        {{#each data.modules as |module moduleName|}}
+                        <% Object.keys(data.modules).forEach((moduleName) => { %>
                             <li class="nav-item ">
-                                <a href="#{{moduleName}}" id="{{moduleName}}-1" data-toggle="collapse" data-target="#{{moduleName}}" aria-expanded="false" class="nav-link nav-toggle ">
+                                <a href="#<%= moduleName %>" id="<%= moduleName %>-1" data-toggle="collapse" data-target="#<%= moduleName %>" aria-expanded="false" class="nav-link nav-toggle ">
                                     <i class="icon-docs"></i>
-                                    <span class="title">{{moduleName}}</span>
+                                    <span class="title"><%= moduleName %></span>
                                     <span class="arrow "></span>
                                 </a>
-                                <ul class="sub-menu" id="{{moduleName}}" role="menu" aria-labelledby="{{moduleName}}-1">
-                                    {{#each module as |api key|}}
+                                <ul class="sub-menu" id="<%= moduleName %>" role="menu" aria-labelledby="<%= moduleName %>-1">
+                                    <% data.modules[moduleName].forEach((api, key) => { %>
                                         <li class="nav-item ">
-                                            <a href="#{{moduleName}}_{{api.name}}" class="nav-link ">
-                                                <span class="title">{{api.name}}</span>
+                                            <a href="#<%= moduleName %>_<%= api.name %>" class="nav-link ">
+                                                <span class="title"><%= api.name %></span>
                                             </a>
                                         </li>
-                                    {{/each}}
+                                    <% }); %>
                                 </ul>
                             </li>
-                        {{/each}}
+                        <% }); %>
                     </ul>
                     <!-- END SIDEBAR MENU -->
                 </div>
@@ -89,24 +89,24 @@
                 <!-- BEGIN CONTENT BODY -->
                 <div class="page-content">
                     <div class="row">
-                        {{#each data.modules as |module moduleName|}}
-                            <div class="col-lg-12" id="{{moduleName}}">
-                                <h1>{{moduleName}}</h1>
-                                {{#each module as |api key|}}
-                                    <div class="panel panel-default" id="{{moduleName}}_{{api.name}}">
+                        <% Object.keys(data.modules).forEach((moduleName) => { %>
+                            <div class="col-lg-12" id="<%= moduleName %>">
+                                <h1><%= moduleName %></h1>
+                                <% data.modules[moduleName].forEach((api, key) => { %>
+                                    <div class="panel panel-default" id="<%= moduleName %>_<%= api.name %>">
                                         <div class="panel-heading">
-                                            {{api.name}} 
-                                            {{#eq api.method 'GET'}}
-                                                <span class="label label-success">{{api.method}}</span>
-                                            {{else}}
-                                                <span class="label label-danger">{{api.method}}</span>
-                                            {{/eq}}
+                                            <%= api.name %> 
+                                            <% if (['get', 'delete'].includes(api.method)) { %>
+                                                <span class="label label-success"><%= api.method %></span>
+                                            <% } else { %>
+                                                <span class="label label-danger"><%= api.method %></span>
+                                            <% } %>
                                         </div>
                                         <div class="panel-body">
-                                            <p>{{api.description}}</p>
-                                            <pre>{{api.path}}</pre>
+                                            <p><%= api.description %></p>
+                                            <pre><%= host + api.path %></pre>
 
-                                            {{#if api.params}}
+                                            <% if (api.params.length) { %>
                                                 <h4>Parametars</h4>
                                                 <table class="table table-bordered"> 
                                                     <thead> 
@@ -115,23 +115,23 @@
                                                         </tr> 
                                                     </thead> 
                                                     <tbody> 
-                                                        {{#each api.params as |param kay|}}
+                                                        <% api.params.forEach((param, key) => { %>
                                                             <tr> 
                                                                 <td>
-                                                                    {{param.name}}
-                                                                    {{#if param.optional}}
+                                                                    <%= param.name %>
+                                                                    <% if (param.optional) { %>
                                                                         <span class="label label-danger">Required</span>
-                                                                    {{else}}
+                                                                    <% } else { %>
                                                                         <span class="label label-default">Optional</span>
-                                                                    {{/if}}
+                                                                    <% } %>
                                                                 </td> 
                                                             </tr> 
-                                                        {{/each}}
+                                                        <% }); %>
                                                     </tbody> 
                                                 </table>
-                                            {{/if}}
+                                            <% } %>
                                             
-                                            {{#if api.validationRules}}
+                                            <% if (api.validationRules) { %>
                                                 <h4>Body</h4>
                                                 <table class="table table-bordered"> 
                                                     <thead> 
@@ -141,61 +141,62 @@
                                                         </tr> 
                                                     </thead> 
                                                     <tbody> 
-                                                        {{#each api.validationRules.properties as |property name|}}
+                                                        <% Object.keys(api.validationRules.properties).forEach((name) => { %>
                                                             <tr> 
                                                                 <td>
-                                                                    {{name}}
-                                                                    {{#includes api.validationRules.required name}}
+                                                                    <%= name %>
+                                                                    <% if (api.validationRules.required.includes(name)) { %>
                                                                         <span class="label label-danger">Required</span>
-                                                                    {{else}}
+                                                                    <% } else { %>
                                                                         <span class="label label-default">Optional</span>
-                                                                    {{/includes}}
+                                                                    <% } %>
                                                                 </td> 
                                                                 <td>
-                                                                    <pre>{{stringify property}}</pre>
+                                                                    <pre><%= JSON.stringify(api.validationRules.properties[name], null, 4) %></pre>
                                                                 </td>
                                                             </tr> 
-                                                        {{/each}}
+                                                        <% }); %>
                                                     </tbody> 
                                                 </table>
-                                            {{else}}
-                                                {{#eq api.method 'post'}}
+                                            <% } else { %>
+                                                <% if (api.method === 'post') { %>
                                                     <h4>Body</h4>
                                                     <p>This examples applied on users only change them based on the requested api.</p>
                                                     <ul class="nav nav-tabs" role="tablist"  id="conditionsTabs">
-                                                        {{#each ../../../data.conditions as |condition key|}}
-                                                            {{#eq key 0}}
+                                                        <% data.conditions.forEach((condition, key) => { %>
+                                                            <% if (key === 0) { %>
                                                                 <li class="active">
-                                                            {{else}}
+                                                            <% } else { %>
                                                                 <li>
-                                                            {{/eq}}
-                                                                    <a href=".{{key}}" data-toggle="tab">{{condition.title}}</a>
+                                                            <% } %>
+                                                                    <a href=".<%= key %>" data-toggle="tab"><%= condition.title %></a>
                                                                 </li>
-                                                        {{/each}}
+                                                        <% }); %>
                                                     </ul>
                                                     <div class="tab-content">
-                                                        {{#each ../../../data.conditions as |condition key|}}
-                                                            {{#eq key 0}}
-                                                                <div class="tab-pane active {{key}}">
-                                                            {{else}}
-                                                                <div class="tab-pane {{key}}">
-                                                            {{/eq}}
-                                                                    <pre>{{stringify condition.content}}</pre>
+                                                        <% data.conditions.forEach((condition, key) => { %>
+                                                            <% if (key === 0) { %>
+                                                                <div class="tab-pane active <%= key %>">
+                                                            <% } else { %>
+                                                                <div class="tab-pane <%= key %>">
+                                                            <% } %>
+                                                                    <pre><%= JSON.stringify(condition.content, null, 4) %></pre>
                                                                 </div>
-                                                        {{/each}}
+                                                        <% }); %>
                                                     </div>
-                                                {{/eq}}
-                                            {{/if}}
-                                            {{#if api.schema}}
+                                                <% } %>
+                                            <% } %>
+                                            <% if (api.schema) { %>
+                                                <h4>Response</h4>
                                                 <span>
-                                                    <pre>{{stringify api.schema}}</pre>
+                                                    <pre><%= JSON.stringify(api.schema, null, 4) %></pre>
                                                 </span>
-                                            {{/if}}
+                                            <% } %>
                                         </div>
                                     </div>
-                                {{/each}}
+                                <% }); %>
                             </div>
-                        {{/each}}
+                        <% }); %>
                     </div>
                 </div>
             </div>
