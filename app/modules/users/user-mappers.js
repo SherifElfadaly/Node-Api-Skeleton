@@ -6,7 +6,7 @@ module.exports = {
     'id': 'id',
     'email': 'email',
     'created_at': 'created_at',
-    'updated_at': 'updated_at',
+    'updated_at': 'updated_at?',
   },
   /**
    * Schema for request mappers.

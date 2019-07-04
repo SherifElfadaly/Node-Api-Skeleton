@@ -9,7 +9,7 @@ module.exports = (router) => {
    * @apiName      list
    * @mapperSchema responseSchema
    */
-  router.get('/', mapper.response(userMappers.responseSchema, true), userController.all);
+  router.get('/', mapper.response(userMappers.responseSchema), userController.all);
 
   /**
    * Finde user by id.
@@ -25,7 +25,7 @@ module.exports = (router) => {
    * @apiName      paginate
    * @mapperSchema responseSchema
    */
-  router.get('/:page/:perPage', mapper.response(userMappers.responseSchema, true, true), userController.paginate);
+  router.get('/:page/:perPage', mapper.response(userMappers.responseSchema), userController.paginate);
 
   /**
    * Find all users by the given conditions.
@@ -33,7 +33,7 @@ module.exports = (router) => {
    * @apiName      filter
    * @mapperSchema responseSchema
    */
-  router.post('/filter', mapper.response(userMappers.responseSchema, true), userController.findBy);
+  router.post('/filter', mapper.response(userMappers.responseSchema), userController.findBy);
 
   /**
    * Paginate users by the given conditions.
@@ -41,7 +41,7 @@ module.exports = (router) => {
    * @apiName      fliterPaginate
    * @mapperSchema responseSchema
    */
-  router.post('/filter/:page/:perPage', mapper.response(userMappers.responseSchema, true, true), userController.paginateBy);
+  router.post('/filter/:page/:perPage', mapper.response(userMappers.responseSchema), userController.paginateBy);
 
   /**
    * Create new user.
