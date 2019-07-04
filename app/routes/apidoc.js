@@ -89,16 +89,27 @@ module.exports = async (router) => {
         docBlock[index].tags.forEach((tag) => {
           switch (tag.title) {
             case 'mapperSchema': {
+              /**
+               * Load the mapper from the corresponding module.
+               *
+               * @TODO Edit mappers to allow attribute types.
+               */
               mapper = require('../modules/' + routeBase + '/' +
                 require('pluralize').singular(routeBase) + '-mappers')[tag.description];
               break;
             }
             case 'validationRules': {
+              /**
+               * Load the validatio rules from the corresponding module.
+               */
               validationRules = require('../modules/' + routeBase + '/' +
                 require('pluralize').singular(routeBase) + '-validation-rules').rules[tag.description];
               break;
             }
             case 'apiName': {
+              /**
+               * Set the api name.
+               */
               apiName = tag.description;
               break;
             }
