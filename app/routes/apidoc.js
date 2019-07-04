@@ -1,6 +1,13 @@
 module.exports = async (router) => {
+  /**
+   * Require and promisify fs to use async/await.
+   */
   const fs = require('fs');
   const readFile = container.util.promisify(fs.readFile);
+
+  /**
+   * Read the content main entry file for all base routes.
+   */
   let contents = await readFile(__dirname + '/index.js', 'utf8');
   let routes = null;
   let routesFunction = null;
@@ -12,28 +19,73 @@ module.exports = async (router) => {
   const endPoints = [];
   const modules = {};
 
+  /**
+   * Remove all white spaces from the file content.
+   */
   contents = contents.replace(/\s/g, '');
+
+  /**
+   * Use substr and split to sperate each route.
+   */
   contents = contents.substr(contents.indexOf('app.use(')).split(';');
+
+  /**
+   * Remove the last two elements (function curly brackets and semicolon)
+   * from the base routes array.
+   */
   contents.pop(); contents.pop();
 
+  /**
+   * Loop through every base route.
+   */
   for (const element of contents) {
+    /**
+     * Define the start and the end to substr the base route.
+     */
     const start = element.indexOf('app.use(\'');
     const end = element.indexOf(',container');
+
+    /**
+     * Substr the base route to determine where to the module
+     * routes are located.
+     */
     const apiBase = element.substr(start + 9, end - 10);
     routeBase = routeBase ? routeBase : apiBase.substr(5);
+
+    /**
+     * Retreive the route functio name.
+     */
     routes = routes ? routes : element.substr(end + 11, 10);
     routesFunction = routesFunction ? routesFunction : container[routes](router);
 
+    /**
+     * Load the module route.
+     */
     contents = await readFile(__dirname + '/../modules/' + routeBase + '/' + container.noCase(routes, null, '-') + '.js', 'utf8');
 
+    /**
+     * Read jsdoc to determine what mapper and/or validation
+     * rules used for each module route.
+     */
     if (!docBlock) {
       const Comments = require('parse-comments');
       const comments = new Comments();
       docBlock = comments.parse(contents);
     }
 
+    /**
+     * Loop through each module routes.
+     */
     routesFunction.stack.forEach((element, index) => {
+      /**
+       * Only retreive the mapper and/or validation rules
+       * if the route has jsdoc.
+       */
       if (docBlock[index]) {
+        /**
+         * Fill the necesseray info based on the jsdoc
+         * annotations.
+         */
         docBlock[index].tags.forEach((tag) => {
           switch (tag.title) {
             case 'mapperSchema': {
