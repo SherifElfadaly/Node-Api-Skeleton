@@ -28,7 +28,7 @@ const logger = winston.createLogger({
 /**
  * Show console logs while not @ production level.
  */
-if (container.config.node_env !== 'production') {
+if (process.env.NODE_ENV !== 'production') {
   logger.add(new winston.transports.Console({
     format: winston.format.combine(
         winston.format.colorize({all: true}),
@@ -40,7 +40,7 @@ if (container.config.node_env !== 'production') {
 /**
  * Modify for sending logs emails @ production level.
  */
-if (container.config.node_env == 'production') {
+if (process.env.NODE_ENV == 'production') {
   logger.add(new winston.transports.Mail({
     to: 'toAddress',
     from: 'fromAddress',

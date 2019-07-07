@@ -1,3 +1,5 @@
+const logger = require('../helpers/logger');
+
 /**
  * Router exception handler wrapper.
  *
@@ -24,7 +26,7 @@ module.exports.asyncWrapper = (cb) => {
  *
  * @param {object} app express object
  */
-module.exports.errorHandler = (app) => {
+module.exports.expressExceptionHandler = (app) => {
   app.use((err, req, res, next) => {
     let statusCode = err.statusCode || 500;
     let exceptionBody = [err.response || err.message || 'Unidentified Error'];
@@ -47,12 +49,31 @@ module.exports.errorHandler = (app) => {
     /**
      * Log error using custom logger.
      */
-    container.logger.log('error', statusCode + ' ' + exceptionBody);
+    logger.log('error', statusCode + ' ' + exceptionBody);
 
     /**
      * Send response to the client.
      */
-    res.status(statusCode || 500).json({errors: exceptionBody});
+    res.status(statusCode || 500).json({errors: container.config.node_env == 'production' ? 'server error' : exceptionBody});
   });
 };
 
+
+module.exports.exceptionHandler = () => {
+/**
+   * Catch unhandeled promis and throw exception.
+   */
+  process.on('unhandledRejection', (reason, p) => {
+    throw reason;
+  });
+
+  /**
+     * Catch exception and log it using winston.
+     */
+  process.on('uncaughtException', (err) => {
+    /**
+       * Log error using custom logger.
+       */
+    logger.log('error', '500 ' + err.message);
+  });
+};
