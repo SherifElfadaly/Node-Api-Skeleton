@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+    db:
+      container_name: 'db'
+      image: mysql:5.7
+      environment:
+        MYSQL_DATABASE: 'mysql'
+        MYSQL_USER: 'david'
+        MYSQL_PASSWORD: 'password'
+        MYSQL_ROOT_PASSWORD: 'rootpassword'
+      ports:
+        - 4001:3306
+
+    skeleton:
+      container_name: 'node-skeleton'
+      build: .
+      depends_on:
+        - "db"
+      ports:
+        - 4000:3000
