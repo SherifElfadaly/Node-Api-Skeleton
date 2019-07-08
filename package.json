@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node -r dotenv/config server.js",
-    "watch": "nodemon -r dotenv/config server.js",
+    "start": "node server.js",
+    "watch": "nodemon server.js",
     "test": "nyc mocha",
     "lint": "eslint .",
     "lint-fix": "npm run lint -- --fix",

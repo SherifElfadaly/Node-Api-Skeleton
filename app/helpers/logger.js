@@ -21,7 +21,6 @@ const logger = winston.createLogger({
       winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
       winston.format.splat(),
       winston.format.simple(),
-
   ),
 });
 
