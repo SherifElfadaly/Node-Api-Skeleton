@@ -49,7 +49,7 @@ module.exports.expressExceptionHandler = (app) => {
     /**
      * Log error using custom logger.
      */
-    logger.log('error', statusCode + ' ' + exceptionBody);
+    logger.log('error', statusCode + ' ' + err.stack);
 
     /**
      * Send response to the client.
@@ -74,6 +74,6 @@ module.exports.exceptionHandler = () => {
     /**
        * Log error using custom logger.
        */
-    logger.log('error', '500 ' + err.message);
+    logger.log('error', '500 ' + err.stack);
   });
 };

@@ -10,7 +10,7 @@ require('./app/config/exception-handler').exceptionHandler();
 /**
  * Initialize the container.
  */
-require('./app/config/services');
+require('./app/config/container');
 
 /**
  * Register express middlewares.
@@ -23,8 +23,13 @@ require('./app/middlewares')(app);
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.get('/apidoc', async (req, res) => {
-  const data = await require('./app/routes/apidoc')(new express.Router());
-  res.render('apidoc', {data: data, host: req.headers.host});
+  /**
+   * Temporary disable untile joi to swagger updated.
+   */
+  res.status(404).send({error: 'Not Found'});
+
+  // const data = await require('./app/routes/apidoc')(new express.Router());
+  // res.render('apidoc', {data: data, host: req.headers.host});
 });
 
 /**

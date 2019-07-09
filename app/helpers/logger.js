@@ -1,6 +1,4 @@
 const winston = require('winston');
-require('winston-mail').Mail;
-
 const logger = winston.createLogger({
   /**
    * Write all logs to exception-log
@@ -9,9 +7,7 @@ const logger = winston.createLogger({
    * @return  {array}
    */
   transports: [
-    new winston.transports.File({filename: 'logs/exception-logs.log'}),
-    new winston.transports.File({filename: 'logs/exception-error-logs.log', level: 'error'}),
-
+    new winston.transports.File({filename: 'logs/exception.log', level: 'error'}),
   ],
 
   /**
@@ -33,21 +29,6 @@ if (process.env.NODE_ENV !== 'production') {
         winston.format.colorize({all: true}),
         winston.format.simple()
     ),
-  }));
-}
-
-/**
- * Modify for sending logs emails @ production level.
- */
-if (process.env.NODE_ENV == 'production') {
-  logger.add(new winston.transports.Mail({
-    to: 'toAddress',
-    from: 'fromAddress',
-    subject: 'uncaughtException Report',
-    host: 'smtp.relaxitsjustanexample.com',
-    username: 'emailadd',
-    password: 'password',
-    ssl: true,
   }));
 }
 
