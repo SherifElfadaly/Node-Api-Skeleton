@@ -1,5 +1,4 @@
 const logger = require('../helpers/logger');
-
 const {
   DataError,
   ConstraintViolationError,
@@ -76,12 +75,15 @@ module.exports.expressExceptionHandler = (app) => {
     /**
      * Log error using custom logger.
      */
-    logger.log('error', statusCode + ' ' + err.stack);
+    if ( ! statusCode || statusCode === 500) {
+      logger.log('error', '[' + container.moment().format('YYYY-MM-DD hh:mm:ss') + '] ' + err.stack);
+      exceptionBody = container.config.node_env == 'production' ? ['server error'] : exceptionBody;
+    }
 
     /**
      * Send response to the client.
      */
-    res.status(statusCode || 500).json({errors: container.config.node_env == 'production' ? 'server error' : exceptionBody});
+    res.status(statusCode).json({errors: exceptionBody});
   });
 };
 
@@ -101,6 +103,6 @@ module.exports.exceptionHandler = () => {
     /**
      * Log error using custom logger.
      */
-    logger.log('error', '500 ' + err.stack);
+    logger.log('error', '[' + container.moment().format('YYYY-MM-DD hh:mm:ss') + '] ' + err.stack);
   });
 };

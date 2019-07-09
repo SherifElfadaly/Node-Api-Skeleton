@@ -14,7 +14,6 @@ const logger = winston.createLogger({
    * Combine the current datetime to the log entry.
    */
   format: winston.format.combine(
-      winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
       winston.format.splat(),
       winston.format.simple(),
   ),
