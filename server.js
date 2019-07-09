@@ -45,8 +45,8 @@ require('./app/config/exception-handler').expressExceptionHandler(app);
 /**
  * Register express not found middleware.
  */
-app.use(function(req, res) {
-  res.status(404).send({error: 'Not Found'});
+app.use((req, res) => {
+  res.status(404).send({errors: ['not found']});
 });
 
 /**

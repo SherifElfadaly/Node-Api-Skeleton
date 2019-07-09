@@ -1,5 +1,14 @@
 const logger = require('../helpers/logger');
 
+const {
+  DataError,
+  ConstraintViolationError,
+  ForeignKeyViolationError,
+  UniqueViolationError,
+  NotNullViolationError,
+  DBError,
+} = require('objection-db-errors');
+
 /**
  * Router exception handler wrapper.
  *
@@ -29,7 +38,7 @@ module.exports.asyncWrapper = (cb) => {
 module.exports.expressExceptionHandler = (app) => {
   app.use((err, req, res, next) => {
     let statusCode = err.statusCode || 500;
-    let exceptionBody = [err.response || err.message || 'Unidentified Error'];
+    let exceptionBody = [];
 
     /**
      * Catch joi validation errors.
@@ -44,6 +53,24 @@ module.exports.expressExceptionHandler = (app) => {
       err.error.details.map((error) => {
         exceptionBody.push(error.message);
       });
+
+    /**
+     * Catch database errors.
+     */
+    } else if (err instanceof UniqueViolationError) {
+      exceptionBody.push(`Unique constraint ${err.constraint}`);
+    } else if (err instanceof NotNullViolationError) {
+      exceptionBody.push(`Not null constraint `);
+    } else if (err instanceof DataError) {
+      exceptionBody.push(`Data error `);
+    } else if (err instanceof ConstraintViolationError) {
+      exceptionBody.push(`Constraint violation `);
+    } else if (err instanceof ForeignKeyViolationError) {
+      exceptionBody.push(`Foreign key violation `);
+    } else if (err instanceof DBError) {
+      exceptionBody.push(`Some unknown DB error`);
+    } else {
+      exceptionBody.push(err.response || err.message || 'Unidentified Error');
     }
 
     /**
@@ -60,7 +87,7 @@ module.exports.expressExceptionHandler = (app) => {
 
 
 module.exports.exceptionHandler = () => {
-/**
+  /**
    * Catch unhandeled promis and throw exception.
    */
   process.on('unhandledRejection', (reason, p) => {
@@ -68,12 +95,12 @@ module.exports.exceptionHandler = () => {
   });
 
   /**
-     * Catch exception and log it using winston.
-     */
+   * Catch exception and log it using winston.
+   */
   process.on('uncaughtException', (err) => {
     /**
-       * Log error using custom logger.
-       */
+     * Log error using custom logger.
+     */
     logger.log('error', '500 ' + err.stack);
   });
 };

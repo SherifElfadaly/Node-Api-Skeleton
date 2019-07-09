@@ -118,7 +118,7 @@ class Repository {
   paginateBy(conditions, page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
     const sort = JSON.parse(desc) ? 'desc' : 'asc';
     conditions = this.constructConditions(conditions);
-    
+
     return this.model.query().
         whereNotDeleted().
         eager(relations).

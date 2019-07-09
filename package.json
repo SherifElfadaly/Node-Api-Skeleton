@@ -31,6 +31,7 @@
     "no-case": "^2.3.2",
     "object-mapper": "^5.0.0",
     "objection": "^1.6.9",
+    "objection-db-errors": "^1.1.1",
     "objection-password": "^2.0.0",
     "objection-soft-delete": "^1.0.5",
     "sprintf-js": "^1.1.2",
