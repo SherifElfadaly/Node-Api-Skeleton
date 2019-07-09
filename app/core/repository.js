@@ -24,7 +24,7 @@ class Repository {
    * @return  {array}
    */
   all(relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    const sort = desc ? 'desc' : 'asc';
+    const sort = JSON.parse(desc) ? 'desc' : 'asc';
 
     return this.model.query().
         whereNotDeleted().
@@ -67,8 +67,8 @@ class Repository {
    * @return  {array}
    */
   findBy(conditions, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    const sort = desc ? 'desc' : 'asc';
-    conditions = this.constructConditions(conditions, this.model);
+    const sort = JSON.parse(desc) ? 'desc' : 'asc';
+    conditions = this.constructConditions(conditions);
 
     return this.model.query().
         whereNotDeleted().
@@ -91,7 +91,7 @@ class Repository {
    * @return  {array}
    */
   paginate(page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    const sort = desc ? 'desc' : 'asc';
+    const sort = JSON.parse(desc) ? 'desc' : 'asc';
 
     return this.model.query().
         whereNotDeleted().
@@ -116,9 +116,9 @@ class Repository {
    * @return  {array}
    */
   paginateBy(conditions, page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    const sort = desc ? 'desc' : 'asc';
-    conditions = this.constructConditions(conditions, this.model);
-
+    const sort = JSON.parse(desc) ? 'desc' : 'asc';
+    conditions = this.constructConditions(conditions);
+    
     return this.model.query().
         whereNotDeleted().
         eager(relations).
@@ -141,8 +141,8 @@ class Repository {
    * @return  {array}
    */
   deleted(conditions, page = 1, perPage = 15, sortBy = 'created_at', desc = true, columns = '*') {
-    const sort = desc ? 'desc' : 'asc';
-    conditions = this.constructConditions(conditions, this.model);
+    const sort = JSON.parse(desc) ? 'desc' : 'asc';
+    conditions = this.constructConditions(conditions);
 
     return this.model.query().
         whereDeleted().
@@ -266,7 +266,7 @@ class Repository {
          */
         if (value instanceof Object) {
           operator = value['op'];
-          if (operator.toLowerCase == 'between') {
+          if (operator.toLowerCase() == 'between') {
             value1 = value['val1'];
             value2 = value['val2'];
           } else {
@@ -280,18 +280,18 @@ class Repository {
          * Construct condition string based on the given key
          * and supply values for each operation.
          */
-        if (operator.toLowerCase == 'between') {
+        if (operator.toLowerCase() == 'between') {
           conditionString += key + ' >= ? and ';
           conditionValues.push(value1);
           conditionString += key + ' <= ? {op} ';
           conditionValues.push(value2);
-        } else if (operator.toLowerCase == 'in') {
+        } else if (operator.toLowerCase() == 'in') {
           conditionValues = conditionValues.concat(value);
           const inBindingsString = '?,'.repeat(value.length).slice(0, -1);
           conditionString += key + ' in (' + inBindingsString.slice(0, -1) + ') {op} ';
-        } else if (operator.toLowerCase == 'null') {
+        } else if (operator.toLowerCase() == 'null') {
           conditionString += key + ' is null {op} ';
-        } else if (operator.toLowerCase == 'not null') {
+        } else if (operator.toLowerCase() == 'not null') {
           conditionString += key + ' is not null {op} ';
         } else {
           conditionString += key + ' ' + operator + ' ? {op} ';

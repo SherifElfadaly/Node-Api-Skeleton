@@ -41,7 +41,7 @@ class Controller {
    * @return  {array}
    */
   async all(req, res) {
-    return res.json(await globalRepo.all(globalGetRelations('all'), req.params.sortBy, req.params.desc));
+    return res.json(await globalRepo.all(globalGetRelations('all'), req.headers['sort-by'], req.headers['desc']));
   }
 
   /**
@@ -65,7 +65,7 @@ class Controller {
    * @return  {array}
    */
   async findBy(req, res) {
-    return res.json(await globalRepo.findBy(req.body, globalGetRelations('findBy'), req.params.sortBy, req.params.desc));
+    return res.json(await globalRepo.findBy(req.body, globalGetRelations('findBy'), req.headers['sortBy'], req.headers['desc']));
   }
 
   /**
@@ -78,7 +78,7 @@ class Controller {
    */
   async paginate(req, res) {
     return res.json(await globalRepo.paginate(req.params.page, req.params.perPage,
-        globalGetRelations('paginate'), req.params.sortBy, req.params.desc));
+        globalGetRelations('paginate'), req.headers['sortBy'], req.headers['desc']));
   }
 
   /**
@@ -91,7 +91,7 @@ class Controller {
    */
   async paginateBy(req, res) {
     return res.json(await globalRepo.paginateBy(req.body, req.params.page, req.params.perPage,
-        globalGetRelations('paginateBy'), req.params.sortBy, req.params.desc));
+        globalGetRelations('paginateBy'), req.headers['sortBy'], req.headers['desc']));
   }
 
   /**
@@ -103,7 +103,7 @@ class Controller {
    * @return  {array}
    */
   async deleted(req, res) {
-    return res.json(await globalRepo.deleted(req.body, req.params.page, req.params.perPage, req.params.sortBy, req.params.desc));
+    return res.json(await globalRepo.deleted(req.body, req.params.page, req.params.perPage, req.headers['sortBy'], req.headers['desc']));
   }
 
   /**
