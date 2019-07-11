@@ -10,7 +10,7 @@ require('../core/core-provider')(bottle);
 /**
  * Call all registered providers.
  */
-container.glob.sync(__dirname + '/../modules/**/*-provider.js').forEach((provider) => {
+container.glob.sync(`${__dirname}/../modules/**/*-provider.js`).forEach((provider) => {
   provider = require(provider);
   provider(bottle);
 });

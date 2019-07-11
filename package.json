@@ -62,6 +62,7 @@
       "sourceType": "module"
     },
     "rules": {
+      "prefer-template": 1,
       "no-console": 0,
       "max-len": [
         1,

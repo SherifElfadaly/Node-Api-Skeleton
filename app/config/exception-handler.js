@@ -76,7 +76,7 @@ module.exports.expressExceptionHandler = (app) => {
      * Log error using custom logger.
      */
     if ( ! statusCode || statusCode === 500) {
-      logger.log('error', '[' + container.moment().format('YYYY-MM-DD hh:mm:ss') + '] ' + err.stack);
+      logger.log('error', `[${container.moment().format('YYYY-MM-DD hh:mm:ss')}] ${err.stack}`);
       exceptionBody = container.config.node_env == 'production' ? ['server error'] : exceptionBody;
     }
 
@@ -103,6 +103,6 @@ module.exports.exceptionHandler = () => {
     /**
      * Log error using custom logger.
      */
-    logger.log('error', '[' + container.moment().format('YYYY-MM-DD hh:mm:ss') + '] ' + err.stack);
+    logger.log('error', `[${container.moment().format('YYYY-MM-DD hh:mm:ss')}] ${err.stack}`);
   });
 };

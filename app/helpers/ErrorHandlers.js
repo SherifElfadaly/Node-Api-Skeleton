@@ -10,7 +10,7 @@ class ErrorHandler {
      * @return  {void}
      */
   notFound(name = '') {
-    const err = new Error(name + ' not found');
+    const err = new Error(`${name} not found`);
     err.statusCode = 404;
 
     throw err;
