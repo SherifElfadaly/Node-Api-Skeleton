@@ -18,21 +18,6 @@ require('./app/config/container');
 require('./app/middlewares')(app);
 
 /**
- * Apidoc routes.
- */
-app.use(express.static('public'));
-app.set('view engine', 'ejs');
-app.get('/apidoc', async (req, res) => {
-  /**
-   * Temporary disable untile joi to swagger updated.
-   */
-  res.status(404).send({error: 'Not Found'});
-
-  // const data = await require('./app/routes/apidoc')(new express.Router());
-  // res.render('apidoc', {data: data, host: req.headers.host});
-});
-
-/**
  * Register express routes.
  */
 require('./app/routes')(app, express);

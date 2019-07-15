@@ -18,10 +18,7 @@ module.exports = (container) => {
   container.constant('moment', require('moment'));
   container.constant('logger', require('../helpers/logger'));
   container.constant('asyncWrapper', require('../config/exception-handler').asyncWrapper);
-  container.constant('objectMapper', require('object-mapper'));
-  container.constant('mapper', require('../helpers/mappers'));
   container.constant('joi', require('@hapi/joi'));
-  container.constant('mung', require('express-mung'));
   container.constant('validator', require('express-joi-validation')({
     'joi': container.joi,
     'passError': true,

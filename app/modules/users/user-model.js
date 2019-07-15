@@ -14,6 +14,18 @@ class User extends Model {
   }
 
   /**
+   * Run before returning the result.
+   *
+   * @param   {object}  queryContext
+   *
+   * @return  {void}
+   */
+  $afterGet(queryContext) {
+    delete this.password;
+    delete this.deleted;
+  }
+
+  /**
    * Set created at before insert.
    *
    * @param   {object}  context

@@ -1,6 +1,4 @@
 const userController = container.userController;
-const userMappers = container.userMappers;
-const mapper = container.mapper;
 
 module.exports = (router) => {
   /**
@@ -9,7 +7,7 @@ module.exports = (router) => {
    * @apiName      list
    * @mapperSchema responseSchema
    */
-  router.get('/', mapper.response(userMappers.responseSchema), userController.all);
+  router.get('/', userController.all);
 
   /**
    * Finde user by id.
@@ -17,7 +15,7 @@ module.exports = (router) => {
    * @apiName      find
    * @mapperSchema responseSchema
    */
-  router.get('/:id', mapper.response(userMappers.responseSchema), userController.find);
+  router.get('/:id', userController.find);
 
   /**
    * Paginate users.
@@ -25,7 +23,7 @@ module.exports = (router) => {
    * @apiName      paginate
    * @mapperSchema responseSchema
    */
-  router.get('/:page/:perPage', mapper.response(userMappers.responseSchema), userController.paginate);
+  router.get('/:page/:perPage', userController.paginate);
 
   /**
    * Find all users by the given conditions.
@@ -33,7 +31,7 @@ module.exports = (router) => {
    * @apiName      filter
    * @mapperSchema responseSchema
    */
-  router.post('/filter', mapper.response(userMappers.responseSchema), userController.findBy);
+  router.post('/filter', userController.findBy);
 
   /**
    * Paginate users by the given conditions.
@@ -41,7 +39,7 @@ module.exports = (router) => {
    * @apiName      fliterPaginate
    * @mapperSchema responseSchema
    */
-  router.post('/filter/:page/:perPage', mapper.response(userMappers.responseSchema), userController.paginateBy);
+  router.post('/filter/:page/:perPage', userController.paginateBy);
 
   /**
    * Create new user.
@@ -50,8 +48,7 @@ module.exports = (router) => {
    * @mapperSchema    responseSchema
    * @validationRules insert
    */
-  router.post('/', container.userValidationRules.apply('insert'), mapper.request(userMappers.requestSchema),
-      mapper.response(userMappers.responseSchema), userController.insert);
+  router.post('/', container.userValidationRules.apply('insert'), userController.insert);
 
   /**
    * Update the given user.
@@ -60,8 +57,7 @@ module.exports = (router) => {
    * @mapperSchema    responseSchema
    * @validationRules insert
    */
-  router.patch('/', container.userValidationRules.apply('update'), mapper.request(userMappers.requestSchema),
-      mapper.response(userMappers.responseSchema), userController.update);
+  router.patch('/', container.userValidationRules.apply('update'), userController.update);
 
   /**
    * Delete the given user.

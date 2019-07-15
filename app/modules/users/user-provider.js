@@ -1,6 +1,5 @@
 module.exports = (container) => {
   container.constant('userModel', require('./user-model'));
-  container.constant('userMappers', require('./user-mappers'));
   container.service('userRepository', require('./user-repository'), 'userModel');
   container.service('userController', require('./user-controller'), 'userRepository');
   container.constant('userRoutes', require('./user-routes'));
