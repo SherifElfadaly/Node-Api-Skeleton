@@ -8,7 +8,7 @@ module.exports = async (router) => {
   /**
    * Read the content main entry file for all base routes.
    */
-  let contents = await readFile(__dirname + '/index.js', 'utf8');
+  let contents = await readFile(`${__dirname }/index.js`, 'utf8');
   let routes = null;
   let routesFunction = null;
   let docBlock = null;
@@ -61,7 +61,7 @@ module.exports = async (router) => {
     /**
      * Load the module route.
      */
-    contents = await readFile(__dirname + '/../modules/' + routeBase + '/' + container.noCase(routes, null, '-') + '.js', 'utf8');
+    contents = await readFile(`${__dirname }/../modules/${ routeBase }/${ container.noCase(routes, null, '-') }.js`, 'utf8');
 
     /**
      * Read jsdoc to determine what mapper and/or validation
@@ -94,16 +94,16 @@ module.exports = async (router) => {
                *
                * @TODO Edit mappers to allow attribute types.
                */
-              mapper = require('../modules/' + routeBase + '/' +
-                require('pluralize').singular(routeBase) + '-mappers')[tag.description];
+              mapper = require(`../modules/${ routeBase }/${
+                require('pluralize').singular(routeBase) }-mappers`)[tag.description];
               break;
             }
             case 'validationRules': {
               /**
                * Load the validatio rules from the corresponding module.
                */
-              validationRules = require('../modules/' + routeBase + '/' +
-                require('pluralize').singular(routeBase) + '-validation-rules').rules[tag.description];
+              validationRules = require(`../modules/${ routeBase }/${
+                require('pluralize').singular(routeBase) }-validation-rules`).rules[tag.description];
               break;
             }
             case 'apiName': {
