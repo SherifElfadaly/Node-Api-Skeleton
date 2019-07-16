@@ -19,7 +19,6 @@
     "body-parser": "^1.19.0",
     "bottlejs": "^1.7.2",
     "dotenv": "^8.0.0",
-    "ejs": "^2.6.2",
     "express": "^4.17.1",
     "express-joi-validation": "^1.0.0",
     "glob": "^7.1.4",
