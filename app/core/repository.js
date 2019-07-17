@@ -157,12 +157,16 @@ class Repository {
    *
    * @param   {array}  data
    * @param   {string} allowedRelations
+   * @param   {object} upsertOptions
    *
    * @return  {object}
    */
-  async insert(data, allowedRelations= '[]') {
+  async insert(data, allowedRelations = '[]', upsertOptions = {}) {
     const model = await container.transaction(container.knex, async (trx) => {
-      return this.model.query(trx).allowInsert(allowedRelations).insertGraph(data);
+      const query = this.model.query(trx);
+      if (JSON.parse(allowedRelations).length) query.allowInsert(allowedRelations);
+
+      return query.insertGraph(data, upsertOptions);
     });
 
     return model;
@@ -173,13 +177,16 @@ class Repository {
    *
    * @param   {array}  data
    * @param   {string} allowedRelations
-   * @param   {array}  upsertOptions
+   * @param   {object} upsertOptions
    *
    * @return  {object}
    */
-  async update(data, allowedRelations= '[]', upsertOptions = []) {
+  async update(data, allowedRelations = '[]', upsertOptions = {}) {
     const model = await container.transaction(container.knex, async (trx) => {
-      return this.model.query(trx).allowUpsert(allowedRelations).upsertGraph(data, upsertOptions);
+      const query = this.model.query(trx);
+      if (JSON.parse(allowedRelations).length) query.allowUpsert(allowedRelations);
+
+      return query.upsertGraph(data, upsertOptions);
     });
 
     return model;
