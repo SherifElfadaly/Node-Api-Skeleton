@@ -1,11 +1,4 @@
 /**
- * global vairables for express route to work.
- */
-let globalRepo;
-let globalGetRelations;
-let modelName;
-
-/**
  * Controller class.
  */
 class Controller {
@@ -17,9 +10,8 @@ class Controller {
      * @return  {void}
      */
   constructor(repo) {
-    globalRepo = repo;
-    globalGetRelations = this.getRelations;
-    modelName = container.noCase(this.constructor.name, null, '_').split('_')[0];
+    this.repo = repo;
+    this.modelName = container.noCase(this.constructor.name, null, '_').split('_')[0];
 
     /**
      * Wrap every method with asyncWrapper exception handler.
@@ -27,7 +19,7 @@ class Controller {
     // eslint-disable-next-line no-undef
     return new Proxy(this, {
       get: (controller, name) => {
-        return container.asyncWrapper(controller[name]).bind(controller);
+        return container.asyncWrapper(controller[name].bind(controller));
       },
     });
   }
@@ -41,7 +33,7 @@ class Controller {
    * @return  {array}
    */
   async all(req, res) {
-    return res.json(await globalRepo.all(globalGetRelations('all'), req.headers['sort-by'], req.headers['desc']));
+    return res.json(await this.repo.all(this.getModuleConfig('relations', 'all'), req.headers['sort-by'], req.headers['desc']));
   }
 
   /**
@@ -53,7 +45,7 @@ class Controller {
    * @return  {object}
    */
   async find(req, res) {
-    return res.json(await globalRepo.find(req.params.id, globalGetRelations('find')));
+    return res.json(await this.repo.find(req.params.id, this.getModuleConfig('relations', 'find')));
   }
 
   /**
@@ -65,7 +57,8 @@ class Controller {
    * @return  {array}
    */
   async findBy(req, res) {
-    return res.json(await globalRepo.findBy(req.body, globalGetRelations('findBy'), req.headers['sort-by'], req.headers['desc']));
+    return res.json(await this.repo.findBy(req.body,
+        this.getModuleConfig('relations', 'findBy'), req.headers['sort-by'], req.headers['desc']));
   }
 
   /**
@@ -77,8 +70,8 @@ class Controller {
    * @return  {array}
    */
   async paginate(req, res) {
-    return res.json(await globalRepo.paginate(req.params.page, req.params.perPage,
-        globalGetRelations('paginate'), req.headers['sort-by'], req.headers['desc']));
+    return res.json(await this.repo.paginate(req.params.page, req.params.perPage,
+        this.getModuleConfig('relations', 'paginate'), req.headers['sort-by'], req.headers['desc']));
   }
 
   /**
@@ -90,8 +83,8 @@ class Controller {
    * @return  {array}
    */
   async paginateBy(req, res) {
-    return res.json(await globalRepo.paginateBy(req.body, req.params.page, req.params.perPage,
-        globalGetRelations('paginateBy'), req.headers['sort-by'], req.headers['desc']));
+    return res.json(await this.repo.paginateBy(req.body, req.params.page, req.params.perPage,
+        this.getModuleConfig('relations', 'paginateBy'), req.headers['sort-by'], req.headers['desc']));
   }
 
   /**
@@ -103,7 +96,7 @@ class Controller {
    * @return  {array}
    */
   async deleted(req, res) {
-    return res.json(await globalRepo.deleted(req.body, req.params.page, req.params.perPage,
+    return res.json(await this.repo.deleted(req.body, req.params.page, req.params.perPage,
         req.headers['sort-by'], req.headers['desc']));
   }
 
@@ -116,7 +109,8 @@ class Controller {
    * @return  {object}
    */
   async insert(req, res) {
-    return res.json(await globalRepo.insert(req.body));
+    return res.json(await this.repo.insert(req.body,
+        this.getModuleConfig('allowedRelations', 'insert'), this.getModuleConfig('upsertOptions', 'insert')));
   }
 
   /**
@@ -128,7 +122,8 @@ class Controller {
    * @return  {object}
    */
   async update(req, res) {
-    return res.json(await globalRepo.update(req.body));
+    return res.json(await this.repo.update(req.body,
+        this.getModuleConfig('allowedRelations', 'update'), this.getModuleConfig('upsertOptions', 'update')));
   }
 
   /**
@@ -140,7 +135,7 @@ class Controller {
    * @return  {object}
    */
   async delete(req, res) {
-    return res.json(await globalRepo.delete(req.params.id));
+    return res.json(await this.repo.delete(req.params.id));
   }
 
   /**
@@ -152,7 +147,7 @@ class Controller {
    * @return  {object}
    */
   async hardDelete(req, res) {
-    return res.json(await globalRepo.hardDelete(req.params.id));
+    return res.json(await this.repo.hardDelete(req.params.id));
   }
 
   /**
@@ -164,18 +159,20 @@ class Controller {
    * @return  {object}
    */
   async restore(req, res) {
-    return res.json(await globalRepo.restore(req.params.id));
+    return res.json(await this.repo.restore(req.params.id));
   }
 
   /**
-   * Get relations based on the given route.
+   * Get requested module config based on the given route.
+   *
+   * @param   {string}  config
    *
    * @param   {string}  route
    *
    * @return  {string}
    */
-  getRelations(route) {
-    const modelRelations = container.relations[modelName];
+  getModuleConfig(config, route) {
+    const modelRelations = container.moduleConfig[this.modelName][config];
 
     return modelRelations ? modelRelations[route] || '[]' : '[]';
   }

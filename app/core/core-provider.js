@@ -6,7 +6,7 @@ module.exports = (container) => {
   container.constant('repository', require('./repository'));
   container.constant('controller', require('./controller'));
   container.constant('config', require('../config/app'));
-  container.constant('relations', require('../config/relations'));
+  container.constant('moduleConfig', require('../config/module-config'));
   container.constant('mysql', require('mysql'));
   container.constant('knex', require('../config/db').knex);
   container.constant('Model', require('../config/db').Model);
