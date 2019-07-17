@@ -294,7 +294,7 @@ class Repository {
         } else if (operator.toLowerCase() == 'not null') {
           conditionString += `${key} is not null {op} `;
         } else {
-          conditionString += `${key} ' + operator + ' ? {op} `;
+          conditionString += `${key} ${operator} ? {op} `;
           conditionValues.push(value);
         }
       }
