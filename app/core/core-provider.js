@@ -12,7 +12,6 @@ module.exports = (container) => {
   container.constant('Model', require('../config/db').Model);
   container.constant('transaction', require('../config/db').transaction);
   container.constant('util', require('util'));
-  container.constant('bodyParser', require('body-parser'));
   container.constant('sprintf', require('sprintf-js').sprintf);
   container.constant('noCase', require('no-case'));
   container.constant('moment', require('moment'));
