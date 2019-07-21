@@ -1,0 +1,27 @@
+image: docker
+services:
+  - docker:dind
+
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  only:
+    - dev
+  script:
+    - npm test
+
+
+deploy:
+  stage: deploy
+  only:
+    - dev
+  script:
+    - sudo apt install -y docker-compose
+    - sudo docker image prune -f
+    - sudo docker-compose --version
+    - sudo docker-compose build
+    - sudo docker-compose up -d
+  
