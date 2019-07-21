@@ -10,7 +10,12 @@
     "lint": "eslint .",
     "lint-fix": "npm run lint -- --fix",
     "pretest": "npm run lint-fix",
-    "knex": "node -r dotenv/config ./node_modules/knex/bin/cli.js --knexfile app/config/knexfile.js"
+    "knex": "node -r dotenv/config ./node_modules/knex/bin/cli.js --knexfile app/config/knexfile.js",
+    "knex-rb": "npm run knex migrate:rollback",
+    "knex-migrate": "npm run knex migrate:latest",
+    "knex-rb-migrate": "npm run knex migrate:rollback && npm run knex migrate:latest ",
+    "deploy": "npm run knex-migrate && pm2-runtime ecosystem.config.js"
+
   },
   "author": "",
   "license": "ISC",
