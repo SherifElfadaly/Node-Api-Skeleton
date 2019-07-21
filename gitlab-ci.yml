@@ -11,6 +11,7 @@ test:
   only:
     - dev
   script:
+    - npm install
     - npm test
 
 deploy:
@@ -23,4 +24,3 @@ deploy:
     - sudo docker-compose --version
     - sudo docker-compose build
     - sudo docker-compose up -d
-  
