@@ -11,6 +11,7 @@ services:
         MYSQL_ROOT_PASSWORD: '1'
       ports:
         - 4001:3306
+      restart: always
     app:
       container_name: 'skeleton'
       build: .
@@ -20,3 +21,4 @@ services:
         - "db"
       ports:
         - 4000:3000
+      restart: always
