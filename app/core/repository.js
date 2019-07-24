@@ -49,7 +49,7 @@ class Repository {
         findById(id).
         select(columns);
 
-    if (! model) container.ErrorHandlers.notFound();
+    if (! model) container.errorHandlers.notFound();
 
     return model;
   }

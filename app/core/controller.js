@@ -19,7 +19,7 @@ class Controller {
     // eslint-disable-next-line no-undef
     return new Proxy(this, {
       get: (controller, name) => {
-        return container.asyncWrapper(controller[name].bind(controller));
+        return container.asyncWrapper(container.auth.apply(controller[name].bind(controller)));
       },
     });
   }
