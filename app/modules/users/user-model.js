@@ -10,9 +10,7 @@ class User extends Model {
    *
    * @return  {string}
    */
-  static get tableName() {
-    return 'users';
-  }
+  static tableName = 'users';
 
   /**
    * Specify fields that will be hidden
@@ -20,8 +18,21 @@ class User extends Model {
    *
    * @return  {array}
    */
-  get hiddenFields() {
-    return ['deleted', 'password'];
+  static hiddenFields = ['deleted', 'password'];
+
+  static relationMappings = {
+    groups: {
+      relation: container.Model.ManyToManyRelation,
+      modelClass: container.groupModel,
+      join: {
+        from: 'users.id',
+        through: {
+          from: 'users_groups.user_id',
+          to: 'users_groups.group_id',
+        },
+        to: 'groups.id',
+      },
+    },
   }
 }
 

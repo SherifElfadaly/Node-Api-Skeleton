@@ -4,10 +4,9 @@ exports.up = (knex, Promise) => {
     table.increments('id');
     table.integer('group_id').notNullable().unsigned();
     table.integer('permission_id').notNullable().unsigned();
-    table.foreign('user_id').references('users.id');
+    table.foreign('group_id').references('groups.id');
     table.foreign('permission_id').references('permissions.id');
     table.timestamps();
-    table.unique('name');
   });
 };
 

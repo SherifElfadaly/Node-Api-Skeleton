@@ -9,9 +9,7 @@ class replacetoken extends Model {
    *
    * @return  {string}
    */
-  static get tableName() {
-    return 'databasetoken';
-  }
+  static tableName = 'databasetoken';
 
   /**
    * Specify fields that will be hidden
@@ -19,9 +17,7 @@ class replacetoken extends Model {
    *
    * @return  {array}
    */
-  get hiddenFields() {
-    return ['deleted'];
-  }
+  hiddenFields = ['deleted'];
 }
 
 module.exports = replacetoken;

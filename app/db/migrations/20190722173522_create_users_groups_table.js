@@ -7,7 +7,6 @@ exports.up = (knex, Promise) => {
     table.foreign('user_id').references('users.id');
     table.foreign('group_id').references('groups.id');
     table.timestamps();
-    table.unique('name');
   });
 };
 

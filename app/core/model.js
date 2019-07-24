@@ -43,7 +43,7 @@ class Model extends objection {
     */
   $formatJson(json, options) {
     json = super.$formatJson(json, options);
-    this.hiddenFields.forEach((field) => {
+    this.constructor.hiddenFields.forEach((field) => {
       delete json[field];
     });
 
