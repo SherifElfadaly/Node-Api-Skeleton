@@ -9,7 +9,8 @@ module.exports = (container) => {
   container.constant('moduleConfig', require('../config/module-config'));
   container.constant('mysql', require('mysql'));
   container.constant('knex', require('../config/db').knex);
-  container.constant('Model', require('../config/db').Model);
+  container.constant('objection', require('../config/db').Model);
+  container.constant('Model', require('./model'));
   container.constant('transaction', require('../config/db').transaction);
   container.constant('util', require('util'));
   container.constant('sprintf', require('sprintf-js').sprintf);

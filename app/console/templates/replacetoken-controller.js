@@ -1,9 +1,9 @@
 const Controller = container.controller;
 
 /**
- * User Controller
+ * replacetoken Controller
  */
-class UserController extends Controller {
+class replacetoken extends Controller {
   /**
    * Init new object
    *
@@ -16,4 +16,4 @@ class UserController extends Controller {
   }
 }
 
-module.exports = UserController;
+module.exports = replacetoken;

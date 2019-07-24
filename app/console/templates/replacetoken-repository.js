@@ -1,9 +1,9 @@
 const Repository = container.repository;
 
 /**
- * User repository
+ * replacetoken repository
  */
-class UserRepository extends Repository {
+class replacetoken extends Repository {
   /**
    * Init new object
    *
@@ -16,4 +16,4 @@ class UserRepository extends Repository {
   }
 }
 
-module.exports = UserRepository;
+module.exports = replacetoken;

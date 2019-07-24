@@ -14,7 +14,8 @@
     "knex-rb": "npm run knex migrate:rollback",
     "knex-migrate": "npm run knex migrate:latest",
     "knex-rb-migrate": "npm run knex migrate:rollback && npm run knex migrate:latest ",
-    "deploy": "npm run knex-migrate && pm2-runtime ecosystem.config.js"
+    "deploy": "npm run knex-migrate && pm2-runtime ecosystem.config.js",
+    "generate-module": "node app/console/module-generator.js"
 
   },
   "author": "",
@@ -46,6 +47,7 @@
     "eslint-config-google": "^0.13.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
+    "pluralize": "^8.0.0",
     "sinon": "^7.3.2"
   },
   "eslintConfig": {
@@ -64,6 +66,12 @@
     "rules": {
       "prefer-template": 1,
       "no-console": 0,
+      "space-infix-ops": [
+        "error",
+        {
+          "int32Hint": false
+        }
+      ],
       "max-len": [
         1,
         130,
@@ -75,7 +83,6 @@
     }
   },
   "eslintIgnore": [
-    "node_modules",
-    "public"
+    "node_modules"
   ]
 }

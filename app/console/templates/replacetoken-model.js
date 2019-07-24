@@ -1,17 +1,16 @@
-const password = require('objection-password')();
-const Model = password(container.Model);
+const Model = container.Model;
 
 /**
- * User model
+ * replacetoken model
  */
-class User extends Model {
+class replacetoken extends Model {
   /**
    * Return table name for this model.
    *
    * @return  {string}
    */
   static get tableName() {
-    return 'users';
+    return 'databasetoken';
   }
 
   /**
@@ -21,8 +20,8 @@ class User extends Model {
    * @return  {array}
    */
   get hiddenFields() {
-    return ['deleted', 'password'];
+    return ['deleted'];
   }
 }
 
-module.exports = User;
+module.exports = replacetoken;
