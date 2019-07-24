@@ -27,5 +27,5 @@ module.exports = (container) => {
   /**
    * Register object dependencies.
    */
-  container.service('ErrorHandlers', require('../helpers/ErrorHandlers'));
+  container.service('ErrorHandlers', require('../helpers/error-handlers'));
 };
