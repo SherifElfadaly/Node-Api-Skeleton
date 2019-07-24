@@ -4,7 +4,7 @@ const pluralize = require('pluralize');
 
 let fileName = '';
 let moduleName = process.argv[2] || '';
-const databaseName = process.argv[3] || '';
+const tableName = process.argv[3] || '';
 const modulesFolderlocation = `${__dirname }/../modules/`;
 const tempFolderPath = `${__dirname }/templates/`;
 const moduleFolderPath = modulesFolderlocation + moduleName;
@@ -14,11 +14,6 @@ fileName = noCase(moduleName, null, '-');
 
 if ( ! moduleName) {
   console.log('please enter module name!');
-  process.exit();
-}
-
-if ( ! databaseName) {
-  console.log('please enter database name name!');
   process.exit();
 }
 
@@ -58,7 +53,7 @@ generatFile('-model', (data) => {
   const modelName = `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)}Model`;
 
   let content = data.replace(new RegExp('replacetoken', 'g'), modelName);
-  content = content.replace(new RegExp('databasetoken', 'g'), databaseName ? databaseName : modelName);
+  content = content.replace(new RegExp('databasetoken', 'g'), tableName ? tableName : modelName);
 
   return content;
 });
