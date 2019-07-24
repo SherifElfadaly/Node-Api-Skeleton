@@ -18,8 +18,6 @@ module.exports = (container) => {
   container.constant('moment', require('moment'));
   container.constant('logger', require('../helpers/logger'));
   container.constant('asyncWrapper', require('../config/exception-handler').asyncWrapper);
-  container.constant('passport', require('passport'));
-  container.constant('passportLocal', require('passport-local'));
   container.constant('joi', require('@hapi/joi'));
   container.constant('validator', require('express-joi-validation')({
     'joi': container.joi,
@@ -29,6 +27,5 @@ module.exports = (container) => {
   /**
    * Register object dependencies.
    */
-  container.service('auth', require('../helpers/auth'), 'passportLocal');
   container.service('errorHandlers', require('../helpers/error-handler'));
 };
