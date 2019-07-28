@@ -1,15 +1,15 @@
 const Model = container.Model;
 
 /**
- * GroupModel model
+ * roleModel model
  */
-class GroupModel extends Model {
+class roleModel extends Model {
   /**
    * Return table name for this model.
    *
    * @return  {string}
    */
-  static tableName = 'groups';
+  static tableName = 'roles';
 
   /**
    * Specify fields that will be hidden
@@ -29,10 +29,10 @@ class GroupModel extends Model {
       relation: container.Model.ManyToManyRelation,
       modelClass: container.userModel,
       join: {
-        from: 'groups.id',
+        from: 'roles.id',
         through: {
-          from: 'users_groups.group_id',
-          to: 'users_groups.user_id',
+          from: 'users_roles.role_id',
+          to: 'users_roles.user_id',
         },
         to: 'users.id',
       },
@@ -41,10 +41,10 @@ class GroupModel extends Model {
       relation: container.Model.ManyToManyRelation,
       modelClass: container.permissionModel,
       join: {
-        from: 'groups.id',
+        from: 'roles.id',
         through: {
-          from: 'groups_permissions.group_id',
-          to: 'groups_permissions.permission_id',
+          from: 'roles_permissions.role_id',
+          to: 'roles_permissions.permission_id',
         },
         to: 'permissions.id',
       },
@@ -52,4 +52,4 @@ class GroupModel extends Model {
   }
 }
 
-module.exports = GroupModel;
+module.exports = roleModel;

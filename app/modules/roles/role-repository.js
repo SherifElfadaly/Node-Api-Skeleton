@@ -1,9 +1,9 @@
 const Repository = container.repository;
 
 /**
- * GroupRepository repository
+ * roleRepository repository
  */
-class GroupRepository extends Repository {
+class roleRepository extends Repository {
   /**
    * Init new object
    *
@@ -16,4 +16,4 @@ class GroupRepository extends Repository {
   }
 }
 
-module.exports = GroupRepository;
+module.exports = roleRepository;

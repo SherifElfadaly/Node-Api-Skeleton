@@ -1,9 +1,9 @@
 const Controller = container.controller;
 
 /**
- * GroupController Controller
+ * roleController Controller
  */
-class GroupController extends Controller {
+class roleController extends Controller {
   /**
    * Init new object
    *
@@ -16,4 +16,4 @@ class GroupController extends Controller {
   }
 }
 
-module.exports = GroupController;
+module.exports = roleController;

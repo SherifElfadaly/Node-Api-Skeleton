@@ -25,16 +25,16 @@ class PermissionModel extends Model {
    * @return  {object}
    */
   static relationMappings = {
-    groups: {
+    roles: {
       relation: container.Model.ManyToManyRelation,
       modelClass: container.permissionModel,
       join: {
         from: 'permissions.id',
         through: {
-          from: 'groups_permissions.permission_id',
-          to: 'groups_permissions.group_id',
+          from: 'roles_permissions.permission_id',
+          to: 'roles_permissions.role_id',
         },
-        to: 'groups.id',
+        to: 'roles.id',
       },
     },
   }

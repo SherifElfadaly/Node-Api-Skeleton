@@ -1,5 +1,5 @@
 module.exports = {
-  'group': {
+  'role': {
     'relations': {
       'all': '[]',
       'find': '[]',

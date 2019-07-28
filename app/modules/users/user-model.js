@@ -21,16 +21,16 @@ class User extends Model {
   static hiddenFields = ['deleted', 'password'];
 
   static relationMappings = {
-    groups: {
+    roles: {
       relation: container.Model.ManyToManyRelation,
-      modelClass: container.groupModel,
+      modelClass: container.roleModel,
       join: {
         from: 'users.id',
         through: {
-          from: 'users_groups.user_id',
-          to: 'users_groups.group_id',
+          from: 'users_roles.user_id',
+          to: 'users_roles.role_id',
         },
-        to: 'groups.id',
+        to: 'roles.id',
       },
     },
   }
