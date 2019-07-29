@@ -19,6 +19,7 @@ module.exports = (container) => {
   container.constant('logger', require('../helpers/logger'));
   container.constant('asyncWrapper', require('../config/exception-handler').asyncWrapper);
   container.constant('joi', require('@hapi/joi'));
+  container.constant('jwt', require('jsonwebtoken'));
   container.constant('validator', require('express-joi-validation')({
     'joi': container.joi,
     'passError': true,
@@ -28,4 +29,5 @@ module.exports = (container) => {
    * Register object dependencies.
    */
   container.service('errorHandlers', require('../helpers/error-handler'));
+  container.service('auth', require('../helpers/auth', 'strategy'));
 };

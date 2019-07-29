@@ -3,7 +3,7 @@ exports.seed = async (knex, Promise) => {
   await knex('permissions').where('model', 'roles').del();
   await knex('permissions').insert([
     {
-      name: 'All', 
+      name: 'All',
       key: 'all',
       model: 'roles',
       created_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),

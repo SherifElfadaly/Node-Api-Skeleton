@@ -5,6 +5,14 @@ const Controller = container.controller;
  */
 class UserController extends Controller {
   /**
+   * Specify methods that will not be checked
+   * for login.
+   *
+   * @return  {array}
+   */
+  static skipLoginCheck = [];
+
+  /**
    * Init new object
    *
    * @param   {object}  repository
