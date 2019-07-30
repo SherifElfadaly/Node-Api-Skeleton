@@ -10,7 +10,15 @@ class UserController extends Controller {
    *
    * @return  {array}
    */
-  static skipLoginCheck = [];
+  static skipLoginCheck = ['login'];
+
+  /**
+   * Specify methods that will not be checked
+   * for permissions.
+   *
+   * @return  {array}
+   */
+  static skipPermissionCheck = [];
 
   /**
    * Init new object
@@ -21,6 +29,18 @@ class UserController extends Controller {
    */
   constructor(repository) {
     super(repository);
+  }
+
+  /**
+   * Login using the given credentials.
+   *
+   * @param   {object}  req
+   * @param   {object}  res
+   *
+   * @return  {object}
+   */
+  async login(req, res) {
+    return res.json(await this.repo.login(req.body.email, req.body.password));
   }
 }
 

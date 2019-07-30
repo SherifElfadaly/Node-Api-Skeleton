@@ -13,7 +13,7 @@ module.exports = {
     },
     'upsertOptions': {
       'insert': {relate: true, unrelate: true},
-      'update': {relate: true, unrelate: true, noUpdate: true, noDelete: true},
+      'update': {relate: true, unrelate: true, noDelete: true},
     },
   },
 };

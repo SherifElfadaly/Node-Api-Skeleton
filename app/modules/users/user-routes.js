@@ -41,5 +41,10 @@ module.exports = (router) => {
    */
   router.delete('/:id', userController.delete);
 
+  /**
+   * Login using the given credentials.
+   */
+  router.post('/login', container.userValidationRules.apply('insert'), userController.login);
+
   return router;
 };

@@ -162,7 +162,7 @@ class Repository {
    * @return  {object}
    */
   async insert(data, allowedRelations = '[]', upsertOptions = {}) {
-    const model = await container.transaction(container.knex, async (trx) => {
+    const model = await container.transaction(container.knex, (trx) => {
       const query = this.model.query(trx);
       if (JSON.parse(allowedRelations).length) query.allowInsert(allowedRelations);
 
@@ -182,7 +182,7 @@ class Repository {
    * @return  {object}
    */
   async update(data, allowedRelations = '[]', upsertOptions = {}) {
-    const model = await container.transaction(container.knex, async (trx) => {
+    const model = await container.transaction(container.knex, (trx) => {
       const query = this.model.query(trx);
       if (JSON.parse(allowedRelations).length) query.allowUpsert(allowedRelations);
 

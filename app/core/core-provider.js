@@ -28,6 +28,14 @@ module.exports = (container) => {
   /**
    * Register object dependencies.
    */
+  container.factory('authStrategy', function(container) {
+    let Strategy;
+
+    if (container.config.auth_strategy === 'local') Strategy = require('../auth/strategies/local');
+    else Strategy = require('../auth/strategies/hr');
+
+    return new Strategy();
+  });
   container.service('errorHandlers', require('../helpers/error-handler'));
-  container.service('auth', require('../helpers/auth', 'strategy'));
+  container.service('auth', require('../auth'), 'authStrategy');
 };

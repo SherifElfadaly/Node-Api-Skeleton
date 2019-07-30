@@ -19,22 +19,29 @@ class Controller {
         /**
          * Wrap every method with asyncWrapper exception handler.
          */
-        let method = container.asyncWrapper(controller[name].bind(controller));
+        const method = container.asyncWrapper(controller[name].bind(controller));
 
         // eslint-disable-next-line no-undef
         return new Proxy(method, {
           apply: async (controller, thisArg, argumentsList) => {
-            /**
-             * Check if the user is logged in.
-             */
-            if ( ! this.constructor.skipLoginCheck.includes(name)) {
-              try {
-                method = await container.auth.check(argumentsList[0].headers.authorization);
-              } catch (err) {
-                argumentsList[2](err);
+            try {
+              /**
+               * Check if the user is logged in.
+               */
+              if ( ! this.constructor.skipLoginCheck.includes(name)) {
+                argumentsList[0].user = await container.auth.check(argumentsList[0].headers.authorization);
               }
-            } else {
+
+              /**
+               * Check if the user has permissions.
+               */
+              if ( ! this.constructor.skipPermissionCheck.includes(name) && argumentsList[0].user) {
+                await container.auth.can(argumentsList[0].user.id, name, this.modelName);
+              }
+
               return method(argumentsList[0], argumentsList[1], argumentsList[2]);
+            } catch (err) {
+              argumentsList[2](err);
             }
           },
         });

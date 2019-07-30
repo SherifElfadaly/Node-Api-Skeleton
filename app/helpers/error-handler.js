@@ -17,7 +17,7 @@ class ErrorHandler {
   }
 
   /**
-   * Throw 400 login failed exceprion.
+   * Throw 400 login failed exception.
    *
    * @return  {void}
    */
@@ -29,13 +29,25 @@ class ErrorHandler {
   }
 
   /**
-   * Throw 401 unAuthorized exceprion.
+   * Throw 401 unauthorized exception.
    *
    * @return  {void}
    */
   unAuthorized() {
     const err = new Error(`Please login before any action`);
     err.statusCode = 401;
+
+    throw err;
+  }
+
+  /**
+   * Throw 403 no permissions exception.
+   *
+   * @return  {void}
+   */
+  noPermissions() {
+    const err = new Error(`No permissions`);
+    err.statusCode = 403;
 
     throw err;
   }

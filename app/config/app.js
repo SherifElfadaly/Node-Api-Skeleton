@@ -19,4 +19,5 @@ module.exports = {
    */
   app_secret: process.env.APP_SECRET || '',
   token_expires_in: process.env.TOKEN_EXPIRES_IN || '',
+  auth_strategy: process.env.AUTH_STRATEGY || '',
 };

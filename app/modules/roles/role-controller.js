@@ -13,6 +13,14 @@ class roleController extends Controller {
   static skipLoginCheck = [];
 
   /**
+   * Specify methods that will not be checked
+   * for permissions.
+   *
+   * @return  {array}
+   */
+  static skipPermissionCheck = [];
+
+  /**
    * Init new object
    *
    * @param   {object}  repository
