@@ -84,7 +84,7 @@ generatFile('-controller', (data) => {
  * creating the -model file
  */
 generatFile('-model', (data) => {
-  const modelName = `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)}Model`;
+  const modelName = `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)}`;
 
   let content = data.replace(new RegExp('replacetoken', 'g'), modelName);
   content = content.replace(new RegExp('databasetoken', 'g'), tableName ? tableName : modelName);
