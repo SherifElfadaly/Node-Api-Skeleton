@@ -11,9 +11,12 @@ class Hr {
     * @return  {string}
     */
   async checkCredentials(email, password) {
-    // implment hr check.
-
-    return false;
+    try {
+      const response = await container.axios.post(container.config.auth_gateway, {email: email, password: password});
+      return response;
+    } catch (error) {
+      return false;
+    }
   }
 }
 
