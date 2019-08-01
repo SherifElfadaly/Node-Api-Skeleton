@@ -6,7 +6,7 @@ const exec = require('child_process').exec;
 
 let fileName = '';
 let moduleName = process.argv[2] || '';
-const tableName = process.argv[3] || '';
+const tableName = process.argv[3] || moduleName;
 const modulesFolderlocation = `${__dirname }/../modules/`;
 const tempFolderPath = `${__dirname }/templates/`;
 const moduleFolderPath = modulesFolderlocation + moduleName;
@@ -87,7 +87,7 @@ generatFile('-model', (data) => {
   const modelName = `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)}`;
 
   let content = data.replace(new RegExp('replacetoken', 'g'), modelName);
-  content = content.replace(new RegExp('databasetoken', 'g'), tableName ? tableName : modelName);
+  content = content.replace(new RegExp('databasetoken', 'g'), tableName);
 
   return content;
 });
