@@ -6,10 +6,12 @@ module.exports = (app) => {
      * If the response is pagination then map
      * the result array in the response object.
      */
-    if (body.total) {
+    if (body.total || body.meta) {
+      const meta = {...body.meta};
+      if (body.total) meta.total = body.total;
       return {
-        data: body.results,
-        meta: {total: body.total},
+        data: body.results || body,
+        meta: {...meta},
       };
     } else {
       return {data: body};
