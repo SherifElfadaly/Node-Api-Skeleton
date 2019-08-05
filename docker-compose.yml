@@ -2,7 +2,7 @@ version: '2'
 
 services:
     db:
-      container_name: 'skeleton'
+      container_name: 'skeleton_db'
       image: mysql:5.7
       environment:
         MYSQL_DATABASE: 'skeleton'
@@ -11,6 +11,12 @@ services:
         MYSQL_ROOT_PASSWORD: '1'
       ports:
         - 4001:3306
+      restart: always
+    redis:
+      container_name: 'skeleton_redis'
+      image: redis:alpine
+      ports:
+        - 4002:6379
       restart: always
     app:
       container_name: 'skeleton'
