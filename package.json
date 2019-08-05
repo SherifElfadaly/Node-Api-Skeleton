@@ -40,6 +40,8 @@
     "objection-db-errors": "^1.1.1",
     "objection-password": "^2.0.0",
     "objection-soft-delete": "^1.0.5",
+    "socket.io": "^2.2.0",
+    "socket.io-redis": "^5.2.0",
     "sprintf-js": "^1.1.2",
     "winston": "^3.2.1"
   },

@@ -1,6 +1,11 @@
 require('dotenv').config();
 const express = require('express');
+const http = require('http');
 const app = express();
+const server = http.createServer(app);
+const sticky = require('sticky-session');
+const io = require('socket.io')(server);
+const redis = require('socket.io-redis');
 
 /**
  * Register node exception handler.
@@ -37,4 +42,19 @@ app.use((req, res) => {
 /**
  * Start the server.
  */
-app.listen(container.config.port);
+sticky.listen(server, container.config.port);
+
+/**
+ * Register redis as an adapter for socket io.
+ */
+io.adapter(redis({host: container.config.redis_host, port: container.config.redis_port}));
+container.io = io;
+
+/**
+ * Make sure the user is authenticated before
+ * subscriping to the socket.
+ */
+io.use(async (socket, next) => {
+  await container.auth.check(socket.handshake.query.token);
+  next();
+});
