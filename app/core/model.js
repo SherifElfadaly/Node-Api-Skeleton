@@ -14,7 +14,7 @@ class Model extends objection {
   $beforeInsert(context) {
     // eslint-disable-next-line no-undef
     return Promise.resolve(super.$beforeInsert(context)).then(() => {
-      this.created_at = container.moment().format('YYYY-MM-DD hh:mm:ss');
+      this.created_at = container.moment().format('YYYY-MM-DD HH:mm:ss');
     });
   }
 
@@ -29,7 +29,7 @@ class Model extends objection {
   $beforeUpdate(queryOptions, context) {
     // eslint-disable-next-line no-undef
     return Promise.resolve(super.$beforeUpdate(queryOptions, context)).then(() => {
-      this.updated_at = container.moment().format('YYYY-MM-DD hh:mm:ss');
+      this.updated_at = container.moment().format('YYYY-MM-DD HH:mm:ss');
     });
   }
 
