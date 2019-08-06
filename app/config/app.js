@@ -4,6 +4,7 @@ module.exports = {
    */
   node_env: process.env.NODE_ENV || 'development',
   port: process.env.PORT || 3000,
+  time_zone: process.env.TIME_ZONE || 'UTC',
 
   /**
    * DB config.
@@ -21,4 +22,10 @@ module.exports = {
   token_expires_in: process.env.TOKEN_EXPIRES_IN || '',
   auth_strategy: process.env.AUTH_STRATEGY || '',
   auth_gateway: process.env.AUTH_GATEWAY || '',
+
+  /**
+   * Redis config.
+   */
+  redis_host: process.env.REDIS_HOST || '',
+  redis_port: process.env.REDIS_PORT || '',
 };

@@ -58,3 +58,8 @@ io.use(async (socket, next) => {
   await container.auth.check(socket.handshake.query.token);
   next();
 });
+
+/**
+ * Set default time zone;
+ */
+process.env.TZ = container.config.time_zone;
