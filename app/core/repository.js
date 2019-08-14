@@ -55,6 +55,53 @@ class Repository {
   }
 
   /**
+   * Find first record with relations
+   * based on the given conditions.
+   *
+   * @param   {object}  conditions
+   * @param   {string}  relations
+   * @param   {string}  sortBy
+   * @param   {boolean} desc
+   * @param   {string}  columns
+   *
+   * @return  {array}
+   */
+  first(conditions, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
+    const sort = JSON.parse(desc) ? 'desc' : 'asc';
+    conditions = this.constructConditions(conditions);
+
+    return this.model.query().
+        whereNotDeleted().
+        eager(relations).
+        whereRaw(conditions.conditionString, conditions.conditionValues).
+        select(columns).
+        orderBy(sortBy, sort).
+        first();
+  }
+
+  /**
+   * Find first or create new record
+   * based on the given conditions.
+   *
+   * @param   {object}  data
+   *
+   * @return  {array}
+   */
+  async firstOrCreate(data) {
+    const conditions = {and: {}};
+    Object.keys(data).forEach((key) => {
+      conditions['and'][key] = data[key];
+    });
+
+    let model = await this.first(conditions);
+    if ( ! model) {
+      model = await container.userRepository.insert(data);
+    }
+
+    return model;
+  }
+
+  /**
    * Find all records with relations
    * based on the given conditions.
    *
@@ -246,7 +293,7 @@ class Repository {
       /**
        * Transform dot notation column to sql json selector.
        */
-      if (key.includes('.')) {
+      if (key.includes('->')) {
         key = this.wrapJsonSelector(key);
       }
 
@@ -256,7 +303,7 @@ class Repository {
        */
       if (key == 'and') {
         conditions = this.constructConditions(value);
-        conditionString += `{conditions['conditionString'].replace('{op}', 'and')}  {op} `;
+        conditionString += `${conditions['conditionString'].replace('{op}', 'and')}  {op} `;
         conditionValues = conditionValues.concat(conditions['conditionValues']);
       } else if (key == 'or') {
         conditions = this.constructConditions(value);
