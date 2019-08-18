@@ -7,11 +7,20 @@ module.exports = {
       email: container.joi.string().required().email(),
       password: container.joi.string().required(),
     }),
+
     /**
      * Validation rules for update method.
      */
     'update': container.joi.object({
       id: container.joi.number().required(),
+      email: container.joi.string().required().email(),
+      password: container.joi.string().required(),
+    }),
+
+    /**
+     * Validation rules for logn method.
+     */
+    'login': container.joi.object({
       email: container.joi.string().required().email(),
       password: container.joi.string().required(),
     }),
