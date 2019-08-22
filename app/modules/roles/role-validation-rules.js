@@ -3,7 +3,7 @@ module.exports = {
     /**
      * Validation rules for insert method.
      */
-    'insert': container.joi.object({
+    'insert': container.validator.register({
       name: container.validator.
           string().
           max(100).
@@ -17,7 +17,7 @@ module.exports = {
     /**
      * Validation rules for update method.
      */
-    'update': container.joi.object({
+    'update': container.validator.register({
       id: container.validator.
           custom('exists', 'id', 'roles').
           number().

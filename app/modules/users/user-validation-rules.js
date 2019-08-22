@@ -3,7 +3,7 @@ module.exports = {
     /**
      * Validation rules for insert method.
      */
-    'insert': container.joi.object({
+    'insert': container.validator.register({
       email: container.validator.
           custom('unique', 'email', 'users').
           string().
@@ -17,7 +17,7 @@ module.exports = {
     /**
      * Validation rules for update method.
      */
-    'update': container.joi.object({
+    'update': container.validator.register({
       id: container.validator.
           custom('exists', 'id', 'users').
           number().
@@ -35,7 +35,7 @@ module.exports = {
     /**
      * Validation rules for logn method.
      */
-    'login': container.joi.object({
+    'login': container.validator.register({
       email: container.validator.
           string().
           required().
