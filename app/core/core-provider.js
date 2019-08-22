@@ -20,10 +20,6 @@ module.exports = (container) => {
   container.constant('asyncWrapper', require('../config/exception-handler').asyncWrapper);
   container.constant('joi', require('@hapi/joi'));
   container.constant('jwt', require('jsonwebtoken'));
-  container.constant('validator', require('express-joi-validation')({
-    'joi': container.joi,
-    'passError': true,
-  }));
 
   /**
    * Register object dependencies.
@@ -36,6 +32,7 @@ module.exports = (container) => {
 
     return new Strategy();
   });
+  container.service('validator', require('../validator'));
   container.service('errorHandlers', require('../helpers/error-handler'));
   container.service('auth', require('../auth'), 'authStrategy');
 };

@@ -4,28 +4,48 @@ module.exports = {
      * Validation rules for insert method.
      */
     'insert': container.joi.object({
-      email: container.joi.string().required().email(),
-      password: container.joi.string().required(),
+      email: container.validator.
+          custom('unique', 'email', 'users').
+          string().
+          required().
+          email(),
+      password: container.validator.
+          string().
+          required(),
     }),
 
     /**
      * Validation rules for update method.
      */
     'update': container.joi.object({
-      id: container.joi.number().required(),
-      email: container.joi.string().required().email(),
-      password: container.joi.string().required(),
+      id: container.validator.
+          custom('exists', 'id', 'users').
+          number().
+          required(),
+      email: container.validator.
+          custom('unique', 'email', 'users').
+          string().
+          required().
+          email(),
+      password: container.validator.
+          string().
+          required(),
     }),
 
     /**
      * Validation rules for logn method.
      */
     'login': container.joi.object({
-      email: container.joi.string().required().email(),
-      password: container.joi.string().required(),
+      email: container.validator.
+          string().
+          required().
+          email(),
+      password: container.validator.
+          string().
+          required(),
     }),
   },
   'apply': (method) => {
-    return container.validator.body(module.exports.rules[method]);
+    return module.exports.rules[method].validate();
   },
 };

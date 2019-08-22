@@ -3,6 +3,6 @@ module.exports = {
     //
   },
   'apply': (method) => {
-    return container.validator.body(module.exports.rules[method]);
+    return module.exports.rules[method].validate();
   },
 };

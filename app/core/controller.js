@@ -11,7 +11,8 @@ class Controller {
    */
   constructor(repo) {
     this.repo = repo;
-    this.modelName = container.noCase(this.constructor.name, null, '_').split('_')[0];
+    this.modelName = this.constructor.name.replace('Controller', '');
+    this.modelName = this.modelName.charAt(0).toLowerCase() + this.modelName.slice(1);
 
     // eslint-disable-next-line no-undef
     return new Proxy(this, {
