@@ -20,6 +20,7 @@ module.exports = (container) => {
   container.constant('asyncWrapper', require('../config/exception-handler').asyncWrapper);
   container.constant('joi', require('@hapi/joi'));
   container.constant('jwt', require('jsonwebtoken'));
+  container.constant('axios', require('axios'));
 
   /**
    * Register object dependencies.
