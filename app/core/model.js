@@ -43,9 +43,12 @@ class Model extends objection {
     */
   $formatJson(json, options) {
     json = super.$formatJson(json, options);
-    this.constructor.hiddenFields.forEach((field) => {
-      delete json[field];
-    });
+    for (const key in json) {
+      if ((key.endsWith('_id') && this.constructor.allowedForeigns.indexOf(key) < 0) ||
+          this.constructor.hiddenFields.indexOf(key) >= 0) {
+        delete json[key];
+      }
+    }
 
     return json;
   }

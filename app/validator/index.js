@@ -77,14 +77,20 @@ class Validator {
   async validateAsync(data) {
     const errors = [];
     for (const key in this.rules) {
-      if (this.rules.hasOwnProperty(key) && data[key]) {
+      if (this.rules.hasOwnProperty(key)) {
+        let value;
+        const keys = key.split('.');
+        keys.forEach((key) => {
+          if ( ! value) value = data[key];
+          else value = value[key];
+        });
         try {
           const args = [...this.rules[key]['args']];
           const callback = this.rules[key]['callback'];
           args.unshift(key);
           args.unshift(data['id']);
-          args.unshift(data[key]);
-          await callback(...args);
+          args.unshift(value);
+          if (value) await callback(...args);
         } catch (error) {
           errors.push(error.message);
         }

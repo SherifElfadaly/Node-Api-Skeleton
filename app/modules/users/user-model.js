@@ -20,6 +20,19 @@ class User extends Model {
    */
   static hiddenFields = ['deleted', 'password'];
 
+  /**
+   * Specify foreign keys that will not be hidden
+   * from json object.
+   *
+   * @return  {array}
+   */
+  static allowedForeigns = [];
+
+  /**
+   * Return model relations.
+   *
+   * @return  {object}
+   */
   static relationMappings = {
     roles: {
       relation: container.Model.ManyToManyRelation,
