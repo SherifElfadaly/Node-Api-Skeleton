@@ -33,19 +33,23 @@ class User extends Model {
    *
    * @return  {object}
    */
-  static relationMappings = {
-    roles: {
-      relation: container.Model.ManyToManyRelation,
-      modelClass: container.roleModel,
-      join: {
-        from: 'users.id',
-        through: {
-          from: 'users_roles.user_id',
-          to: 'users_roles.role_id',
+  static get relationMappings() {
+    const roleModel = require('../roles/role-model');
+    return {
+      roles: {
+        relation: container.Model.ManyToManyRelation,
+        modelClass: roleModel,
+        join: {
+          from: 'users.id',
+          through: {
+            from: 'users_roles.user_id',
+            to: 'users_roles.role_id',
+            extra: ['system_id', 'department_id', 'created_at', 'updated_at'],
+          },
+          to: 'roles.id',
         },
-        to: 'roles.id',
       },
-    },
+    };
   }
 }
 

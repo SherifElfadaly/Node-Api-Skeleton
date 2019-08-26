@@ -32,19 +32,22 @@ class PermissionModel extends Model {
    *
    * @return  {object}
    */
-  static relationMappings = {
-    roles: {
-      relation: container.Model.ManyToManyRelation,
-      modelClass: container.permissionModel,
-      join: {
-        from: 'permissions.id',
-        through: {
-          from: 'roles_permissions.permission_id',
-          to: 'roles_permissions.role_id',
+  static get relationMappings() {
+    const roleModel = require('../roles/role-model');
+    return {
+      roles: {
+        relation: container.Model.ManyToManyRelation,
+        modelClass: roleModel,
+        join: {
+          from: 'permissions.id',
+          through: {
+            from: 'roles_permissions.permission_id',
+            to: 'roles_permissions.role_id',
+          },
+          to: 'roles.id',
         },
-        to: 'roles.id',
       },
-    },
+    };
   }
 }
 

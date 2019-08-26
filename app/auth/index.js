@@ -41,7 +41,25 @@ class Auth {
   async check(token) {
     try {
       if (token.startsWith('Bearer ')) token = token.slice(7, token.length);
-      return await container.jwt.verify(token, container.config.app_secret);
+      let user = await container.jwt.verify(token, container.config.app_secret);
+
+      /**
+       * Fetch the user with hsi roles and permissions.
+       *
+       * @return  {object}
+       */
+      user = await container.userRepository.find(user.id, `[roles.permissions]`);
+
+      /**
+       * Map permissions for all user roles.
+       */
+      user.roles.map((role) => {
+        user.permissions = user.permissions || [];
+        user.permissions = user.permissions.concat(role.permissions);
+        delete role.permissions;
+      });
+
+      return user;
     } catch (err) {
       container.errorHandlers.unAuthorized();
     }
@@ -51,21 +69,14 @@ class Auth {
    * Check if the given user has the given
    * permissions on the given model.
    *
-   * @param   {integer} userId
-   * @param   {string}  permissionName
-   * @param   {string}  model
+   * @param   {mixed}  user
+   * @param   {string} permissionName
+   * @param   {string} model
    *
    * @return  {string}
    */
-  async can(userId, permissionName, model) {
-    const user = await container.userRepository.find(userId, `[roles.permissions]`);
-    let permissions = [];
-
-    user.roles.forEach((role) => {
-      permissions = permissions.concat(role.permissions);
-    });
-
-    const permission = permissions.find((permission) => {
+  async can(user, permissionName, model) {
+    const permission = user.permissions.find((permission) => {
       return permission.key === permissionName && permission.model === model;
     });
 

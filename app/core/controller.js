@@ -30,14 +30,14 @@ class Controller {
                * Check if the user is logged in.
                */
               if ( ! this.constructor.skipLoginCheck.includes(name)) {
-                argumentsList[0].user = await container.auth.check(argumentsList[0].headers.authorization);
+                this.repo.user = argumentsList[0].user = await container.auth.check(argumentsList[0].headers.authorization);
               }
 
               /**
                * Check if the user has permissions.
                */
               if ( ! this.constructor.skipPermissionCheck.includes(name) && argumentsList[0].user) {
-                await container.auth.can(argumentsList[0].user.id, name, this.modelName);
+                await container.auth.can(argumentsList[0].user, name, this.modelName);
               }
 
               return method(argumentsList[0], argumentsList[1], argumentsList[2]);
