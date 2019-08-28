@@ -48,7 +48,7 @@ class Auth {
        *
        * @return  {object}
        */
-      user = await container.userRepository.find(user.id, `[roles.permissions]`);
+      user = await container.userRepository.find(user.id, '[roles.permissions]');
 
       /**
        * Map permissions for all user roles.

@@ -17,7 +17,7 @@ exports.seed = async (knex, Promise) => {
  * @return  {void}
  */
 async function assignPermissions(knex, role, permissions) {
-  const roleId = (await knex.where('name', role).first('id').from('roles')).id;
+  const roleId = (await knex.where('key', role).first('id').from('roles')).id;
   const rolesPermissions = [];
   permissions.forEach(async (permission) => {
     rolesPermissions.push(
