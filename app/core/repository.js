@@ -303,11 +303,11 @@ class Repository {
        */
       if (key == 'and') {
         conditions = this.constructConditions(value);
-        conditionString += `${conditions['conditionString'].replace('{op}', 'and')}  {op} `;
+        conditionString += `${conditions['conditionString'].replace(/{op}/g, 'and')}  {op} `;
         conditionValues = conditionValues.concat(conditions['conditionValues']);
       } else if (key == 'or') {
         conditions = this.constructConditions(value);
-        conditionString += `${conditions['conditionString'].replace('{op}', 'or')} {op} `;
+        conditionString += `${conditions['conditionString'].replace(/{op}/g, 'or')} {op} `;
         conditionValues = conditionValues.concat(conditions['conditionValues']);
       } else {
         let operator;
