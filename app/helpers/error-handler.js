@@ -51,6 +51,34 @@ class ErrorHandler {
 
     throw err;
   }
+
+  /**
+   * Throw 422 field already exists.
+   *
+   * @param   {string}  name
+   *
+   * @return  {void}
+   */
+  alreadyExists(name = '') {
+    const err = new Error(`${name} already exists`);
+    err.statusCode = 422;
+
+    throw err;
+  }
+
+  /**
+   * Throw 422 field doesn't exists.
+   *
+   * @param   {string}  name
+   *
+   * @return  {void}
+   */
+  doesnotExists(name = '') {
+    const err = new Error(`${name} doesn't exists`);
+    err.statusCode = 422;
+
+    throw err;
+  }
 }
 
 module.exports = ErrorHandler;

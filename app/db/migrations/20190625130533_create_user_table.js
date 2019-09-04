@@ -12,9 +12,10 @@ exports.up = async (knex, Promise) => {
   /**
    * Create default admin user.
    */
+  const password = await require('bcrypt').hash('123456', 12);
   return knex('users').insert({
     email: 'admin@user.com',
-    password: '',
+    password: password,
     created_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
     updated_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
   });

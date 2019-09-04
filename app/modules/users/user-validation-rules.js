@@ -33,7 +33,7 @@ module.exports = {
     }),
 
     /**
-     * Validation rules for logn method.
+     * Validation rules for login method.
      */
     'login': container.validator.register({
       email: container.validator.

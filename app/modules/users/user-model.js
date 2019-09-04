@@ -44,7 +44,7 @@ class User extends Model {
           through: {
             from: 'users_roles.user_id',
             to: 'users_roles.role_id',
-            extra: ['system_id', 'department_id', 'created_at', 'updated_at'],
+            extra: ['created_at', 'updated_at'],
           },
           to: 'roles.id',
         },

@@ -11,8 +11,8 @@ class Local {
      * @return  {string}
      */
   async checkCredentials(email, password) {
-    const user = (await container.userRepository.findBy({'email': email}))[0];
-    if (await user.verifyPassword(password)) return user;
+    const user = await container.userRepository.first({'email': email});
+    if (user && user.password && await user.verifyPassword(password)) return user;
 
     return false;
   }
