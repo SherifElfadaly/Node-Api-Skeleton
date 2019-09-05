@@ -15,7 +15,7 @@
     "knex-migrate": "npm run knex migrate:latest",
     "knex-refresh": "npm run knex migrate:rollback --all && npm run knex migrate:latest ",
     "knex-seed": "npm run knex seed:run",
-    "deploy": "npm run knex-migrate && pm2-runtime ecosystem.config.js",
+    "deploy": "npm run knex-migrate && npm run knex-seed && pm2-runtime ecosystem.config.js",
     "generate-module": "node app/console/module-generator.js",
     "generate-key": "node app/console/app-key-generator.js"
   },
