@@ -37,23 +37,14 @@ module.exports.asyncWrapper = (cb) => {
  */
 module.exports.expressExceptionHandler = (app) => {
   app.use((err, req, res, next) => {
-    let statusCode = err.statusCode || 500;
+    const statusCode = err.statusCode || 500;
     let exceptionBody = [];
 
     /**
-     * Catch joi validation errors.
+     * Catch validation errors.
      */
-    if (err.error && err.error.isJoi) {
-      statusCode = 422;
-      exceptionBody = [];
-
-      /**
-       * Map errors to display message only.
-       */
-      err.error.details.map((error) => {
-        exceptionBody.push(error.message);
-      });
-
+    if (statusCode == 422) {
+      exceptionBody = exceptionBody.concat(err.errors);
     /**
      * Catch database errors.
      */

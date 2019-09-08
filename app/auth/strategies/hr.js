@@ -13,7 +13,7 @@ class Hr {
   async checkCredentials(email, password) {
     try {
       const response = await container.axios.post(container.config.auth_gateway, {email: email, password: password});
-      return response;
+      return await container.userRepository.first({email: response.data.data.email});
     } catch (error) {
       return false;
     }
