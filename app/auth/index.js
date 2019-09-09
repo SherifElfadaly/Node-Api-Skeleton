@@ -24,8 +24,9 @@ class Auth {
   async attempt(email, password) {
     const user = await this.strategy.checkCredentials(email, password);
     if (user) {
-      return await container.jwt.sign({id: user.id}, container.config.app_secret,
+      const token = await container.jwt.sign({id: user.id}, container.config.app_secret,
           {expiresIn: container.config.token_expires_in * 60});
+      return {results: user, meta: {token: token}};
     }
 
     container.errorHandlers.loginFailed();
