@@ -22,10 +22,12 @@ class Auth {
    * @return  {string}
    */
   async attempt(email, password) {
-    const user = await this.strategy.checkCredentials(email, password);
+    let user = await this.strategy.checkCredentials(email, password);
     if (user) {
       const token = await container.jwt.sign({id: user.id}, container.config.app_secret,
           {expiresIn: container.config.token_expires_in * 60});
+      user = await this.check(token);
+
       return {results: user, meta: {token: token}};
     }
 
