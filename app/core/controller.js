@@ -29,18 +29,20 @@ class Controller {
               /**
                * Check if the user is logged in.
                */
-              if ( ! this.constructor.skipLoginCheck.includes(name)) {
+              if ( ! this.constructor.skipLoginCheck || ! this.constructor.skipLoginCheck.includes(name)) {
                 argumentsList[0].user = await container.auth.check(argumentsList[0].headers.authorization);
               }
 
               /**
                * Check if the user has permissions.
                */
-              if ( ! this.constructor.skipPermissionCheck.includes(name) && argumentsList[0].user) {
+              if ( ! this.constructor.skipPermissionCheck ||
+                ! this.constructor.skipPermissionCheck.includes(name) &&
+                argumentsList[0].user) {
                 await container.auth.can(argumentsList[0].user, name, this.modelName);
               }
 
-              return method(argumentsList[0], argumentsList[1], argumentsList[2]);
+              return method(...argumentsList);
             } catch (err) {
               argumentsList[2](err);
             }
