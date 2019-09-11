@@ -3,18 +3,18 @@ module.exports = {
     /**
      * Validation rules for insert method.
      */
-    'insert': container.joi.object({
+    'insert': container.validator.register({
       //
     }),
 
     /**
      * Validation rules for update method.
      */
-    'update': container.joi.object({
+    'update': container.validator.register({
       //
     }),
   },
   'apply': (method) => {
-    return container.validator.body(module.exports.rules[method]);
+    return module.exports.rules[method].validate();
   },
 };

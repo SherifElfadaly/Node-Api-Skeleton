@@ -3,7 +3,7 @@ exports.seed = async (knex, Promise) => {
   /**
    * Insert all permissions to admin role.
    */
-  const adminPermissions = await knex.select('id').from('permissions');
+  const adminPermissions = await knex.select('id').from('permission');
   await assignPermissions(knex, 'admin', adminPermissions);
 };
 
@@ -17,7 +17,7 @@ exports.seed = async (knex, Promise) => {
  * @return  {void}
  */
 async function assignPermissions(knex, role, permissions) {
-  const roleId = (await knex.where('key', role).first('id').from('roles')).id;
+  const roleId = (await knex.where('key', role).first('id').from('role')).id;
   const rolesPermissions = [];
   permissions.forEach(async (permission) => {
     rolesPermissions.push(
@@ -28,5 +28,5 @@ async function assignPermissions(knex, role, permissions) {
           updated_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
         });
   });
-  await knex('roles_permissions').insert(rolesPermissions);
+  await knex('role_permission').insert(rolesPermissions);
 }

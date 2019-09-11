@@ -1,19 +1,19 @@
 
 exports.up = async (knex, Promise) => {
-  await knex.schema.createTable('users_roles', (table) => {
+  await knex.schema.createTable('uer_role', (table) => {
     table.increments('id');
     table.integer('user_id').notNullable().unsigned();
     table.integer('role_id').notNullable().unsigned();
     table.unique(['user_id', 'role_id']);
-    table.foreign('user_id').references('users.id');
-    table.foreign('role_id').references('roles.id');
+    table.foreign('user_id').references('uer.id');
+    table.foreign('role_id').references('role.id');
     table.timestamps();
   });
 
   /**
    * Assign admin user to admin group.
    */
-  return knex('users_roles').insert({
+  return knex('uer_role').insert({
     user_id: 1,
     role_id: 1,
     created_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
@@ -22,5 +22,5 @@ exports.up = async (knex, Promise) => {
 };
 
 exports.down = (knex, Promise) => {
-  return knex.schema.dropTableIfExists('users_roles');
+  return knex.schema.dropTableIfExists('uer_role');
 };

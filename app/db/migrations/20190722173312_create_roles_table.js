@@ -1,6 +1,6 @@
 
 exports.up = async (knex, Promise) => {
-  await knex.schema.createTable('roles', (table) => {
+  await knex.schema.createTable('role', (table) => {
     table.increments('id');
     table.string('name', 100).notNullable();
     table.string('key', 100).notNullable();
@@ -12,7 +12,7 @@ exports.up = async (knex, Promise) => {
   /**
    * Create default admin role.
    */
-  return knex('roles').insert({
+  return knex('role').insert({
     name: 'Admin',
     key: 'admin',
     created_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
@@ -21,5 +21,5 @@ exports.up = async (knex, Promise) => {
 };
 
 exports.down = (knex, Promise) => {
-  return knex.schema.dropTableIfExists('roles');
+  return knex.schema.dropTableIfExists('role');
 };

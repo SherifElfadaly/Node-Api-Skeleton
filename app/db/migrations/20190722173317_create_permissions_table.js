@@ -1,6 +1,6 @@
 
 exports.up = (knex, Promise) => {
-  return knex.schema.createTable('permissions', (table) => {
+  return knex.schema.createTable('permission', (table) => {
     table.increments('id');
     table.string('model', 100).notNullable();
     table.string('name', 100).notNullable();
@@ -12,5 +12,5 @@ exports.up = (knex, Promise) => {
 };
 
 exports.down = (knex, Promise) => {
-  return knex.schema.dropTableIfExists('permissions');
+  return knex.schema.dropTableIfExists('permission');
 };

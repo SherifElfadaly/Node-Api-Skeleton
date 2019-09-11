@@ -10,7 +10,7 @@ class User extends Model {
    *
    * @return  {string}
    */
-  static tableName = 'users';
+  static tableName = 'user';
 
   /**
    * Specify fields that will be hidden
@@ -40,13 +40,13 @@ class User extends Model {
         relation: container.Model.ManyToManyRelation,
         modelClass: roleModel,
         join: {
-          from: 'users.id',
+          from: 'user.id',
           through: {
-            from: 'users_roles.user_id',
-            to: 'users_roles.role_id',
+            from: 'user_role.user_id',
+            to: 'user_role.role_id',
             extra: ['created_at', 'updated_at'],
           },
-          to: 'roles.id',
+          to: 'role.id',
         },
       },
     };

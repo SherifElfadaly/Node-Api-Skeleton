@@ -9,7 +9,7 @@ class roleModel extends Model {
    *
    * @return  {string}
    */
-  static tableName = 'roles';
+  static tableName = 'role';
 
   /**
    * Specify fields that will be hidden
@@ -40,24 +40,24 @@ class roleModel extends Model {
         relation: container.Model.ManyToManyRelation,
         modelClass: userModel,
         join: {
-          from: 'roles.id',
+          from: 'role.id',
           through: {
-            from: 'users_roles.role_id',
-            to: 'users_roles.user_id',
+            from: 'user_role.role_id',
+            to: 'user_role.user_id',
           },
-          to: 'users.id',
+          to: 'user.id',
         },
       },
       permissions: {
         relation: container.Model.ManyToManyRelation,
         modelClass: permissionModel,
         join: {
-          from: 'roles.id',
+          from: 'role.id',
           through: {
-            from: 'roles_permissions.role_id',
-            to: 'roles_permissions.permission_id',
+            from: 'role_permission.role_id',
+            to: 'role_permission.permission_id',
           },
-          to: 'permissions.id',
+          to: 'permission.id',
         },
       },
     };

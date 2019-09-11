@@ -1,7 +1,7 @@
 
 exports.seed = async (knex, Promise) => {
-  await knex('permissions').where('model', 'permission').del();
-  await knex('permissions').insert([
+  await knex('permission').where('model', 'permission').del();
+  await knex('permission').insert([
     {
       name: 'All',
       key: 'all',
