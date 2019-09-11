@@ -87,10 +87,9 @@ class Validator {
         try {
           const args = [...this.rules[key]['args']];
           const callback = this.rules[key]['callback'];
-          args.unshift(data);
           args.unshift(key);
-          args.unshift(data['id']);
           args.unshift(value);
+          args.unshift(data);
           if (value) await callback(...args);
         } catch (error) {
           errors.push(error.message);
