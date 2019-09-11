@@ -48,7 +48,7 @@ class Validator {
   custom(callback, attribute, ...args) {
     this.rules[attribute] = this.rules[attribute] || {};
     this.rules[attribute]['args'] = args;
-    this.rules[attribute]['callback'] = require(`./${callback}`) || callback;
+    this.rules[attribute]['callback'] = typeof callback === 'function' ? callback : require(`./${callback}`);
 
     return this;
   }
@@ -87,6 +87,7 @@ class Validator {
         try {
           const args = [...this.rules[key]['args']];
           const callback = this.rules[key]['callback'];
+          args.unshift(data);
           args.unshift(key);
           args.unshift(data['id']);
           args.unshift(value);
