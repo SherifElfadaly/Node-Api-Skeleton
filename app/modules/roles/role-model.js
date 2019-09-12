@@ -33,12 +33,10 @@ class roleModel extends Model {
    * @return  {object}
    */
   static get relationMappings() {
-    const permissionModel = require('../permissions/permission-model');
-    const userModel = require('../users/user-model');
     return {
       users: {
         relation: container.Model.ManyToManyRelation,
-        modelClass: userModel,
+        modelClass: container.userModel,
         join: {
           from: 'role.id',
           through: {
@@ -50,7 +48,7 @@ class roleModel extends Model {
       },
       permissions: {
         relation: container.Model.ManyToManyRelation,
-        modelClass: permissionModel,
+        modelClass: container.permissionModel,
         join: {
           from: 'role.id',
           through: {
