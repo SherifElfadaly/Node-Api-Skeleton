@@ -14,7 +14,7 @@ module.exports = (router) => {
   /**
    * Paginate replacetokens.
    */
-  router.get('/:page/:perPage', replacetokenController.paginate);
+  router.get('/paginate/:page/:perPage', replacetokenController.paginate);
 
   /**
    * Find all replacetokens by the given conditions.

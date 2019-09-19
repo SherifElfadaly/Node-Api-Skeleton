@@ -79,6 +79,7 @@ class Auth {
    * @return  {string}
    */
   async can(user, permissionName, model) {
+    user.permissions = user.permissions || [];
     const permission = user.permissions.find((permission) => {
       return permission.key === permissionName && permission.model === model;
     });

@@ -60,14 +60,11 @@ class Repository {
    *
    * @param   {object}  conditions
    * @param   {string}  relations
-   * @param   {string}  sortBy
-   * @param   {boolean} desc
    * @param   {string}  columns
    *
    * @return  {array}
    */
-  first(conditions, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    const sort = JSON.parse(desc) ? 'desc' : 'asc';
+  first(conditions, relations = '[]', columns = '*') {
     conditions = this.constructConditions(conditions);
 
     return this.model.query().
@@ -75,7 +72,6 @@ class Repository {
         eager(relations).
         whereRaw(conditions.conditionString, conditions.conditionValues).
         select(columns).
-        orderBy(sortBy, sort).
         first();
   }
 
@@ -345,7 +341,7 @@ class Repository {
           conditionValues.push(value2);
         } else if (operator.toLowerCase() == 'in') {
           conditionValues = conditionValues.concat(value);
-          const inBindingsString = '?,'.repeat(value.length).slice(0, -1);
+          const inBindingsString = '?,'.repeat(value.length);
           conditionString += `${key} in (${inBindingsString.slice(0, -1)}) {op} `;
         } else if (operator.toLowerCase() == 'null') {
           conditionString += `${key} is null {op} `;

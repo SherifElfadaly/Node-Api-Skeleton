@@ -6,7 +6,7 @@ module.exports = (app) => {
      * If the response is pagination then map
      * the result array in the response object.
      */
-    if (body.hasOwnProperty('total') || body.meta) {
+    if (body && (body.hasOwnProperty('total') || body.meta)) {
       const meta = {...body.meta};
       if (body.total) meta.total = body.total;
       return {

@@ -14,7 +14,7 @@ module.exports = (router) => {
   /**
    * Paginate permissions.
    */
-  router.get('/:page/:perPage', permissionController.paginate);
+  router.get('/paginate/:page/:perPage', permissionController.paginate);
 
   /**
    * Find all permissions by the given conditions.

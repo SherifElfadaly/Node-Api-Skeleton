@@ -14,7 +14,7 @@ module.exports = (router) => {
   /**
    * Paginate users.
    */
-  router.get('/:page/:perPage', userController.paginate);
+  router.get('/paginate/:page/:perPage', userController.paginate);
 
   /**
    * Find all users by the given conditions.

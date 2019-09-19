@@ -14,7 +14,7 @@ module.exports = (router) => {
   /**
    * Paginate roles.
    */
-  router.get('/:page/:perPage', roleController.paginate);
+  router.get('/paginate/:page/:perPage', roleController.paginate);
 
   /**
    * Find all roles by the given conditions.
