@@ -1,4 +1,7 @@
 const winston = require('winston');
+const now = new Date();
+const fileName = `${now.getFullYear()}-${ now.getMonth()}-${now.getDate()}` + `.log`;
+
 const logger = winston.createLogger({
   /**
    * Write all logs to exception-log
@@ -7,7 +10,7 @@ const logger = winston.createLogger({
    * @return  {array}
    */
   transports: [
-    new winston.transports.File({filename: 'logs/exception.log', level: 'error'}),
+    new winston.transports.File({filename: `logs/${fileName}`, level: 'error'}),
   ],
 
   /**

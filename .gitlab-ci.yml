@@ -19,7 +19,6 @@ deploy:
   only:
     - dev
   script:
-    - sudo apt install -y docker-compose
     - sudo docker image prune -f
     - sudo docker-compose --version
     - sudo docker-compose build
