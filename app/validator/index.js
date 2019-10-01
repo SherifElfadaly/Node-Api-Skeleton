@@ -60,9 +60,10 @@ class Validator {
     */
   validate() {
     return async (req, res, next) => {
+      const user = req.headers.authorization ? await container.jwt.verify(req.headers.authorization, container.config.app_secret) : false;
       let errors = [];
       errors = errors.concat(this.validateJoi(this.schema, req['body']));
-      errors = errors.concat(await this.validateAsync(req['body']));
+      errors = errors.concat(await this.validateAsync(req['body'], user));
       this.sendResponse(next, errors);
     };
   }
@@ -71,10 +72,11 @@ class Validator {
     * Validate async rules.
     *
     * @param   {object}  data
+    * @param   {object}  user
     *
     * @return  {array}
     */
-  async validateAsync(data) {
+  async validateAsync(data, user) {
     const errors = [];
     for (const key in this.rules) {
       if (this.rules.hasOwnProperty(key)) {
@@ -90,6 +92,7 @@ class Validator {
           args.unshift(key);
           args.unshift(value);
           args.unshift(data);
+          args.unshift(user);
           if (value) await callback(...args);
         } catch (error) {
           errors.push(error.message);
