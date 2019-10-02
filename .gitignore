@@ -1,5 +1,6 @@
 node_modules
 logs/*.log
+logs/*.json
 .env
 .nyc_output
 .vscode

@@ -1,7 +1,28 @@
 const winston = require('winston');
-const now = new Date();
-const fileName = `${now.getFullYear()}-${ now.getMonth()}-${now.getDate()}` + `.log`;
+require('winston-daily-rotate-file');
 
+/**
+ * Set trasport DailyRotateFile
+ */
+const transport = new (winston.transports.DailyRotateFile)({
+  filename: 'logs/%DATE%.log',
+  datePattern: 'YYYY-MM-D',
+  zippedArchive: false,
+  // zippedArchive: true,
+  maxSize: '20m',
+  maxFiles: '14d',
+});
+
+/**
+ * On Day change
+ */
+transport.on('rotate', function(oldFilename, newFilename) {
+  new winston.transports.File({filename: `${newFilename}`, level: 'error'});
+});
+
+/**
+ * Create logger
+ */
 const logger = winston.createLogger({
   /**
    * Write all logs to exception-log
@@ -10,7 +31,7 @@ const logger = winston.createLogger({
    * @return  {array}
    */
   transports: [
-    new winston.transports.File({filename: `logs/${fileName}`, level: 'error'}),
+    transport,
   ],
 
   /**

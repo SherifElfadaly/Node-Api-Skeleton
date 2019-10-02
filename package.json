@@ -44,7 +44,8 @@
     "socket.io-redis": "^5.2.0",
     "sprintf-js": "^1.1.2",
     "sticky-session": "^1.1.2",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.2.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
