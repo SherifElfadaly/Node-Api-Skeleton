@@ -25,12 +25,17 @@ class Validator {
     * Register rules to new validator instance.
     *
     * @param   {object}  schema
+    * @param   {array}   args
     *
     * @return  {object}
     */
-  register(schema) {
+  register(schema, ...args) {
+    schema = container.joi.object(schema);
+    args.forEach((arg) => {
+      schema = schema[arg['func']](...arg['params']);
+    });
+
     const validator = new this.constructor(this.rules, schema);
-    container.joi.object(schema);
     this.rules = {};
 
     return validator;
