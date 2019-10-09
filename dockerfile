@@ -1,9 +1,13 @@
 FROM node:12
+ARG ENV
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 RUN npm install pm2 -g
 COPY . .
-RUN cp .env-dev .env
+RUN if [ "$ENV" = "prod" ]; \
+    then  cp .env-prod .env; \
+	else  cp .env-dev .env;  \
+	fi
 EXPOSE 3000
-CMD ["npm", "run", "deploy"]
+CMD ["npm", "run","deploy"]

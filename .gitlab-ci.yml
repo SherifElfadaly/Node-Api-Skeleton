@@ -5,21 +5,45 @@ services:
 stages:
   - test
   - deploy
+  - deploy production
 
 test:
   stage: test
+  tags: 
+    - stag
   only:
+    - master
     - dev
+  variables:
+    DB_DRIVER: "mysql" 
   script:
     - npm install
     - npm test
 
-deploy:
+
+deploy-staging:
   stage: deploy
+  tags: 
+    - stag
   only:
     - dev
   script:
+    - sudo docker-compose -v
     - sudo docker image prune -f
-    - sudo docker-compose --version
-    - sudo docker-compose build
+    - sudo docker-compose build --build-arg ENV=staging 
     - sudo docker-compose up -d
+  
+
+deploy-production:
+  stage: deploy
+  tags: 
+    - prod
+  only:
+    - master
+  script:
+    - sudo docker-compose -v
+    - sudo docker image prune -f
+    - sudo docker-compose build --build-arg ENV=prod 
+    - sudo docker-compose up -d
+    
+  when: manual  
