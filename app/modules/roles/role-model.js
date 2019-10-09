@@ -1,31 +1,15 @@
 const Model = container.Model;
 
 /**
- * roleModel model
+ * Role model
  */
-class roleModel extends Model {
+class RoleModel extends Model {
   /**
    * Return table name for this model.
    *
    * @return  {string}
    */
   static tableName = 'role';
-
-  /**
-   * Specify fields that will be hidden
-   * from json object.
-   *
-   * @return  {array}
-   */
-  static hiddenFields = ['deleted'];
-
-  /**
-   * Specify foreign keys that will not be hidden
-   * from json object.
-   *
-   * @return  {array}
-   */
-  static allowedForeigns = [];
 
   /**
    * Return model relations.
@@ -36,7 +20,7 @@ class roleModel extends Model {
     return {
       users: {
         relation: container.Model.ManyToManyRelation,
-        modelClass: container.userModel,
+        modelClass: container.user,
         join: {
           from: 'role.id',
           through: {
@@ -48,7 +32,7 @@ class roleModel extends Model {
       },
       permissions: {
         relation: container.Model.ManyToManyRelation,
-        modelClass: container.permissionModel,
+        modelClass: container.permission,
         join: {
           from: 'role.id',
           through: {
@@ -62,4 +46,4 @@ class roleModel extends Model {
   }
 }
 
-module.exports = roleModel;
+module.exports = RoleModel;

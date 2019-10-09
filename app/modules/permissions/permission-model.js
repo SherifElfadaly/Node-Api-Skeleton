@@ -1,7 +1,7 @@
 const Model = container.Model;
 
 /**
- * PermissionModel model
+ * Permission model
  */
 class PermissionModel extends Model {
   /**
@@ -12,22 +12,6 @@ class PermissionModel extends Model {
   static tableName = 'permission';
 
   /**
-   * Specify fields that will be hidden
-   * from json object.
-   *
-   * @return  {array}
-   */
-  static hiddenFields = ['deleted'];
-
-  /**
-   * Specify foreign keys that will not be hidden
-   * from json object.
-   *
-   * @return  {array}
-   */
-  static allowedForeigns = [];
-
-  /**
    * Return model relations.
    *
    * @return  {object}
@@ -36,7 +20,7 @@ class PermissionModel extends Model {
     return {
       roles: {
         relation: container.Model.ManyToManyRelation,
-        modelClass: container.roleModel,
+        modelClass: container.role,
         join: {
           from: 'permission.id',
           through: {

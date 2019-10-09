@@ -11,6 +11,7 @@ module.exports = (container) => {
   container.constant('knex', require('../config/db').knex);
   container.constant('objection', require('../config/db').Model);
   container.constant('Model', require('./model'));
+  container.constant('Mapper', require('./mapper'));
   container.constant('transaction', require('../config/db').transaction);
   container.constant('util', require('util'));
   container.constant('sprintf', require('sprintf-js').sprintf);

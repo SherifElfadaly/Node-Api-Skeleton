@@ -4,29 +4,13 @@ const Model = password(container.Model);
 /**
  * User model
  */
-class User extends Model {
+class UserModel extends Model {
   /**
    * Return table name for this model.
    *
    * @return  {string}
    */
   static tableName = 'user';
-
-  /**
-   * Specify fields that will be hidden
-   * from json object.
-   *
-   * @return  {array}
-   */
-  static hiddenFields = ['deleted', 'password'];
-
-  /**
-   * Specify foreign keys that will not be hidden
-   * from json object.
-   *
-   * @return  {array}
-   */
-  static allowedForeigns = [];
 
   /**
    * Return model relations.
@@ -37,7 +21,7 @@ class User extends Model {
     return {
       roles: {
         relation: container.Model.ManyToManyRelation,
-        modelClass: container.roleModel,
+        modelClass: container.role,
         join: {
           from: 'user.id',
           through: {
@@ -52,4 +36,4 @@ class User extends Model {
   }
 }
 
-module.exports = User;
+module.exports = UserModel;
