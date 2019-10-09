@@ -84,11 +84,20 @@ generatFile('-controller', (data) => {
  * creating the -model file
  */
 generatFile('-model', (data) => {
-  const modelName = `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)}`;
+  const modelName = `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)}Model`;
 
   let content = data.replace(new RegExp('replacetoken', 'g'), modelName);
   content = content.replace(new RegExp('databasetoken', 'g'), tableName);
 
+  return content;
+});
+
+/**
+ * creating the -object file
+ */
+generatFile('', (data) => {
+  const modelName = `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)}`;
+  const content = data.replace(new RegExp('replacetoken', 'g'), modelName);
   return content;
 });
 
