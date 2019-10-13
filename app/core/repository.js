@@ -209,7 +209,7 @@ class Repository {
     const model = await container.transaction(container.knex, (trx) => {
       trx = transaction || trx;
       const query = this.model.query(trx);
-      if (JSON.parse(allowedRelations).length) query.allowInsert(allowedRelations);
+      if (allowedRelations !== '[]') query.allowInsert(allowedRelations);
 
       return query.insertGraph(data, upsertOptions);
     });
@@ -231,7 +231,7 @@ class Repository {
     const model = await container.transaction(container.knex, (trx) => {
       trx = transaction || trx;
       const query = this.model.query(trx);
-      if (JSON.parse(allowedRelations).length) query.allowUpsert(allowedRelations);
+      if (allowedRelations !== '[]') query.allowUpsert(allowedRelations);
 
       return query.upsertGraph(data, upsertOptions);
     });
