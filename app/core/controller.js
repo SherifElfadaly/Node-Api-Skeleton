@@ -194,13 +194,15 @@ class Controller {
    * Get requested module config based on the given route.
    *
    * @param   {string}  config
-   *
    * @param   {string}  route
+   * @param   {object}  params
    *
    * @return  {string}
    */
-  getModuleConfig(config, route) {
-    const modelRelations = container.moduleConfig[this.modelName][config];
+  getModuleConfig(config, route, ...params) {
+    let modelConfig = container.moduleConfig[this.modelName];
+    modelConfig = (typeof modelConfig === 'function') ? modelConfig(...params) : modelConfig;
+    const modelRelations = modelConfig[config];
 
     return modelRelations ? modelRelations[route] || '[]' : '[]';
   }

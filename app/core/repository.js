@@ -24,11 +24,11 @@ class Repository {
    * @return  {array}
    */
   all(relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
+    const query = this.prepareEager(relations);
     const sort = JSON.parse(desc) ? 'desc' : 'asc';
 
-    return this.model.query().
+    return query.
         whereNotDeleted().
-        eager(relations).
         select(columns).
         orderBy(sortBy, sort);
   }
@@ -43,9 +43,9 @@ class Repository {
    * @return  {object}
    */
   async find(id, relations = '[]', columns = '*') {
-    const model = await this.model.query().
+    const query = this.prepareEager(relations);
+    const model = query.
         whereNotDeleted().
-        eager(relations).
         findById(id).
         select(columns);
 
@@ -65,11 +65,11 @@ class Repository {
    * @return  {array}
    */
   first(conditions, relations = '[]', columns = '*') {
+    const query = this.prepareEager(relations);
     conditions = this.constructConditions(conditions);
 
-    return this.model.query().
+    return query.
         whereNotDeleted().
-        eager(relations).
         whereRaw(conditions.conditionString, conditions.conditionValues).
         select(columns).
         first();
@@ -110,12 +110,12 @@ class Repository {
    * @return  {array}
    */
   findBy(conditions, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
+    const query = this.prepareEager(relations);
     const sort = JSON.parse(desc) ? 'desc' : 'asc';
     conditions = this.constructConditions(conditions);
 
-    return this.model.query().
+    return query.
         whereNotDeleted().
-        eager(relations).
         whereRaw(conditions.conditionString, conditions.conditionValues).
         select(columns).
         orderBy(sortBy, sort);
@@ -134,11 +134,11 @@ class Repository {
    * @return  {array}
    */
   paginate(page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
+    const query = this.prepareEager(relations);
     const sort = JSON.parse(desc) ? 'desc' : 'asc';
 
-    return this.model.query().
+    return query.
         whereNotDeleted().
-        eager(relations).
         page(page - 1, perPage).
         select(columns).
         orderBy(sortBy, sort);
@@ -159,12 +159,12 @@ class Repository {
    * @return  {array}
    */
   paginateBy(conditions, page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
+    const query = this.prepareEager(relations);
     const sort = JSON.parse(desc) ? 'desc' : 'asc';
     conditions = this.constructConditions(conditions);
 
-    return this.model.query().
+    return query.
         whereNotDeleted().
-        eager(relations).
         whereRaw(conditions.conditionString, conditions.conditionValues).
         page(page - 1, perPage).
         select(columns).
@@ -375,6 +375,24 @@ class Repository {
     }).join('.'));
 
     return removeLast === -1 ? result : `${result})`;
+  }
+
+  /**
+   * Prepare query with eager relations.
+   *
+   * @param   {string}  relations
+   *
+   * @return  {object}
+   */
+  prepareEager(relations) {
+    const query = this.model.query();
+    if (relations['eager']) {
+      query.eager(relations['eager'], relations['callback']);
+    } else {
+      query.eager(relations);
+    }
+
+    return query;
   }
 }
 
