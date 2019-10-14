@@ -17,10 +17,11 @@ class Permission extends Mapper {
     this.id = null;
     this.name = null;
     this.key = null;
+    this.model = null;
     this.roles = null;
     this.deleted = null;
-    this.createdAt = null;
-    this.updatedAt = null;
+    this.created_at = null;
+    this.updated_at = null;
 
     return model;
   }
@@ -42,10 +43,11 @@ class Permission extends Mapper {
     id: 'id',
     name: 'name',
     key: 'key',
+    model: 'model',
     roles: 'roles',
     deleted: 'deleted',
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
   };
 }
 
