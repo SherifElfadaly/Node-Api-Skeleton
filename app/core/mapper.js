@@ -20,14 +20,12 @@ class Mapper {
     model.prototype.$formatJson = (json) => {
       const data = {};
       for (const key in this) {
-        if (this.hasOwnProperty(key) && this.hiddenFields.indexOf(key) < 0) {
+        if (this.hasOwnProperty(key) && this.hiddenFields.indexOf(key) < 0 && json[this.mappings[key]] !== undefined) {
           data[key] = json[this.mappings[key]];
         }
       }
-
       return data;
     };
-
     /**
      * Format json before inserting or updating data.
      *
@@ -38,21 +36,12 @@ class Mapper {
     model.prototype.$parseJson = (json) => {
       const data = {};
       for (const key in this) {
-        if (this.hasOwnProperty(key) && json[key]) {
+        if (this.hasOwnProperty(key)) {
           data[this.mappings[key]] = json[key];
         }
       }
-
       return data;
     };
-
-    // eslint-disable-next-line no-undef
-    return new Proxy(this, {
-      get: (model, name) => {
-        return model[name].bind(model);
-      },
-    });
   }
 }
-
 module.exports = Mapper;
