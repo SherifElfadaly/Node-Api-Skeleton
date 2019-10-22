@@ -284,6 +284,7 @@ class Repository {
    * @return  {string}
    */
   constructConditions(conditions) {
+    let result;
     let conditionString = '';
     let conditionValues = [];
 
@@ -302,13 +303,13 @@ class Repository {
        * the condition recursively to handle nested and / or.
        */
       if (key == 'and') {
-        conditions = this.constructConditions(value);
-        conditionString += `${conditions['conditionString'].replace(/{op}/g, 'and')}  {op} `;
-        conditionValues = conditionValues.concat(conditions['conditionValues']);
+        result = this.constructConditions(value);
+        conditionString += `${result['conditionString'].replace(/{op}/g, 'and')}  {op} `;
+        conditionValues = conditionValues.concat(result['conditionValues']);
       } else if (key == 'or') {
-        conditions = this.constructConditions(value);
-        conditionString += `${conditions['conditionString'].replace(/{op}/g, 'or')} {op} `;
-        conditionValues = conditionValues.concat(conditions['conditionValues']);
+        result = this.constructConditions(value);
+        conditionString += `${result['conditionString'].replace(/{op}/g, 'or')} {op} `;
+        conditionValues = conditionValues.concat(result['conditionValues']);
       } else {
         let operator;
         let value1;
