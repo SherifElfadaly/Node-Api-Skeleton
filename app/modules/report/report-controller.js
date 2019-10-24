@@ -43,11 +43,12 @@ class ReportController extends Controller {
     return res.json(await this.repo.getReport(
         req.user,
         req.params.reportName,
-        req.body,
-        req.params.page,
-        req.params.perPage,
-        req.headers['sort-by'],
-        req.headers['desc'])
+        this.getModuleConfig('relations', req.params.reportName),
+        req.query,
+        req.query.page,
+        req.query.perPage,
+        req.query.sortBy,
+        req.query.desc)
     );
   }
 }

@@ -29,7 +29,7 @@ module.exports = (router) => {
   /**
    * Find report by the given name.
    */
-  router.post('/get/:reportName/:page?/:perPage?', reportController.getReport);
+  router.get('/get/:reportName', reportController.getReport);
 
   return router;
 };

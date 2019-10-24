@@ -1,11 +1,11 @@
 exports.up = async (knex, Promise) => {
   await knex.raw(`CREATE VIEW roles_count AS  
-    select r.name as role_name, count(u.id)
+    select r.id as role_id, count(u.id) as count
     from user u, role r ,user_role ur
     where
     ur.user_id  = u.id and
     ur.role_id = r.id 
-    group by role_name
+    group by role_id
     `);
 
   await knex('report').insert([

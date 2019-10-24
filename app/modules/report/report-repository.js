@@ -20,6 +20,7 @@ class ReportRepository extends Repository {
     *
     * @param   {object}  user
     * @param   {string}  reportName
+    * @param   {string}  relations
     * @param   {object}  conditions
     * @param   {number}  page
     * @param   {number}  perPage
@@ -28,7 +29,12 @@ class ReportRepository extends Repository {
     *
     * @return  {object}
     */
-  async getReport(user, reportName, conditions = {}, page = 1, perPage = 0, sortBy = false, desc = true) {
+  async getReport(user, reportName, relations = '[]', conditions = {}, page = 1, perPage = 15, sortBy = false, desc = true) {
+    delete conditions.page;
+    delete conditions.perPage;
+    delete conditions.sortBy;
+    delete conditions.sort;
+
     let report = await this.first({report_name: reportName});
     const sort = JSON.parse(desc) ? 'desc' : 'asc';
 
@@ -39,7 +45,7 @@ class ReportRepository extends Repository {
      */
     await container.auth.can(user, report.view_name, 'report');
 
-    report = container.knex(report.view_name);
+    report = this.prepareEager(relations, container.roleCount.query());
 
     /**
      * Add conditions filters if provided.
@@ -52,9 +58,7 @@ class ReportRepository extends Repository {
     /**
      * Limit result based on the given inputs.
      */
-    if (perPage) {
-      report.limit(perPage).offset((page - 1) * perPage);
-    }
+    report.page(page - 1, perPage);
 
     /**
      * Sort result based on the given inputs.

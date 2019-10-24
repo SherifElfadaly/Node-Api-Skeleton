@@ -5,4 +5,8 @@ module.exports = (container) => {
   container.service('reportController', require('./report-controller'), 'reportRepository');
   container.constant('reportRoutes', require('./report-routes'));
   container.constant('reportValidationRules', require('./report-validation-rules'));
+
+  /** reports */
+  container.constant('roleCountModel', require('./reports-models/roles-count-model'));
+  container.service('roleCount', require('./reports-models/roles-count'), 'roleCountModel');
 };

@@ -402,11 +402,12 @@ class Repository {
    * Prepare query with eager relations.
    *
    * @param   {string}  relations
+   * @param   {object}  query
    *
    * @return  {object}
    */
-  prepareEager(relations) {
-    const query = this.model.query();
+  prepareEager(relations, query = false) {
+    query = query || this.model.query();
     if (relations['eager']) {
       query.eager(relations['eager'], relations['callback']);
     } else {

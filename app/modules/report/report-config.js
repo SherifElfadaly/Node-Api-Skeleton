@@ -3,6 +3,7 @@ module.exports = {
     'relations': {
       'list': '[]',
       'find': '[]',
+      'roles_count': '[role]',
     },
     'allowedRelations': {
       'insert': '[]',
