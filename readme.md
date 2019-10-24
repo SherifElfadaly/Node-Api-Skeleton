@@ -3,17 +3,16 @@
  <img width=200px height=200px src="https://i.imgur.com/6wj0hh6.jpg" alt="Project logo"></a>
 </p> -->
 
-<h3 align="center">
-<b>Node-Api-skeleton</b></h3>
+<h1>
+<b>Node-Api-skeleton</b></h1>
 
-<!-- <div align="center" display=none>
+<div display=none>
 
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![GitHub Issues](https://img.shields.io/github/issues/kylelobo/The-Documentation-Compendium.svg)](https://github.com/kylelobo/The-Documentation-Compendium/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/kylelobo/The-Documentation-Compendium/pulls)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SherifElfadaly/Node-Api-Skeleton/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SherifElfadaly/Node-Api-Skeleton/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/SherifElfadaly/Node-Api-Skeleton/badges/build.png?b=master)](https://scrutinizer-ci.com/g/SherifElfadaly/Node-Api-Skeleton/build-status/master)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 
-</div> -->
+</div>
 
 ---
 
