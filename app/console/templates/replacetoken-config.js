@@ -3,9 +3,6 @@ module.exports = {
     'relations': {
       'all': '[]',
       'find': '[]',
-      'findBy': '[]',
-      'paginate': '[]',
-      'paginateBy': '[]',
     },
     'allowedRelations': {
       'insert': '[]',

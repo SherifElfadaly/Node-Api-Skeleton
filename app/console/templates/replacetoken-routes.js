@@ -4,27 +4,12 @@ module.exports = (router) => {
   /**
    * List all replacetokens.
    */
-  router.get('/', replacetokenController.all);
+  router.get('/', replacetokenController.list);
 
   /**
    * Finde replacetoken by id.
    */
   router.get('/:id', replacetokenController.find);
-
-  /**
-   * Paginate replacetokens.
-   */
-  router.get('/paginate/:page/:perPage', replacetokenController.paginate);
-
-  /**
-   * Find all replacetokens by the given conditions.
-   */
-  router.post('/filter', replacetokenController.findBy);
-
-  /**
-   * Paginate replacetokens by the given conditions.
-   */
-  router.post('/filter/:page/:perPage', replacetokenController.paginateBy);
 
   /**
    * Create new replacetoken.
