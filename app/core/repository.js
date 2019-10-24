@@ -14,6 +14,31 @@ class Repository {
   }
 
   /**
+   * Fetch records with relations based on the given params.
+   *
+   * @param   {string}  relations
+   * @param   {object}  conditions
+   * @param   {number}  page
+   * @param   {number}  perPage
+   * @param   {string}  sortBy
+   * @param   {boolean} desc
+   *
+   * @return  {array}
+   */
+  list(relations = '[]', conditions = false, page = 1, perPage = 15, sortBy = 'created_at', desc = true) {
+    delete conditions.page;
+    delete conditions.perPage;
+    delete conditions.sortBy;
+    delete conditions.sort;
+
+    if (Object.keys(conditions).length) {
+      return this.paginateBy({and: conditions}, page, perPage, relations, sortBy, desc);
+    }
+
+    return this.paginate(page, perPage, relations, sortBy, desc);
+  }
+
+  /**
    * Fetch all records with relations.
    *
    * @param   {string}  relations
@@ -84,12 +109,7 @@ class Repository {
    * @return  {array}
    */
   async firstOrCreate(data) {
-    const conditions = {and: {}};
-    Object.keys(data).forEach((key) => {
-      conditions['and'][key] = data[key];
-    });
-
-    let model = await this.first(conditions);
+    let model = await this.first({and: data});
     if ( ! model) {
       model = await container.userRepository.insert(data);
     }

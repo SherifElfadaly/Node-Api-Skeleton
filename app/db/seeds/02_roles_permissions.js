@@ -3,8 +3,8 @@ exports.seed = async (knex, Promise) => {
   await knex('permission').where('model', 'role').del();
   await knex('permission').insert([
     {
-      name: 'All',
-      key: 'all',
+      name: 'List',
+      key: 'list',
       model: 'role',
       created_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
       updated_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
@@ -12,27 +12,6 @@ exports.seed = async (knex, Promise) => {
     {
       name: 'Find',
       key: 'find',
-      model: 'role',
-      created_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
-      updated_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
-    },
-    {
-      name: 'Paginate',
-      key: 'paginate',
-      model: 'role',
-      created_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
-      updated_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
-    },
-    {
-      name: 'FindBy',
-      key: 'findBy',
-      model: 'role',
-      created_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
-      updated_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
-    },
-    {
-      name: 'PaginateBy',
-      key: 'paginateBy',
       model: 'role',
       created_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
       updated_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),

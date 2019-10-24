@@ -1,11 +1,8 @@
 module.exports = {
   'role': {
     'relations': {
-      'all': '[]',
+      'list': '[]',
       'find': '[]',
-      'findBy': '[]',
-      'paginate': '[]',
-      'paginateBy': '[]',
     },
     'allowedRelations': {
       'insert': '[]',

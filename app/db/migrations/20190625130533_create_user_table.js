@@ -1,6 +1,6 @@
 
 exports.up = async (knex, Promise) => {
-  await knex.schema.createTable('uer', (table) => {
+  await knex.schema.createTable('user', (table) => {
     table.increments('id');
     table.string('email', 100).notNullable();
     table.string('password').nullable();
@@ -13,7 +13,7 @@ exports.up = async (knex, Promise) => {
    * Create default admin user.
    */
   const password = await require('bcrypt').hash('123456', 12);
-  return knex('uer').insert({
+  return knex('user').insert({
     email: 'admin@user.com',
     password: password,
     created_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
@@ -22,5 +22,5 @@ exports.up = async (knex, Promise) => {
 };
 
 exports.down = (knex, Promise) => {
-  return knex.schema.dropTableIfExists('uer');
+  return knex.schema.dropTableIfExists('user');
 };

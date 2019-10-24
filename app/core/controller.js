@@ -53,15 +53,16 @@ class Controller {
   }
 
   /**
-   * Fetch all records from the repo.
+   * Fetch records from the repo.
    *
    * @param   {object}  req
    * @param   {object}  res
    *
    * @return  {array}
    */
-  async all(req, res) {
-    return res.json(await this.repo.all(this.getModuleConfig('relations', 'all'), req.headers['sort-by'], req.headers['desc']));
+  async list(req, res) {
+    return res.json(await this.repo.list(this.getModuleConfig('relations', 'list'),
+        req.query, req.query.page, req.query.perPage, req.query.sortBy, req.query.desc));
   }
 
   /**
@@ -74,45 +75,6 @@ class Controller {
    */
   async find(req, res) {
     return res.json(await this.repo.find(req.params.id, this.getModuleConfig('relations', 'find')));
-  }
-
-  /**
-   * Fetch all records from the repo based on the given conditions.
-   *
-   * @param   {object}  req
-   * @param   {object}  res
-   *
-   * @return  {array}
-   */
-  async findBy(req, res) {
-    return res.json(await this.repo.findBy(req.body,
-        this.getModuleConfig('relations', 'findBy'), req.headers['sort-by'], req.headers['desc']));
-  }
-
-  /**
-   * Paginate records from the repo.
-   *
-   * @param   {object}  req
-   * @param   {object}  res
-   *
-   * @return  {array}
-   */
-  async paginate(req, res) {
-    return res.json(await this.repo.paginate(req.params.page, req.params.perPage,
-        this.getModuleConfig('relations', 'paginate'), req.headers['sort-by'], req.headers['desc']));
-  }
-
-  /**
-   * Paginate records from the repo based on the given conditions.
-   *
-   * @param   {object}  req
-   * @param   {object}  res
-   *
-   * @return  {array}
-   */
-  async paginateBy(req, res) {
-    return res.json(await this.repo.paginateBy(req.body, req.params.page, req.params.perPage,
-        this.getModuleConfig('relations', 'paginateBy'), req.headers['sort-by'], req.headers['desc']));
   }
 
   /**

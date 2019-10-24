@@ -2,29 +2,14 @@ const roleController = container.roleController;
 
 module.exports = (router) => {
   /**
-   * List all roles.
+   * List roles.
    */
-  router.get('/', roleController.all);
+  router.get('/', roleController.list);
 
   /**
    * Finde role by id.
    */
   router.get('/:id', roleController.find);
-
-  /**
-   * Paginate roles.
-   */
-  router.get('/paginate/:page/:perPage', roleController.paginate);
-
-  /**
-   * Find all roles by the given conditions.
-   */
-  router.post('/filter', roleController.findBy);
-
-  /**
-   * Paginate roles by the given conditions.
-   */
-  router.post('/filter/:page/:perPage', roleController.paginateBy);
 
   /**
    * Create new role.
@@ -34,7 +19,7 @@ module.exports = (router) => {
   /**
    * Update the given role.
    */
-  router.patch('/', container.roleValidationRules.apply('update'), roleController.update);
+  router.put('/', container.roleValidationRules.apply('update'), roleController.update);
 
   /**
    * Delete the given role.

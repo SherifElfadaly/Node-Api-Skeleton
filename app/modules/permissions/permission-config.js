@@ -1,11 +1,8 @@
 module.exports = {
   'permission': {
     'relations': {
-      'all': '[]',
+      'list': '[]',
       'find': '[]',
-      'findBy': '[]',
-      'paginate': '[]',
-      'paginateBy': '[]',
     },
     'allowedRelations': {
       'insert': '[]',
