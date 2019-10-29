@@ -36,6 +36,7 @@
     "moment": "^2.24.0",
     "mysql": "^2.17.1",
     "no-case": "^2.3.2",
+    "oauth2-server": "^3.0.1",
     "objection": "^1.6.9",
     "objection-db-errors": "^1.1.1",
     "objection-password": "^2.0.0",
