@@ -65,9 +65,7 @@ class Validator {
     */
   validate() {
     return async (req, res, next) => {
-      let token = req.headers.authorization;
-      if (token && token.startsWith('Bearer ')) token = token.slice(7, token.length);
-      const user = token ? await container.jwt.verify(token, container.config.app_secret) : false;
+      const user = req.headers.authorization ? await container.auth.check(req, res) : false;
       let errors = [];
       errors = errors.concat(this.validateJoi(this.schema, req['body']));
       errors = errors.concat(await this.validateAsync(req['body'], user));

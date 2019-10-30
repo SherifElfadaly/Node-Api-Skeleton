@@ -20,18 +20,15 @@ module.exports = (container) => {
   container.constant('logger', require('../helpers/logger'));
   container.constant('asyncWrapper', require('../config/exception-handler').asyncWrapper);
   container.constant('joi', require('@hapi/joi'));
-  container.constant('jwt', require('jsonwebtoken'));
   container.constant('axios', require('axios'));
+  container.constant('OAuthModel', require('../auth/oAuthModel'));
+  container.constant('OAuth2Server', require('oauth2-server'));
 
   /**
    * Register object dependencies.
    */
   container.factory('authStrategy', function(container) {
-    let Strategy;
-
-    if (container.config.auth_strategy === 'local') Strategy = require('../auth/strategies/local');
-    else Strategy = require('../auth/strategies/hr');
-
+    const Strategy = require(`../auth/strategies/${container.config.auth_strategy}`);
     return new Strategy();
   });
   container.service('validator', require('../validator'));

@@ -22,6 +22,7 @@ module.exports = {
   token_expires_in: process.env.TOKEN_EXPIRES_IN || '',
   auth_strategy: process.env.AUTH_STRATEGY || '',
   auth_gateway: process.env.AUTH_GATEWAY || '',
+  auth_secert: process.env.AUTH_SECRET || '',
 
   /**
    * Redis config.

@@ -5,7 +5,7 @@ module.exports = {
      */
     'insert': container.validator.register({
       email: container.validator.
-          custom('unique', 'email', 'users').
+          custom('unique', 'email', 'user').
           string().
           required().
           email(),
@@ -19,11 +19,11 @@ module.exports = {
      */
     'update': container.validator.register({
       id: container.validator.
-          custom('exists', 'id', 'users').
+          custom('exists', 'id', 'user').
           number().
           required(),
       email: container.validator.
-          custom('unique', 'email', 'users').
+          custom('unique', 'email', 'user').
           string().
           required().
           email(),

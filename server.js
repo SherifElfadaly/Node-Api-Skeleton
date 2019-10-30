@@ -28,6 +28,11 @@ require('./app/middlewares')(app);
 require('./app/routes')(app, express);
 
 /**
+ * Register oauth2.
+ */
+require('./app/auth/oAuth')(app);
+
+/**
  * Register express exception handler.
  */
 require('./app/config/exception-handler').expressExceptionHandler(app);

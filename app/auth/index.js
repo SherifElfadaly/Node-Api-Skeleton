@@ -22,13 +22,12 @@ class Auth {
    * @return  {string}
    */
   async attempt(email, password) {
-    let user = await this.strategy.checkCredentials(email, password);
-    if (user) {
-      const token = await container.jwt.sign({id: user.id}, container.config.app_secret,
-          {expiresIn: container.config.token_expires_in * 60});
-      user = await this.check(token);
-
-      return {results: user, meta: {token: token}};
+    const result = await this.strategy.checkCredentials(email, password);
+    if (result) {
+      return {
+        results: await this.check({headers: {authorization: `Bearer ${result.accessToken}`}, method: 'get', query: {}}),
+        meta: {token: result.accessToken, refreshToken: result.refreshToken, refreshTokenExpiresAt: result.refreshTokenExpiresAt},
+      };
     }
 
     container.errorHandlers.loginFailed();
@@ -37,21 +36,23 @@ class Auth {
   /**
    * Check the user is authnicated.
    *
-   * @param   {string}  token
+   * @param   {object}  req
+   * @param   {object}  res
    *
    * @return  {object}
    */
-  async check(token) {
+  async check(req, res) {
     try {
-      if (token.startsWith('Bearer ')) token = token.slice(7, token.length);
-      let user = await container.jwt.verify(token, container.config.app_secret);
+      const request = new container.OAuth2Server.Request(req);
+      const response = new container.OAuth2Server.Response(res);
+      const data = await container.oauth.authenticate(request, response);
 
       /**
        * Fetch the user with hsi roles and permissions.
        *
        * @return  {object}
        */
-      user = await container.userRepository.find(user.id, '[roles.permissions]');
+      const user = await container.userRepository.find(data.user.id, '[roles.permissions]');
 
       /**
        * Map permissions for all user roles.

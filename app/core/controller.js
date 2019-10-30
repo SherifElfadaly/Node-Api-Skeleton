@@ -30,7 +30,7 @@ class Controller {
                * Check if the user is logged in.
                */
               if ( ! this.constructor.skipLoginCheck || ! this.constructor.skipLoginCheck.includes(name)) {
-                argumentsList[0].user = await container.auth.check(argumentsList[0].headers.authorization);
+                argumentsList[0].user = await container.auth.check(argumentsList[0], argumentsList[1]);
               }
 
               /**
