@@ -31,5 +31,10 @@ module.exports = (router) => {
    */
   router.post('/login', container.userValidationRules.apply('login'), userController.login);
 
+  /**
+   * Refresh access token using the given refresh token.
+   */
+  router.post('/token/refresh', container.userValidationRules.apply('refreshToken'), userController.refreshToken);
+
   return router;
 };

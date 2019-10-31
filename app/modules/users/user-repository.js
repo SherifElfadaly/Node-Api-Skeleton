@@ -26,6 +26,17 @@ class UserRepository extends Repository {
   async login(email, password) {
     return container.auth.attempt(email, password);
   }
+
+  /**
+   * Refresh access token using the given refresh token.
+   *
+   * @param   {string}  token
+   *
+   * @return  {object}
+   */
+  async refreshToken(token) {
+    return container.auth.refreshToken(token);
+  }
 }
 
 module.exports = UserRepository;

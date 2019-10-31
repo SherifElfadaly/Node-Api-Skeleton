@@ -31,7 +31,6 @@
     "express": "^4.17.1",
     "express-mung": "^0.5.1",
     "glob": "^7.1.4",
-    "jsonwebtoken": "^8.5.1",
     "knex": "^0.19.5",
     "moment": "^2.24.0",
     "mysql": "^2.17.1",

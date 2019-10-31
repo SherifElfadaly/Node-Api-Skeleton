@@ -34,6 +34,25 @@ class Auth {
   }
 
   /**
+   * Refresh access token using the given refresh token.
+   *
+   * @param   {string}  refreshToken
+   *
+   * @return  {string}
+   */
+  async refreshToken(refreshToken) {
+    const result = await this.strategy.refreshToken(refreshToken);
+    if (result) {
+      return {
+        results: await this.check({headers: {authorization: `Bearer ${result.accessToken}`}, method: 'get', query: {}}),
+        meta: {token: result.accessToken, refreshToken: result.refreshToken, refreshTokenExpiresAt: result.refreshTokenExpiresAt},
+      };
+    }
+
+    container.errorHandlers.loginFailed();
+  }
+
+  /**
    * Check the user is authnicated.
    *
    * @param   {object}  req

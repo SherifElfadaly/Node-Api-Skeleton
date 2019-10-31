@@ -3,13 +3,13 @@
  */
 class Local {
   /**
-     * Check the given credentials.
-     *
-     * @param   {string}  email
-     * @param   {string}  password
-     *
-     * @return  {string}
-     */
+    * Check the given credentials.
+    *
+    * @param   {string}  email
+    * @param   {string}  password
+    *
+    * @return  {string}
+    */
   async checkCredentials(email, password) {
     try {
       const response = await container.axios.post(
@@ -28,16 +28,16 @@ class Local {
   }
 
   /**
-     * Refresh access token using the given refresh token.
-     *
-     * @param   {string}  refreshToken
-     *
-     * @return  {string}
-     */
-  async refreshToken(refreshToken) {
+    * Refresh access token using the given refresh token.
+    *
+    * @param   {string}  token
+    *
+    * @return  {string}
+    */
+  async refreshToken(token) {
     try {
       const response = await container.axios.post(
-          container.config.auth_gateway, `grant_type=refresh_token&refresh_token=${refreshToken}`,
+          container.config.auth_gateway, `grant_type=refresh_token&refresh_token=${token}`,
           {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',

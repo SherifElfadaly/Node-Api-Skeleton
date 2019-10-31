@@ -44,6 +44,15 @@ module.exports = {
           string().
           required(),
     }),
+
+    /**
+     * Validation rules for login method.
+     */
+    'refreshToken': container.validator.register({
+      refreshToken: container.validator.
+          string().
+          required(),
+    }),
   },
   'apply': (method) => {
     return module.exports.rules[method].validate();
