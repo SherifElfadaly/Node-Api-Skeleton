@@ -13,7 +13,7 @@
     "knex": "node -r dotenv/config ./node_modules/knex/bin/cli.js --knexfile app/config/knexfile.js",
     "knex-rollback": "npm run knex migrate:rollback",
     "knex-migrate": "npm run knex migrate:latest",
-    "knex-refresh": "npm run knex migrate:rollback --all && npm run knex migrate:latest ",
+    "knex-refresh": "npm run knex migrate:rollback --all && npm run knex migrate:latest",
     "knex-seed": "npm run knex seed:run",
     "deploy": "npm run knex-migrate && npm run knex-seed && pm2-runtime ecosystem.config.js",
     "generate-module": "node app/console/module-generator.js",

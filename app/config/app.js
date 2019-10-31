@@ -18,11 +18,10 @@ module.exports = {
   /**
    * Auth config.
    */
-  app_secret: process.env.APP_SECRET || '',
+  auth_secret: process.env.AUTH_SECRET || '',
   token_expires_in: process.env.TOKEN_EXPIRES_IN || '',
   auth_strategy: process.env.AUTH_STRATEGY || '',
   auth_gateway: process.env.AUTH_GATEWAY || '',
-  auth_secert: process.env.AUTH_SECRET || '',
 
   /**
    * Redis config.

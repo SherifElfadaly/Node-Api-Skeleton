@@ -19,6 +19,21 @@ class SecretGenerator {
     */
   static async generateAppSecret() {
     const secret = await this.generateSecret();
+
+    /**
+     * Create password client.
+     */
+    const knex = require('knex')(require('../config/knexfile'));
+    const clientId = (await knex('oauth_client').insert({
+      name: 'password',
+      client_secret: secret,
+      redirect_uri: 'password',
+      user_id: 1,
+      created_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
+      updated_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
+    }, 'id'))[0];
+    knex.destroy();
+
     const fs = require('fs');
 
     /**
@@ -30,7 +45,7 @@ class SecretGenerator {
        * Parse string content of .env to json.
        */
       const conf = require('dotenv').parse(data);
-      conf.APP_SECRET = secret;
+      conf.AUTH_SECRET = Buffer.from(`${clientId}:${secret}`).toString('base64');
 
       /**
        * Convert object back to string.
