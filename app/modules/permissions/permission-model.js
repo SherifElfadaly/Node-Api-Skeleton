@@ -1,7 +1,7 @@
 const Model = container.Model;
 
 /**
- * Permission model
+ * Permission model.
  */
 class PermissionModel extends Model {
   /**

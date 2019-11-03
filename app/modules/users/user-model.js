@@ -2,7 +2,7 @@ const password = require('objection-password')();
 const Model = password(container.Model);
 
 /**
- * User model
+ * User model.
  */
 class UserModel extends Model {
   /**
@@ -30,6 +30,30 @@ class UserModel extends Model {
             extra: ['created_at', 'updated_at'],
           },
           to: 'role.id',
+        },
+      },
+      accessTokens: {
+        relation: container.Model.HasManyRelation,
+        modelClass: container.accessToken,
+        join: {
+          from: 'user.id',
+          to: 'oauth_access_token.user_id',
+        },
+      },
+      oauthCodes: {
+        relation: container.Model.HasManyRelation,
+        modelClass: container.oauthCode,
+        join: {
+          from: 'user.id',
+          to: 'oauth_auth_token.user_id',
+        },
+      },
+      oauthClients: {
+        relation: container.Model.HasManyRelation,
+        modelClass: container.oauthClient,
+        join: {
+          from: 'user.id',
+          to: 'oauth_client.client_id',
         },
       },
     };

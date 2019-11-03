@@ -1,7 +1,7 @@
 const Model = container.Model;
 
 /**
- * Report model
+ * Report model.
  */
 class ReportModel extends Model {
   /**

@@ -1,7 +1,7 @@
 const Model = container.Model;
 
 /**
- * Role model
+ * Role model.
  */
 class RoleModel extends Model {
   /**

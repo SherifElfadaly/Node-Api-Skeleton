@@ -1,7 +1,7 @@
 const Model = container.Model;
 
 /**
- * replacetoken model
+ * replacetoken.
  */
 class replacetoken extends Model {
   /**

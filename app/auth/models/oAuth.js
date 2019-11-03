@@ -10,9 +10,9 @@ class OAuthModel {
     * @return  {object}
     */
   async getAccessToken(accessToken) {
-    accessToken = (await container.knex('oauth_access_token').where('id', accessToken))[0];
-    const client = (await container.knex('oauth_client').where('id', accessToken.client_id))[0];
-    const user = (await container.knex('user').where('id', client.user_id))[0];
+    accessToken = await container.accessToken.query().where('id', accessToken).first();
+    const client = await container.ouathClient.query().where('id', accessToken.client_id).first();
+    const user = await container.user.query().where('id', client.user_id).first();
 
     return {
       accessToken: accessToken.id,
@@ -31,10 +31,10 @@ class OAuthModel {
     * @return  {object}
     */
   async getRefreshToken(refreshToken) {
-    refreshToken = (await container.knex('oauth_refresh_token').where('id', refreshToken))[0];
-    const accessToken = (await container.knex('oauth_access_token').where('id', refreshToken.access_token))[0];
-    const client = (await container.knex('oauth_client').where('id', accessToken.client_id))[0];
-    const user = (await container.knex('user').where('id', client.user_id))[0];
+    refreshToken = await container.refreshToken.query().where('id', refreshToken).first();
+    const accessToken = await container.accessToken.query().where('id', refreshToken.access_token).first();
+    const client = await container.ouathClient.query().where('id', accessToken.client_id).first();
+    const user = await container.user.query().where('id', client.user_id).first();
 
     return {
       refreshToken: refreshToken.id,
@@ -53,9 +53,9 @@ class OAuthModel {
     * @return  {object}
     */
   async getAuthorizationCode(authorizationCode) {
-    authorizationCode = (await container.knex('oauth_refresh_token').where('id', authorizationCode))[0];
-    const client = (await container.knex('oauth_client').where('id', authorizationCode.client_id))[0];
-    const user = (await container.knex('user').where('id', client.user_id))[0];
+    authorizationCode = await container.refreshToken.query().where('id', authorizationCode).first();
+    const client = await container.ouathClient.query().where('id', authorizationCode.client_id).first();
+    const user = await container.user.query().where('id', client.user_id).first();
 
     return {
       code: authorizationCode.id,
@@ -76,7 +76,7 @@ class OAuthModel {
     * @return  {object}
     */
   async getClient(clientId, clientSecret) {
-    const client = (await container.knex('oauth_client').where('id', clientId).where('client_secret', clientSecret))[0];
+    const client = await container.ouathClient.query().where('id', clientId).where('client_secret', clientSecret).first();
 
     return {
       id: client.id,
@@ -108,7 +108,7 @@ class OAuthModel {
     * @return  {object}
     */
   async getUserFromClient(client) {
-    return (await container.knex('user').where('id', client.user_id))[0];
+    return await container.user.query().where('id', client.user_id).first();
   }
 
   /**
@@ -122,7 +122,7 @@ class OAuthModel {
     * @return  {object}
     */
   async saveToken(token, client, user) {
-    await container.knex('oauth_access_token').insert({
+    await container.accessToken.query().insert({
       id: token.accessToken,
       expires_at: token.accessTokenExpiresAt,
       scope: token.scope,
@@ -130,7 +130,7 @@ class OAuthModel {
       user_id: user.id,
     });
 
-    await container.knex('oauth_refresh_token').insert({
+    await container.refreshToken.query().insert({
       id: token.refreshToken,
       expires_at: token.refreshTokenExpiresAt,
       access_token: token.accessToken,
@@ -159,7 +159,7 @@ class OAuthModel {
     * @return  {object}
     */
   async saveAuthorizationCode(code, client, user) {
-    await container.knex('oauth_auth_code').insert({
+    await container.authCode.query().insert({
       authorization_code: code.authorization_code,
       expires_at: code.expiresAt,
       redirect_uri: code.redirect_uri,
@@ -186,7 +186,7 @@ class OAuthModel {
     * @return  {object}
     */
   async revokeToken(token) {
-    return await container.knex('oauth_refresh_token').where('id', token.refreshToken).delete();
+    return await container.refreshToken.query().where('id', token.refreshToken).hardDelete();
   }
 
   /**
@@ -197,7 +197,7 @@ class OAuthModel {
     * @return  {object}
     */
   async revokeAuthorizationCode(code) {
-    return await container.knex('oauth_auth_code').where('id', code.authorization_code).delete();
+    return await container.authCode.query().where('id', code.authorization_code).hardDelete();
   }
 
   /**
