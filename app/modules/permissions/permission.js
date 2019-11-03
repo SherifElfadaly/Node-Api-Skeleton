@@ -1,9 +1,9 @@
-const Mapper = container.Mapper;
+const Model = container.Model;
 
 /**
  * Permission class.
  */
-class Permission extends Mapper {
+class Permission extends Model {
   /**
     * Create new permission
     *
@@ -32,14 +32,14 @@ class Permission extends Mapper {
    *
    * @return  {array}
    */
-  hiddenFields = ['deleted'];
+  static hiddenFields = ['deleted'];
 
   /**
    * Specify mapping fields.
    *
    * @return  {object}
    */
-  mappings = {
+  static mappings = {
     id: 'id',
     name: 'name',
     key: 'key',

@@ -1,9 +1,9 @@
-const Model = container.Model;
+const DBModel = container.DBModel;
 
 /**
  * Report model.
  */
-class ReportModel extends Model {
+class ReportModel extends DBModel {
   /**
    * Return table name for this model.
    *

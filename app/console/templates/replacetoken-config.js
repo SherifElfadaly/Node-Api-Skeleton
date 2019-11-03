@@ -1,7 +1,7 @@
 module.exports = {
   'replacetoken': {
     'relations': {
-      'all': '[]',
+      'list': '[]',
       'find': '[]',
     },
     'allowedRelations': {

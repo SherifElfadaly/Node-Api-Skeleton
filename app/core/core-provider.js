@@ -22,7 +22,7 @@ module.exports = (container) => {
   container.constant('knex', require('../config/db').knex);
   container.constant('objection', require('../config/db').Model);
   container.constant('Model', require('./model'));
-  container.constant('Mapper', require('./mapper'));
+  container.constant('DBModel', require('./db-model'));
   container.constant('transaction', require('../config/db').transaction);
   container.constant('logger', require('../helpers/logger'));
   container.constant('asyncWrapper', require('../config/exception-handler').asyncWrapper);

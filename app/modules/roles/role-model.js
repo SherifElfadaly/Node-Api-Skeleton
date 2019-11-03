@@ -1,9 +1,9 @@
-const Model = container.Model;
+const DBModel = container.DBModel;
 
 /**
  * Role model.
  */
-class RoleModel extends Model {
+class RoleModel extends DBModel {
   /**
    * Return table name for this model.
    *
@@ -19,7 +19,7 @@ class RoleModel extends Model {
   static get relationMappings() {
     return {
       users: {
-        relation: container.Model.ManyToManyRelation,
+        relation: DBModel.ManyToManyRelation,
         modelClass: container.user,
         join: {
           from: 'role.id',
@@ -31,7 +31,7 @@ class RoleModel extends Model {
         },
       },
       permissions: {
-        relation: container.Model.ManyToManyRelation,
+        relation: DBModel.ManyToManyRelation,
         modelClass: container.permission,
         join: {
           from: 'role.id',

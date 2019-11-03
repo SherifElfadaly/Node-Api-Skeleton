@@ -1,9 +1,9 @@
-const Mapper = container.Mapper;
+const Model = container.Model;
 
 /**
  * replacetoken class.
  */
-class replacetoken extends Mapper {
+class replacetoken extends Model {
   /**
     * Create new replacetoken
     *
@@ -17,8 +17,8 @@ class replacetoken extends Mapper {
     this.id = null;
     /** Add attributes here **/
     this.deleted = null;
-    this.created_at = null;
-    this.updated_at = null;
+    this.createdAt = null;
+    this.updatedAt = null;
 
     return model;
   }
@@ -40,8 +40,8 @@ class replacetoken extends Mapper {
     id: 'id',
     /** Add attributes here **/
     deleted: 'deleted',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   };
 }
 

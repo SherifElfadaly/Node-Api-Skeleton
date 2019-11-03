@@ -1,10 +1,10 @@
 const password = require('objection-password')();
-const Model = password(container.Model);
+const DBModel = password(container.DBModel);
 
 /**
  * User model.
  */
-class UserModel extends Model {
+class UserModel extends DBModel {
   /**
    * Return table name for this model.
    *
@@ -20,7 +20,7 @@ class UserModel extends Model {
   static get relationMappings() {
     return {
       roles: {
-        relation: container.Model.ManyToManyRelation,
+        relation: DBModel.ManyToManyRelation,
         modelClass: container.role,
         join: {
           from: 'user.id',

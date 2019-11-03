@@ -1,9 +1,9 @@
-const Mapper = container.Mapper;
+const Model = container.Model;
 
 /**
  * Role class.
  */
-class Role extends Mapper {
+class Role extends Model {
   /**
     * Create new role
     *
@@ -32,14 +32,14 @@ class Role extends Mapper {
    *
    * @return  {array}
    */
-  hiddenFields = ['deleted'];
+  static hiddenFields = ['deleted'];
 
   /**
    * Specify mapping fields.
    *
    * @return  {object}
    */
-  mappings = {
+  static mappings = {
     id: 'id',
     name: 'name',
     key: 'key',

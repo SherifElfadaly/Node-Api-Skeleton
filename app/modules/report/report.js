@@ -1,9 +1,9 @@
-const Mapper = container.Mapper;
+const Model = container.Model;
 
 /**
  * Report class.
  */
-class Report extends Mapper {
+class Report extends Model {
   /**
     * Create new report
     *
@@ -30,14 +30,14 @@ class Report extends Mapper {
    *
    * @return  {array}
    */
-  hiddenFields = ['deleted'];
+  static hiddenFields = ['deleted'];
 
   /**
    * Specify mapping fields.
    *
    * @return  {object}
    */
-  mappings = {
+  static mappings = {
     id: 'id',
     report_name: 'report_name',
     view_name: 'view_name',
