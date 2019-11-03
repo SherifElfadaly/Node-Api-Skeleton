@@ -1,9 +1,9 @@
-const Model = container.Model;
+const DBModel = container.DBModel;
 
 /**
  * OauthClient Model.
  */
-class OauthClientModel extends Model {
+class OauthClientModel extends DBModel {
   /**
    * Return table name for this model.
    *

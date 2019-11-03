@@ -1,9 +1,9 @@
-const Mapper = container.Mapper;
+const Model = container.Model;
 
 /**
  * OauthClient class.
  */
-class OauthClient extends Mapper {
+class OauthClient extends Model {
   /**
     * Create new OauthClient
     *

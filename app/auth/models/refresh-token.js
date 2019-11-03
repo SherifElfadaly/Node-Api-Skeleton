@@ -1,9 +1,9 @@
-const Model = container.Model;
+const DBModel = container.DBModel;
 
 /**
  * RefreshToken Model.
  */
-class RefreshTokenModel extends Model {
+class RefreshTokenModel extends DBModel {
   /**
    * Return table name for this model.
    *

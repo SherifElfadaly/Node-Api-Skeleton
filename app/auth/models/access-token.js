@@ -1,9 +1,9 @@
-const Model = container.Model;
+const DBModel = container.DBModel;
 
 /**
  * AccessToken Model.
  */
-class AccessTokenModel extends Model {
+class AccessTokenModel extends DBModel {
   /**
    * Return table name for this model.
    *
