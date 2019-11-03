@@ -9,7 +9,7 @@ module.exports = (app, express) => {
   /**
    * Register logs route
    */
-  if (process.env.NODE_ENV != 'production') {
+  if (process.env.NODE_ENV !== 'production') {
     app.use('/logs', logsRouter(new express.Router()));
   }
 };
