@@ -1,9 +1,9 @@
 const Controller = container.controller;
 
 /**
- * OuathClientController Controller
+ * OauthClientController Controller
  */
-class OuathClientController extends Controller {
+class OauthClientController extends Controller {
   /**
    * Specify methods that will not be checked
    * for login.
@@ -32,4 +32,4 @@ class OuathClientController extends Controller {
   }
 }
 
-module.exports = OuathClientController;
+module.exports = OauthClientController;

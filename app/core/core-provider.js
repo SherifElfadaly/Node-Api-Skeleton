@@ -33,7 +33,7 @@ module.exports = (container) => {
    * Auth dependencies.
    */
   container.constant('accessToken', require('../auth/models/access-token'));
-  container.constant('auhtCode', require('../auth/models/auth_code'));
+  container.constant('authCode', require('../auth/models/auth_code'));
   container.constant('refreshToken', require('../auth/models/refresh-token'));
   container.factory('authStrategy', function(container) {
     const Strategy = require(`../auth/strategies/${container.config.auth_strategy}`);

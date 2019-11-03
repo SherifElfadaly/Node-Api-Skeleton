@@ -1,5 +1,5 @@
 module.exports = {
-  'ouathClient': {
+  'oauthClient': {
     'relations': {
       'all': '[]',
       'find': '[]',

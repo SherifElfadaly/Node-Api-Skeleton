@@ -1,9 +1,9 @@
 const Model = container.Model;
 
 /**
- * OuathClient Model.
+ * OauthClient Model.
  */
-class OuathClientModel extends Model {
+class OauthClientModel extends Model {
   /**
    * Return table name for this model.
    *
@@ -26,12 +26,12 @@ class OuathClientModel extends Model {
           to: 'user.id',
         },
       },
-      oauthCodes: {
+      authCodes: {
         relation: container.Model.HasManyRelation,
-        modelClass: container.oauthCode,
+        modelClass: container.authCode,
         join: {
           from: 'oauth_client.id',
-          to: 'oauth_auth_token.user_id',
+          to: 'oauth_auth_code.user_id',
         },
       },
       oauthClients: {
@@ -46,4 +46,4 @@ class OuathClientModel extends Model {
   }
 }
 
-module.exports = OuathClientModel;
+module.exports = OauthClientModel;

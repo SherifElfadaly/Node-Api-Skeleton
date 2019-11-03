@@ -40,12 +40,12 @@ class UserModel extends Model {
           to: 'oauth_access_token.user_id',
         },
       },
-      oauthCodes: {
+      authCodes: {
         relation: container.Model.HasManyRelation,
-        modelClass: container.oauthCode,
+        modelClass: container.authCode,
         join: {
           from: 'user.id',
-          to: 'oauth_auth_token.user_id',
+          to: 'oauth_auth_code.user_id',
         },
       },
       oauthClients: {
@@ -53,7 +53,7 @@ class UserModel extends Model {
         modelClass: container.oauthClient,
         join: {
           from: 'user.id',
-          to: 'oauth_client.client_id',
+          to: 'oauth_client.user_id',
         },
       },
     };

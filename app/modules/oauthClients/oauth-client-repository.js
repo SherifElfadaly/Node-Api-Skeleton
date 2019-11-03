@@ -1,9 +1,9 @@
 const Repository = container.repository;
 
 /**
- * OuathClientRepository repository
+ * OauthClientRepository repository
  */
-class OuathClientRepository extends Repository {
+class OauthClientRepository extends Repository {
   /**
    * Init new object
    *
@@ -16,4 +16,4 @@ class OuathClientRepository extends Repository {
   }
 }
 
-module.exports = OuathClientRepository;
+module.exports = OauthClientRepository;

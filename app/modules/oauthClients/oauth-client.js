@@ -1,11 +1,11 @@
 const Mapper = container.Mapper;
 
 /**
- * OuathClient class.
+ * OauthClient class.
  */
-class OuathClient extends Mapper {
+class OauthClient extends Mapper {
   /**
-    * Create new OuathClient
+    * Create new OauthClient
     *
     * @param   {object}  model
     *
@@ -53,4 +53,4 @@ class OuathClient extends Mapper {
   };
 }
 
-module.exports = OuathClient;
+module.exports = OauthClient;
