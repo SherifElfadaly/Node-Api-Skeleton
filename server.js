@@ -47,7 +47,11 @@ app.use((req, res) => {
 /**
  * Start the server.
  */
-sticky.listen(server, container.config.port);
+if (process.env.NODE_ENV === 'production') {
+  sticky.listen(server, container.config.port);
+} else {
+  server.listen(container.config.port);
+}
 
 /**
  * Register redis as an adapter for socket io.
