@@ -17,6 +17,7 @@ class User extends Model {
     this.id = null;
     this.email = null;
     this.roles = null;
+    this.password = null;
     this.deleted = null;
     this.createdAt = null;
     this.updatedAt = null;
@@ -30,7 +31,7 @@ class User extends Model {
    *
    * @return  {array}
    */
-  static hiddenFields = ['deleted'];
+  static hiddenFields = ['deleted', 'password'];
 
   /**
    * Specify mapping fields.
@@ -41,6 +42,7 @@ class User extends Model {
     id: 'id',
     email: 'email',
     roles: 'roles',
+    password: 'password',
     deleted: 'deleted',
     createdAt: 'created_at',
     updatedAt: 'updated_at',

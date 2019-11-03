@@ -1,9 +1,9 @@
-const Mapper = container.Mapper;
+const Model = container.Model;
 
 /**
  * replacetoken class.
  */
-class replacetoken extends Mapper {
+class replacetoken extends Model {
   /**
     * Create new replacetoken
     *

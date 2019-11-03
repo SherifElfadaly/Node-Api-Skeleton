@@ -1,9 +1,9 @@
-const Model = container.Model;
+const DBModel = container.DBModel;
 
 /**
  * replacetoken model
  */
-class replacetoken extends Model {
+class replacetoken extends DBModel {
   /**
    * Return table name for this model.
    *

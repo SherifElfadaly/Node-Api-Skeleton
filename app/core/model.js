@@ -33,6 +33,7 @@ class Model {
 
         return data;
       };
+
       /**
        * Format json before inserting or updating data.
        *
