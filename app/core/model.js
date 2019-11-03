@@ -1,38 +1,55 @@
-const objection = container.objection;
-
 /**
- * Model class
+ * Model class.
  */
-class Model extends objection {
+class Model {
   /**
-   * Parse dates before insert.
-   *
-   * @param   {object}  context
-   *
-   * @return  {void}
-   */
-  $beforeInsert(context) {
-    // eslint-disable-next-line no-undef
-    return Promise.resolve(super.$beforeInsert(context)).then(() => {
-      this.created_at = container.moment().format('YYYY-MM-DD HH:mm:ss');
-    });
-  }
+    * Create new model
+    *
+    * @param   {object}  model
+    *
+    * @return  {void}
+    */
+  constructor(model) {
+    if (model) {
+      /**
+       * Format json before returning result.
+       *
+       * @param   {object}  json
+       *
+       * @return  {object}
+       */
+      model.prototype.$formatJson = (json) => {
+        const data = new this.constructor();
+        for (const key in data.constructor.mappings) {
+          if (data.hasOwnProperty(key)) {
+            data[key] = json[this.constructor.mappings[key]];
+          }
+        }
 
-  /**
-   * Parse dates before update.
-   *
-   * @param   {object}  queryOptions
-   * @param   {object}  context
-   *
-   * @return  {void}
-   */
-  $beforeUpdate(queryOptions, context) {
-    // eslint-disable-next-line no-undef
-    return Promise.resolve(super.$beforeUpdate(queryOptions, context)).then(() => {
-      this.updated_at = container.moment().format('YYYY-MM-DD HH:mm:ss');
-      if (this.created_at) this.created_at = container.moment(this.created_at).format('YYYY-MM-DD HH:mm:ss');
-    });
+        for (let index = 0; index < data.constructor.hiddenFields.length; index++) {
+          const attr = data.constructor.hiddenFields[index];
+          delete data[attr];
+        }
+
+        return data;
+      };
+      /**
+       * Format json before inserting or updating data.
+       *
+       * @param   {object}  json
+       *
+       * @return  {object}
+       */
+      model.prototype.$parseJson = (json) => {
+        const data = {};
+        for (const key in this) {
+          if (this.hasOwnProperty(key)) {
+            data[this.constructor.mappings[key]] = json[key];
+          }
+        }
+        return data;
+      };
+    }
   }
 }
-
 module.exports = Model;

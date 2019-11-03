@@ -1,9 +1,9 @@
-const Model = container.Model;
+const DBModel = container.DBModel;
 
 /**
  * RolesCount model
  */
-class RolesCountModel extends Model {
+class RolesCountModel extends DBModel {
   /**
    * Return table name for this model.
    *
@@ -19,7 +19,7 @@ class RolesCountModel extends Model {
   static get relationMappings() {
     return {
       role: {
-        relation: container.Model.BelongsToOneRelation,
+        relation: DBModel.BelongsToOneRelation,
         modelClass: container.role,
         join: {
           from: 'roles_count.role_id',

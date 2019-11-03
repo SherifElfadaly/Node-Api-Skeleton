@@ -1,9 +1,9 @@
-const Model = container.Model;
+const DBModel = container.DBModel;
 
 /**
  * Permission model
  */
-class PermissionModel extends Model {
+class PermissionModel extends DBModel {
   /**
    * Return table name for this model.
    *
@@ -19,7 +19,7 @@ class PermissionModel extends Model {
   static get relationMappings() {
     return {
       roles: {
-        relation: container.Model.ManyToManyRelation,
+        relation: DBModel.ManyToManyRelation,
         modelClass: container.role,
         join: {
           from: 'permission.id',

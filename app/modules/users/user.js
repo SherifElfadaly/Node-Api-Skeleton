@@ -1,9 +1,9 @@
-const Mapper = container.Mapper;
+const Model = container.Model;
 
 /**
  * User class.
  */
-class User extends Mapper {
+class User extends Model {
   /**
     * Create new user
     *
@@ -16,7 +16,6 @@ class User extends Mapper {
 
     this.id = null;
     this.email = null;
-    this.password = null;
     this.roles = null;
     this.deleted = null;
     this.createdAt = null;
@@ -31,17 +30,16 @@ class User extends Mapper {
    *
    * @return  {array}
    */
-  hiddenFields = ['deleted', 'password'];
+  static hiddenFields = ['deleted'];
 
   /**
    * Specify mapping fields.
    *
    * @return  {object}
    */
-  mappings = {
+  static mappings = {
     id: 'id',
     email: 'email',
-    password: 'password',
     roles: 'roles',
     deleted: 'deleted',
     createdAt: 'created_at',

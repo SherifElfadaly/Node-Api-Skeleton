@@ -1,9 +1,9 @@
-const Mapper = container.Mapper;
+const Model = container.Model;
 
 /**
  * RolesCount class.
  */
-class RolesCount extends Mapper {
+class RolesCount extends Model {
   /**
     * Create new report
     *
@@ -26,14 +26,14 @@ class RolesCount extends Mapper {
    *
    * @return  {array}
    */
-  hiddenFields = [];
+  static hiddenFields = [];
 
   /**
    * Specify mapping fields.
    *
    * @return  {object}
    */
-  mappings = {
+  static mappings = {
     role: 'role',
     count: 'count',
   };
