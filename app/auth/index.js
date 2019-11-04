@@ -84,7 +84,6 @@ class Auth {
 
       return user;
     } catch (err) {
-      console.log(err);
       container.errorHandlers.unAuthorized();
     }
   }

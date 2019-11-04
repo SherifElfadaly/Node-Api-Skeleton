@@ -20,6 +20,7 @@ module.exports = {
    */
   auth_secret: process.env.AUTH_SECRET || '',
   token_expires_in: process.env.TOKEN_EXPIRES_IN || '',
+  refresh_token_expires_in: process.env.REFRESH_TOKEN_EXPIRES_IN || '',
   auth_strategy: process.env.AUTH_STRATEGY || '',
   auth_gateway: process.env.AUTH_GATEWAY || '',
 

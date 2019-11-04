@@ -216,6 +216,32 @@ class OAuthModel {
     const authorizedScopes = token.scope.split(' ');
     return requestedScopes.every((s) => authorizedScopes.indexOf(s) >= 0);
   }
+
+  /**
+   * Generate access token from the given user.
+   *
+   * @param   {object}  user
+   * @param   {object}  client
+   * @param   {object}  scope
+   *
+   * @return  {object}
+   */
+  async tokenFromUser(user, client, scope) {
+    const accessToken = await container.abstractGrantType.generateAccessToken(client, user, scope);
+    const refreshToken = await container.abstractGrantType.generateRefreshToken(client, user, scope);
+    const refreshTokenExpiresAt = await container.abstractGrantType.getRefreshTokenExpiresAt();
+    const accessTokenExpiresAt = await container.abstractGrantType.getAccessTokenExpiresAt();
+
+    const token = {
+      accessToken: accessToken,
+      accessTokenExpiresAt: accessTokenExpiresAt,
+      refreshToken: refreshToken,
+      refreshTokenExpiresAt: refreshTokenExpiresAt,
+      scope: scope,
+    };
+
+    return this.saveToken(token, client, user);
+  }
 }
 
 module.exports = OAuthModel;
