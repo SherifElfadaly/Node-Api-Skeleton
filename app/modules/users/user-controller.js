@@ -10,7 +10,7 @@ class UserController extends Controller {
    *
    * @return  {array}
    */
-  static skipLoginCheck = ['login', 'refreshToken'];
+  static skipLoginCheck = ['login', 'refreshToken', 'getToken'];
 
   /**
    * Specify methods that will not be checked
@@ -18,7 +18,7 @@ class UserController extends Controller {
    *
    * @return  {array}
    */
-  static skipPermissionCheck = [];
+  static skipPermissionCheck = ['authorize'];
 
   /**
    * Init new object
@@ -53,6 +53,30 @@ class UserController extends Controller {
    */
   async refreshToken(req, res) {
     return res.json(await this.repo.refreshToken(req.body.refreshToken));
+  }
+
+  /**
+   * Authorize the logged in user to the given client id.
+   *
+   * @param   {object}  req
+   * @param   {object}  res
+   *
+   * @return  {object}
+   */
+  async authorize(req, res) {
+    return res.json(await this.repo.authorize(req.query.client_id, req.headers.authorization));
+  }
+
+  /**
+   * Exchange auth code with access token.
+   *
+   * @param   {object}  req
+   * @param   {object}  res
+   *
+   * @return  {object}
+   */
+  async getToken(req, res) {
+    return res.json(await this.repo.getToken(req.body.code, req.body.authorization, req.body.redirectUri));
   }
 }
 

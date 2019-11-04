@@ -46,10 +46,25 @@ module.exports = {
     }),
 
     /**
-     * Validation rules for login method.
+     * Validation rules for refreshToken method.
      */
     'refreshToken': container.validator.register({
       refreshToken: container.validator.
+          string().
+          required(),
+    }),
+
+    /**
+     * Validation rules for getToken method.
+     */
+    'getToken': container.validator.register({
+      code: container.validator.
+          string().
+          required(),
+      authorization: container.validator.
+          string().
+          required(),
+      redirectUri: container.validator.
           string().
           required(),
     }),

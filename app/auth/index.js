@@ -53,6 +53,46 @@ class Auth {
   }
 
   /**
+   * Authorize the logged in user to the given client id.
+   *
+   * @param   {string}  clientId
+   * @param   {string}  authorization
+   *
+   * @return  {string}
+   */
+  async authorize(clientId, authorization) {
+    const result = await this.strategy.authorize(clientId, authorization);
+    if (result) {
+      return {
+        redirectUri: `${result.redirectUri}?code=${result.authorizationCode}`,
+      };
+    }
+
+    container.errorHandlers.loginFailed();
+  }
+
+  /**
+   * Exchange auth code with access token.
+   *
+   * @param   {string}  code
+   * @param   {string}  authorization
+   * @param   {string}  redirectUri
+   *
+   * @return  {string}
+   */
+  async getToken(code, authorization, redirectUri) {
+    const result = await this.strategy.getToken(code, authorization, redirectUri);
+    if (result) {
+      return {
+        results: await this.check({headers: {authorization: `Bearer ${result.accessToken}`}, method: 'get', query: {}}),
+        meta: {token: result.accessToken, refreshToken: result.refreshToken, refreshTokenExpiresAt: result.refreshTokenExpiresAt},
+      };
+    }
+
+    container.errorHandlers.loginFailed();
+  }
+
+  /**
    * Check the user is authnicated.
    *
    * @param   {object}  req

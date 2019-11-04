@@ -53,7 +53,7 @@ class OAuthModel {
     * @return  {object}
     */
   async getAuthorizationCode(authorizationCode) {
-    authorizationCode = await container.refreshToken.query().where('id', authorizationCode).first();
+    authorizationCode = await container.authCode.query().where('id', authorizationCode).first();
     const client = await container.oauthClient.query().where('id', authorizationCode.client_id).first();
     const user = await container.user.query().where('id', client.user_id).first();
 
@@ -76,7 +76,9 @@ class OAuthModel {
     * @return  {object}
     */
   async getClient(clientId, clientSecret) {
-    const client = await container.oauthClient.query().where('id', clientId).where('client_secret', clientSecret).first();
+    const query = container.oauthClient.query().where('id', clientId);
+    if (clientSecret) query.where('client_secret', clientSecret);
+    const client = await query.first();
 
     return {
       id: client.id,
@@ -160,18 +162,18 @@ class OAuthModel {
     */
   async saveAuthorizationCode(code, client, user) {
     await container.authCode.query().insert({
-      authorization_code: code.authorization_code,
+      id: code.authorizationCode,
       expires_at: code.expiresAt,
-      redirect_uri: code.redirect_uri,
+      redirect_uri: code.redirectUri,
       scope: code.scope,
       client_id: client.id,
       user_id: user.id,
     });
 
     return {
-      id: code.authorization_code,
+      authorizationCode: code.authorizationCode,
       expiresAt: code.expires_at,
-      redirectUri: code.redirect_uri,
+      redirectUri: code.redirectUri,
       scope: code.scope,
       client: {id: client.id},
       user: {id: user.id},
@@ -197,7 +199,7 @@ class OAuthModel {
     * @return  {object}
     */
   async revokeAuthorizationCode(code) {
-    return await container.authCode.query().where('id', code.authorization_code).hardDelete();
+    return await container.authCode.query().where('id', code.code).hardDelete();
   }
 
   /**

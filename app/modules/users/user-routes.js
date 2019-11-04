@@ -36,5 +36,15 @@ module.exports = (router) => {
    */
   router.post('/token/refresh', container.userValidationRules.apply('refreshToken'), userController.refreshToken);
 
+  /**
+   * Authorize the logged in user to the given client id.
+   */
+  router.get('/client/authorize', userController.authorize);
+
+  /**
+   * Exchange auth code with access token.
+   */
+  router.post('/client/token', container.userValidationRules.apply('getToken'), userController.getToken);
+
   return router;
 };

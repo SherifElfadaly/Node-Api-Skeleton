@@ -23,7 +23,7 @@ class UserRepository extends Repository {
    *
    * @return  {object}
    */
-  async login(email, password) {
+  login(email, password) {
     return container.auth.attempt(email, password);
   }
 
@@ -34,8 +34,33 @@ class UserRepository extends Repository {
    *
    * @return  {object}
    */
-  async refreshToken(token) {
+  refreshToken(token) {
     return container.auth.refreshToken(token);
+  }
+
+  /**
+   * Authorize the logged in user to the given client id.
+   *
+   * @param   {string}  clientId
+   * @param   {string}  authorization
+   *
+   * @return  {object}
+   */
+  authorize(clientId, authorization) {
+    return container.auth.authorize(clientId, authorization);
+  }
+
+  /**
+   * Exchange auth code with access token.
+   *
+   * @param   {string}  code
+   * @param   {string}  authorization
+   * @param   {string}  redirectUri
+   *
+   * @return  {object}
+   */
+  getToken(code, authorization, redirectUri) {
+    return container.auth.getToken(code, authorization, redirectUri);
   }
 }
 
