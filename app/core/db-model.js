@@ -212,20 +212,24 @@ class DBModel extends objection {
    * @param   {array}  data
    * @param   {string} allowedRelations
    * @param   {object} upsertOptions
-   * @param   {object} transaction
+   * @param   {object} trx
    *
    * @return  {object}
    */
-  static async insert(data, allowedRelations = '[]', upsertOptions = {}, transaction = false) {
-    const model = await container.transaction(container.knex, (trx) => {
-      trx = transaction || trx;
+  static async insert(data, allowedRelations = '[]', upsertOptions = {}, trx = false) {
+    trx = trx || await this.startTransaction();
+    try {
       const query = this.query(trx);
       if (allowedRelations !== '[]') query.allowInsert(allowedRelations);
 
-      return query.insertGraph(data, upsertOptions);
-    });
+      const result = await query.insertGraph(data, upsertOptions);
+      await this.commitTransaction(trx);
 
-    return model;
+      return result;
+    } catch (error) {
+      await this.rollbackTransaction(trx);
+      throw error;
+    }
   }
 
   /**
@@ -234,20 +238,24 @@ class DBModel extends objection {
    * @param   {array}  data
    * @param   {string} allowedRelations
    * @param   {object} upsertOptions
-   * @param   {object} transaction
+   * @param   {object} trx
    *
    * @return  {object}
    */
-  static async update(data, allowedRelations = '[]', upsertOptions = {}, transaction = false) {
-    const model = await container.transaction(container.knex, (trx) => {
-      trx = transaction || trx;
+  static async update(data, allowedRelations = '[]', upsertOptions = {}, trx = false) {
+    trx = trx || await this.startTransaction();
+    try {
       const query = this.query(trx);
       if (allowedRelations !== '[]') query.allowUpsert(allowedRelations);
 
-      return query.upsertGraph(data, upsertOptions);
-    });
+      const result = await query.upsertGraph(data, upsertOptions);
+      await this.commitTransaction(trx);
 
-    return model;
+      return result;
+    } catch (error) {
+      await this.rollbackTransaction(trx);
+      throw error;
+    }
   }
 
   /**
@@ -406,6 +414,37 @@ class DBModel extends objection {
     }
 
     return query;
+  }
+
+  /**
+   * Prepare query with eager relations.
+   *
+   * @return  {object}
+   */
+  static startTransaction() {
+    return container.transaction.start(container.knex);
+  }
+
+  /**
+   * Prepare query with eager relations.
+   *
+   * @param   {object}  trx
+   *
+   * @return  {void}
+   */
+  static commitTransaction(trx) {
+    return trx.commit();
+  }
+
+  /**
+   * Prepare query with eager relations.
+   *
+   * @param   {object}  trx
+   *
+   * @return  {void}
+   */
+  static rollbackTransaction(trx) {
+    return trx.rollback();
   }
 
   /**

@@ -52,7 +52,7 @@ class Repository {
    *
    * @return  {object}
    */
-  async find(id, relations = '[]', columns = '*') {
+  find(id, relations = '[]', columns = '*') {
     return this.model.find(id, relations, columns);
   }
 
@@ -78,7 +78,7 @@ class Repository {
    *
    * @return  {array}
    */
-  async firstOrCreate(data) {
+  firstOrCreate(data) {
     return this.model.firstOrCreate(data);
   }
 
@@ -158,7 +158,7 @@ class Repository {
    *
    * @return  {object}
    */
-  async insert(data, allowedRelations = '[]', upsertOptions = {}, transaction = false) {
+  insert(data, allowedRelations = '[]', upsertOptions = {}, transaction = false) {
     return this.model.insert(data, allowedRelations, upsertOptions, transaction);
   }
 
@@ -172,7 +172,7 @@ class Repository {
    *
    * @return  {object}
    */
-  async update(data, allowedRelations = '[]', upsertOptions = {}, transaction = false) {
+  update(data, allowedRelations = '[]', upsertOptions = {}, transaction = false) {
     return this.model.update(data, allowedRelations, upsertOptions, transaction);
   }
 
