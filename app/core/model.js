@@ -19,19 +19,16 @@ class Model {
        * @return  {object}
        */
       model.prototype.$formatJson = (json) => {
-        const data = new this.constructor();
-        for (const key in data.constructor.mappings) {
-          if (data.hasOwnProperty(key)) {
-            data[key] = json[this.constructor.mappings[key]];
-          }
-        }
+        if (Array.isArray(json)) {
+          const data = [];
+          json.forEach((row) => {
+            data.push(this.mapJson(row));
+          });
 
-        for (let index = 0; index < data.constructor.hiddenFields.length; index++) {
-          const attr = data.constructor.hiddenFields[index];
-          delete data[attr];
+          return data;
+        } else {
+          return this.mapJson(json);
         }
-
-        return data;
       };
 
       /**
@@ -51,6 +48,29 @@ class Model {
         return data;
       };
     }
+  }
+
+  /**
+   * [mapObject description]
+   *
+   * @param   {[type]}  json  [json description]
+   *
+   * @return  {[type]}        [return description]
+   */
+  mapJson(json) {
+    const data = new this.constructor();
+    for (const key in data.constructor.mappings) {
+      if (data.hasOwnProperty(key)) {
+        data[key] = json[this.constructor.mappings[key]];
+      }
+    }
+
+    for (let index = 0; index < data.constructor.hiddenFields.length; index++) {
+      const attr = data.constructor.hiddenFields[index];
+      delete data[attr];
+    }
+
+    return data;
   }
 }
 module.exports = Model;
