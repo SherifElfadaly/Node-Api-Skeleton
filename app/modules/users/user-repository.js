@@ -20,11 +20,12 @@ class UserRepository extends Repository {
    *
    * @param   {string}  email
    * @param   {string}  password
+   * @param   {object}  trx
    *
    * @return  {object}
    */
-  async login(email, password) {
-    return container.auth.attempt(email, password);
+  async login(email, password, trx) {
+    return container.auth.attempt(email, password, trx);
   }
 }
 

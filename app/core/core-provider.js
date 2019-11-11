@@ -18,7 +18,6 @@ module.exports = (container) => {
   container.constant('noCase', require('no-case'));
   container.constant('moment', require('moment'));
   container.constant('logger', require('../helpers/logger'));
-  container.constant('asyncWrapper', require('../config/exception-handler').asyncWrapper);
   container.constant('joi', require('@hapi/joi'));
   container.constant('jwt', require('jsonwebtoken'));
   container.constant('axios', require('axios'));

@@ -17,20 +17,18 @@ class Controller {
     // eslint-disable-next-line no-undef
     return new Proxy(this, {
       get: (controller, name) => {
-        /**
-         * Wrap every method with asyncWrapper exception handler.
-         */
-        const method = container.asyncWrapper(controller[name].bind(controller));
+        const method = controller[name].bind(controller);
 
         // eslint-disable-next-line no-undef
         return new Proxy(method, {
           apply: async (controller, thisArg, argumentsList) => {
+            argumentsList[0].trx = await this.repo.startTransaction();
             try {
               /**
                * Check if the user is logged in.
                */
               if ( ! this.constructor.skipLoginCheck || ! this.constructor.skipLoginCheck.includes(name)) {
-                argumentsList[0].user = await container.auth.check(argumentsList[0].headers.authorization);
+                argumentsList[0].user = await container.auth.check(argumentsList[0].headers.authorization, argumentsList[0].trx);
               }
 
               /**
@@ -42,8 +40,11 @@ class Controller {
                 await container.auth.can(argumentsList[0].user, name, this.modelName);
               }
 
-              return method(...argumentsList);
+              const result = await method(...argumentsList);
+              await this.repo.commitTransaction(argumentsList[0].trx);
+              return result;
             } catch (err) {
+              await this.repo.rollbackTransaction(argumentsList[0].trx);
               argumentsList[2](err);
             }
           },
@@ -62,7 +63,7 @@ class Controller {
    */
   async list(req, res) {
     return res.json(await this.repo.list(this.getModuleConfig('relations', 'list'),
-        req.query, req.query.page, req.query.perPage, req.query.sortBy, req.query.desc));
+        req.query, req.query.page, req.query.perPage, req.query.sortBy, req.query.desc, req.trx));
   }
 
   /**
@@ -74,7 +75,7 @@ class Controller {
    * @return  {object}
    */
   async find(req, res) {
-    return res.json(await this.repo.find(req.params.id, this.getModuleConfig('relations', 'find')));
+    return res.json(await this.repo.find(req.params.id, this.getModuleConfig('relations', 'find'), '*', req.trx));
   }
 
   /**
@@ -87,7 +88,7 @@ class Controller {
    */
   async deleted(req, res) {
     return res.json(await this.repo.deleted(req.body, req.params.page, req.params.perPage,
-        req.headers['sort-by'], req.headers['desc']));
+        req.headers['sort-by'], req.headers['desc'], '*', req.trx));
   }
 
   /**
@@ -100,7 +101,7 @@ class Controller {
    */
   async insert(req, res) {
     return res.json(await this.repo.insert(req.body,
-        this.getModuleConfig('allowedRelations', 'insert'), this.getModuleConfig('upsertOptions', 'insert')));
+        this.getModuleConfig('allowedRelations', 'insert'), this.getModuleConfig('upsertOptions', 'insert'), req.trx));
   }
 
   /**
@@ -113,7 +114,7 @@ class Controller {
    */
   async update(req, res) {
     return res.json(await this.repo.update(req.body,
-        this.getModuleConfig('allowedRelations', 'update'), this.getModuleConfig('upsertOptions', 'update')));
+        this.getModuleConfig('allowedRelations', 'update'), this.getModuleConfig('upsertOptions', 'update'), req.trx));
   }
 
   /**
@@ -125,7 +126,7 @@ class Controller {
    * @return  {object}
    */
   async delete(req, res) {
-    return res.json(await this.repo.delete(req.params.id));
+    return res.json(await this.repo.delete(req.params.id, req.trx));
   }
 
   /**
@@ -137,7 +138,7 @@ class Controller {
    * @return  {object}
    */
   async hardDelete(req, res) {
-    return res.json(await this.repo.hardDelete(req.params.id));
+    return res.json(await this.repo.hardDelete(req.params.id, req.trx));
   }
 
   /**
@@ -149,7 +150,7 @@ class Controller {
    * @return  {object}
    */
   async restore(req, res) {
-    return res.json(await this.repo.restore(req.params.id));
+    return res.json(await this.repo.restore(req.params.id, req.trx));
   }
 
   /**

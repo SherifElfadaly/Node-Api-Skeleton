@@ -13,20 +13,21 @@ class DBModel extends objection {
    * @param   {number}  perPage
    * @param   {string}  sortBy
    * @param   {boolean} desc
+   * @param   {boolean} trx
    *
    * @return  {array}
    */
-  static list(relations = '[]', conditions = false, page = 1, perPage = 15, sortBy = 'created_at', desc = true) {
+  static list(relations = '[]', conditions = false, page = 1, perPage = 15, sortBy = 'created_at', desc = true, trx = false) {
     delete conditions.page;
     delete conditions.perPage;
     delete conditions.sortBy;
     delete conditions.sort;
 
     if (Object.keys(conditions).length) {
-      return this.paginateBy({and: conditions}, page, perPage, relations, sortBy, desc);
+      return this.paginateBy({and: conditions}, page, perPage, relations, sortBy, desc, '*', trx);
     }
 
-    return this.paginate(page, perPage, relations, sortBy, desc);
+    return this.paginate(page, perPage, relations, sortBy, desc, '*', trx);
   }
 
   /**
@@ -36,11 +37,12 @@ class DBModel extends objection {
    * @param   {string}  sortBy
    * @param   {boolean} desc
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {array}
    */
-  static all(relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    const query = this.prepareEager(relations);
+  static all(relations = '[]', sortBy = 'created_at', desc = true, columns = '*', trx = false) {
+    const query = this.prepareEager(relations, false, trx);
     const sort = JSON.parse(desc) ? 'desc' : 'asc';
 
     return query.
@@ -55,12 +57,13 @@ class DBModel extends objection {
    * @param   {number}  id
    * @param   {string}  relations
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {object}
    */
-  static find(id, relations = '[]', columns = '*') {
-    const query = this.prepareEager(relations);
-    const model = query.
+  static async find(id, relations = '[]', columns = '*', trx = false) {
+    const query = this.prepareEager(relations, false, trx);
+    const model = await query.
         whereNotDeleted().
         findById(id).
         select(columns);
@@ -77,11 +80,12 @@ class DBModel extends objection {
    * @param   {object}  conditions
    * @param   {string}  relations
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {array}
    */
-  static first(conditions, relations = '[]', columns = '*') {
-    const query = this.prepareEager(relations);
+  static first(conditions, relations = '[]', columns = '*', trx = false) {
+    const query = this.prepareEager(relations, false, trx);
     conditions = this.constructConditions(conditions);
 
     return query.
@@ -96,10 +100,11 @@ class DBModel extends objection {
    * based on the given conditions.
    *
    * @param   {object}  data
+   * @param   {object}  trx
    *
    * @return  {array}
    */
-  static async firstOrCreate(data) {
+  static async firstOrCreate(data, trx = false) {
     let model = await this.first({and: data});
     if ( ! model) {
       model = await this.insert(data);
@@ -117,11 +122,12 @@ class DBModel extends objection {
    * @param   {string}  sortBy
    * @param   {boolean} desc
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {array}
    */
-  static findBy(conditions, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    const query = this.prepareEager(relations);
+  static findBy(conditions, relations = '[]', sortBy = 'created_at', desc = true, columns = '*', trx = false) {
+    const query = this.prepareEager(relations, false, trx);
     const sort = JSON.parse(desc) ? 'desc' : 'asc';
     conditions = this.constructConditions(conditions);
 
@@ -141,11 +147,12 @@ class DBModel extends objection {
    * @param   {string}  sortBy
    * @param   {boolean} desc
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {array}
    */
-  static paginate(page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    const query = this.prepareEager(relations);
+  static paginate(page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*', trx = false) {
+    const query = this.prepareEager(relations, false, trx);
     const sort = JSON.parse(desc) ? 'desc' : 'asc';
 
     return query.
@@ -166,11 +173,12 @@ class DBModel extends objection {
    * @param   {string}  sortBy
    * @param   {boolean} desc
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {array}
    */
-  static paginateBy(conditions, page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    const query = this.prepareEager(relations);
+  static paginateBy(conditions, page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*', trx = false) {
+    const query = this.prepareEager(relations, false, trx);
     const sort = JSON.parse(desc) ? 'desc' : 'asc';
     conditions = this.constructConditions(conditions);
 
@@ -191,14 +199,15 @@ class DBModel extends objection {
    * @param   {string}  sortBy
    * @param   {boolean} desc
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {array}
    */
-  static deleted(conditions, page = 1, perPage = 15, sortBy = 'created_at', desc = true, columns = '*') {
+  static deleted(conditions, page = 1, perPage = 15, sortBy = 'created_at', desc = true, columns = '*', trx = false) {
     const sort = JSON.parse(desc) ? 'desc' : 'asc';
     conditions = this.constructConditions(conditions);
 
-    return this.query().
+    return this.query(trx).
         whereDeleted().
         whereRaw(conditions.conditionString, conditions.conditionValues).
         page(page - 1, perPage).
@@ -217,19 +226,10 @@ class DBModel extends objection {
    * @return  {object}
    */
   static async insert(data, allowedRelations = '[]', upsertOptions = {}, trx = false) {
-    trx = trx || await this.startTransaction();
-    try {
-      const query = this.query(trx);
-      if (allowedRelations !== '[]') query.allowInsert(allowedRelations);
+    const query = this.query(trx);
+    if (allowedRelations !== '[]') query.allowInsert(allowedRelations);
 
-      const result = await query.insertGraph(data, upsertOptions);
-      await this.commitTransaction(trx);
-
-      return result;
-    } catch (error) {
-      await this.rollbackTransaction(trx);
-      throw error;
-    }
+    return await query.insertGraph(data, upsertOptions);
   }
 
   /**
@@ -243,19 +243,10 @@ class DBModel extends objection {
    * @return  {object}
    */
   static async update(data, allowedRelations = '[]', upsertOptions = {}, trx = false) {
-    trx = trx || await this.startTransaction();
-    try {
-      const query = this.query(trx);
-      if (allowedRelations !== '[]') query.allowUpsert(allowedRelations);
+    const query = this.query(trx);
+    if (allowedRelations !== '[]') query.allowUpsert(allowedRelations);
 
-      const result = await query.upsertGraph(data, upsertOptions);
-      await this.commitTransaction(trx);
-
-      return result;
-    } catch (error) {
-      await this.rollbackTransaction(trx);
-      throw error;
-    }
+    return await query.upsertGraph(data, upsertOptions);
   }
 
   /**
@@ -263,11 +254,12 @@ class DBModel extends objection {
    *
    * @param   {number}  id
    * @param   {string}  attribute
+   * @param   {string}  trx
    *
    * @return  {number}
    */
-  static delete(id, attribute = 'id') {
-    return this.query().where(attribute, id).delete();
+  static delete(id, attribute = 'id', trx = false) {
+    return this.query(trx).where(attribute, id).delete();
   }
 
   /**
@@ -275,11 +267,12 @@ class DBModel extends objection {
    *
    * @param   {number}  id
    * @param   {string}  attribute
+   * @param   {string}  trx
    *
    * @return  {number}
    */
-  static hardDelete(id, attribute = 'id') {
-    return this.query().where(attribute, id).hardDelete();
+  static hardDelete(id, attribute = 'id', trx = false) {
+    return this.query(trx).where(attribute, id).hardDelete();
   }
 
   /**
@@ -287,11 +280,12 @@ class DBModel extends objection {
    *
    * @param   {number}  id
    * @param   {string}  attribute
+   * @param   {string}  trx
    *
    * @return  {object}
    */
-  static restore(id, attribute = 'id') {
-    return this.query().where(attribute, id).undelete();
+  static restore(id, attribute = 'id', trx = false) {
+    return this.query(trx).where(attribute, id).undelete();
   }
 
   /**
@@ -402,11 +396,12 @@ class DBModel extends objection {
    *
    * @param   {string}  relations
    * @param   {object}  query
+   * @param   {object}  trx
    *
    * @return  {object}
    */
-  static prepareEager(relations, query = false) {
-    query = query || this.query();
+  static prepareEager(relations, query = false, trx = false) {
+    query = query || this.query(trx);
     if (relations['eager']) {
       query.eager(relations['eager'], relations['callback']);
     } else {
@@ -417,7 +412,7 @@ class DBModel extends objection {
   }
 
   /**
-   * Prepare query with eager relations.
+   * Start transaction.
    *
    * @return  {object}
    */
@@ -426,7 +421,7 @@ class DBModel extends objection {
   }
 
   /**
-   * Prepare query with eager relations.
+   * Commit transaction.
    *
    * @param   {object}  trx
    *
@@ -437,7 +432,7 @@ class DBModel extends objection {
   }
 
   /**
-   * Prepare query with eager relations.
+   * Rollback transaction.
    *
    * @param   {object}  trx
    *

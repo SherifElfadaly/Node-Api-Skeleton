@@ -18,15 +18,16 @@ class Auth {
    *
    * @param   {string}  email
    * @param   {string}  password
+   * @param   {object}  trx
    *
    * @return  {string}
    */
-  async attempt(email, password) {
-    let user = await this.strategy.checkCredentials(email, password);
+  async attempt(email, password, trx) {
+    let user = await this.strategy.checkCredentials(email, password, trx);
     if (user) {
       const token = await container.jwt.sign({id: user.id}, container.config.app_secret,
           {expiresIn: container.config.token_expires_in * 60});
-      user = await this.check(token);
+      user = await this.check(token, trx);
 
       return {results: user, meta: {token: token}};
     }
@@ -38,10 +39,11 @@ class Auth {
    * Check the user is authnicated.
    *
    * @param   {string}  token
+   * @param   {object}  trx
    *
    * @return  {object}
    */
-  async check(token) {
+  async check(token, trx) {
     try {
       if (token.startsWith('Bearer ')) token = token.slice(7, token.length);
       let user = await container.jwt.verify(token, container.config.app_secret);
@@ -51,7 +53,7 @@ class Auth {
        *
        * @return  {object}
        */
-      user = await container.userRepository.find(user.id, '[roles.permissions]');
+      user = await container.userRepository.find(user.id, '[roles.permissions]', '*', trx);
 
       /**
        * Map permissions for all user roles.
