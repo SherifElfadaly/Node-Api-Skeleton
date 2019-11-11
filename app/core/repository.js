@@ -22,11 +22,12 @@ class Repository {
    * @param   {number}  perPage
    * @param   {string}  sortBy
    * @param   {boolean} desc
+   * @param   {boolean} trx
    *
    * @return  {array}
    */
-  list(relations = '[]', conditions = false, page = 1, perPage = 15, sortBy = 'created_at', desc = true) {
-    return this.model.list(relations, conditions, page, perPage, sortBy, desc);
+  list(relations = '[]', conditions = false, page = 1, perPage = 15, sortBy = 'created_at', desc = true, trx = false) {
+    return this.model.list(relations, conditions, page, perPage, sortBy, desc, trx);
   }
 
   /**
@@ -36,11 +37,12 @@ class Repository {
    * @param   {string}  sortBy
    * @param   {boolean} desc
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {array}
    */
-  all(relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    return this.model.all(relations, sortBy, desc, columns);
+  all(relations = '[]', sortBy = 'created_at', desc = true, columns = '*', trx = false) {
+    return this.model.all(relations, sortBy, desc, columns, trx);
   }
 
   /**
@@ -49,11 +51,12 @@ class Repository {
    * @param   {number}  id
    * @param   {string}  relations
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {object}
    */
-  async find(id, relations = '[]', columns = '*') {
-    return this.model.find(id, relations, columns);
+  find(id, relations = '[]', columns = '*', trx = false) {
+    return this.model.find(id, relations, columns, trx);
   }
 
   /**
@@ -63,11 +66,12 @@ class Repository {
    * @param   {object}  conditions
    * @param   {string}  relations
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {array}
    */
-  first(conditions, relations = '[]', columns = '*') {
-    return this.model.first(conditions, relations, columns);
+  first(conditions, relations = '[]', columns = '*', trx = false) {
+    return this.model.first(conditions, relations, columns, trx);
   }
 
   /**
@@ -75,11 +79,12 @@ class Repository {
    * based on the given conditions.
    *
    * @param   {object}  data
+   * @param   {object}  trx
    *
    * @return  {array}
    */
-  async firstOrCreate(data) {
-    return this.model.firstOrCreate(data);
+  firstOrCreate(data, trx = false) {
+    return this.model.firstOrCreate(data, trx);
   }
 
   /**
@@ -91,11 +96,12 @@ class Repository {
    * @param   {string}  sortBy
    * @param   {boolean} desc
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {array}
    */
-  findBy(conditions, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    return this.model.findBy(conditions, relations, sortBy, desc, columns);
+  findBy(conditions, relations = '[]', sortBy = 'created_at', desc = true, columns = '*', trx = false) {
+    return this.model.findBy(conditions, relations, sortBy, desc, columns, trx);
   }
 
   /**
@@ -107,11 +113,12 @@ class Repository {
    * @param   {string}  sortBy
    * @param   {boolean} desc
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {array}
    */
-  paginate(page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    return this.model.paginate(page, perPage, relations, sortBy, desc, columns);
+  paginate(page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*', trx = false) {
+    return this.model.paginate(page, perPage, relations, sortBy, desc, columns, trx);
   }
 
   /**
@@ -125,11 +132,12 @@ class Repository {
    * @param   {string}  sortBy
    * @param   {boolean} desc
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {array}
    */
-  paginateBy(conditions, page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*') {
-    return this.model.paginateBy(conditions, page, perPage, relations, sortBy, desc, columns);
+  paginateBy(conditions, page = 1, perPage = 15, relations = '[]', sortBy = 'created_at', desc = true, columns = '*', trx = false) {
+    return this.model.paginateBy(conditions, page, perPage, relations, sortBy, desc, columns, trx);
   }
 
   /**
@@ -141,11 +149,12 @@ class Repository {
    * @param   {string}  sortBy
    * @param   {boolean} desc
    * @param   {string}  columns
+   * @param   {string}  trx
    *
    * @return  {array}
    */
-  deleted(conditions, page = 1, perPage = 15, sortBy = 'created_at', desc = true, columns = '*') {
-    return this.model.deleted(conditions, page, perPage, sortBy, desc, columns);
+  deleted(conditions, page = 1, perPage = 15, sortBy = 'created_at', desc = true, columns = '*', trx = false) {
+    return this.model.deleted(conditions, page, perPage, sortBy, desc, columns, trx);
   }
 
   /**
@@ -154,12 +163,12 @@ class Repository {
    * @param   {array}  data
    * @param   {string} allowedRelations
    * @param   {object} upsertOptions
-   * @param   {object} transaction
+   * @param   {object} trx
    *
    * @return  {object}
    */
-  async insert(data, allowedRelations = '[]', upsertOptions = {}, transaction = false) {
-    return this.model.insert(data, allowedRelations, upsertOptions, transaction);
+  insert(data, allowedRelations = '[]', upsertOptions = {}, trx = false) {
+    return this.model.insert(data, allowedRelations, upsertOptions, trx);
   }
 
   /**
@@ -168,12 +177,12 @@ class Repository {
    * @param   {array}  data
    * @param   {string} allowedRelations
    * @param   {object} upsertOptions
-   * @param   {object} transaction
+   * @param   {object} trx
    *
    * @return  {object}
    */
-  async update(data, allowedRelations = '[]', upsertOptions = {}, transaction = false) {
-    return this.model.update(data, allowedRelations, upsertOptions, transaction);
+  update(data, allowedRelations = '[]', upsertOptions = {}, trx = false) {
+    return this.model.update(data, allowedRelations, upsertOptions, trx);
   }
 
   /**
@@ -181,11 +190,12 @@ class Repository {
    *
    * @param   {number}  id
    * @param   {string}  attribute
+   * @param   {string}  trx
    *
    * @return  {number}
    */
-  delete(id, attribute = 'id') {
-    return this.model.delete(id, attribute);
+  delete(id, attribute = 'id', trx = false) {
+    return this.model.delete(id, attribute, trx);
   }
 
   /**
@@ -193,11 +203,12 @@ class Repository {
    *
    * @param   {number}  id
    * @param   {string}  attribute
+   * @param   {string}  trx
    *
    * @return  {number}
    */
-  hardDelete(id, attribute = 'id') {
-    return this.model.hardDelete(id);
+  hardDelete(id, attribute = 'id', trx = false) {
+    return this.model.hardDelete(id, trx);
   }
 
   /**
@@ -205,11 +216,43 @@ class Repository {
    *
    * @param   {number}  id
    * @param   {string}  attribute
+   * @param   {string}  trx
    *
    * @return  {object}
    */
-  restore(id, attribute = 'id') {
-    return this.model.restore(id, attribute);
+  restore(id, attribute = 'id', trx = false) {
+    return this.model.restore(id, attribute, trx);
+  }
+
+  /**
+   * Start transaction.
+   *
+   * @return  {object}
+   */
+  startTransaction() {
+    return this.model.startTransaction();
+  }
+
+  /**
+   * Commit transaction.
+   *
+   * @param   {object}  trx
+   *
+   * @return  {void}
+   */
+  commitTransaction(trx) {
+    return this.model.commitTransaction(trx);
+  }
+
+  /**
+   * Rollback transaction.
+   *
+   * @param   {object}  trx
+   *
+   * @return  {void}
+   */
+  rollbackTransaction(trx) {
+    return this.model.rollbackTransaction(trx);
   }
 }
 

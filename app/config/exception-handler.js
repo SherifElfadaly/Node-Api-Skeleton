@@ -10,27 +10,6 @@ const {
 } = require('objection-db-errors');
 
 /**
- * Router exception handler wrapper.
- *
- * @param {CallableFunction} cb Controller body
- * @return {function (req,res,next)}  exception free controller logic as a function
- */
-module.exports.asyncWrapper = (cb) => {
-  return (req, res, next) => {
-    try {
-      const wrappedRoute = cb(req, res, next);
-      if (wrappedRoute && wrappedRoute.catch) {
-        wrappedRoute.catch((err) => {
-          next(err);
-        });
-      }
-    } catch (err) {
-      next(err);
-    }
-  };
-};
-
-/**
  * Error handling middleWare.
  *
  * @param {object} app express object

@@ -40,7 +40,7 @@ class UserController extends Controller {
    * @return  {object}
    */
   async login(req, res) {
-    return res.json(await this.repo.login(req.body.email, req.body.password));
+    return res.json(await this.repo.login(req.body.email, req.body.password, req.trx));
   }
 
   /**

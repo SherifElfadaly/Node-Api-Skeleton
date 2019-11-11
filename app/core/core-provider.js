@@ -25,7 +25,6 @@ module.exports = (container) => {
   container.constant('DBModel', require('./db-model'));
   container.constant('transaction', require('../config/db').transaction);
   container.constant('logger', require('../helpers/logger'));
-  container.constant('asyncWrapper', require('../config/exception-handler').asyncWrapper);
   container.service('validator', require('../validator'));
   container.service('errorHandlers', require('../helpers/error-handler'));
 

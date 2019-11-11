@@ -63,10 +63,12 @@ Development env must contains
 ```
  - clone project
  - make .env file and copy .env-dev into it 
+ - create db schema
  - modify .env file
- - run "npm generate-key"
  - install node_modules "npm install"
+ - run "npm generate-key"
  - execute Database migration "npm run knex-migrate"
+ - execute Database seed "npm run knex-seed"
  - start server "npm start"
 ```
 

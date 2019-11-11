@@ -111,7 +111,7 @@ class Auth {
        *
        * @return  {object}
        */
-      const user = await container.userRepository.find(data.user.id, '[roles.permissions]');
+      const user = await container.userRepository.find(data.user.id, '[roles.permissions]', '*', req.trx);
 
       /**
        * Map permissions for all user roles.

@@ -65,11 +65,15 @@ class Validator {
     */
   validate() {
     return async (req, res, next) => {
-      const user = req.headers.authorization ? await container.auth.check(req, res) : false;
-      let errors = [];
-      errors = errors.concat(this.validateJoi(this.schema, req['body']));
-      errors = errors.concat(await this.validateAsync(req['body'], user));
-      this.sendResponse(next, errors);
+      try {
+        const user = req.headers.authorization ? await container.auth.check(req, res) : false;
+        let errors = [];
+        errors = errors.concat(this.validateJoi(this.schema, req['body']));
+        errors = errors.concat(await this.validateAsync(req['body'], user));
+        this.sendResponse(next, errors);
+      } catch (error) {
+        next(error);
+      }
     };
   }
 
