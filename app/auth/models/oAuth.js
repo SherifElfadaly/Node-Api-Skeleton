@@ -12,7 +12,7 @@ class OAuthModel {
   async getAccessToken(accessToken) {
     accessToken = await container.accessToken.query().where('id', accessToken).first();
     const client = await container.oauthClient.query().where('id', accessToken.client_id).first();
-    const user = await container.user.query().where('id', client.user_id).first();
+    const user = await container.user.query().where('id', accessToken.user_id).first();
 
     return {
       accessToken: accessToken.id,
@@ -34,7 +34,7 @@ class OAuthModel {
     refreshToken = await container.refreshToken.query().where('id', refreshToken).first();
     const accessToken = await container.accessToken.query().where('id', refreshToken.access_token).first();
     const client = await container.oauthClient.query().where('id', accessToken.client_id).first();
-    const user = await container.user.query().where('id', client.user_id).first();
+    const user = await container.user.query().where('id', accessToken.user_id).first();
 
     return {
       refreshToken: refreshToken.id,
@@ -55,7 +55,7 @@ class OAuthModel {
   async getAuthorizationCode(authorizationCode) {
     authorizationCode = await container.authCode.query().where('id', authorizationCode).first();
     const client = await container.oauthClient.query().where('id', authorizationCode.client_id).first();
-    const user = await container.user.query().where('id', client.user_id).first();
+    const user = await container.user.query().where('id', authorizationCode.user_id).first();
 
     return {
       code: authorizationCode.id,
