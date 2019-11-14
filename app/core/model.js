@@ -39,10 +39,17 @@ class Model {
        * @return  {object}
        */
       model.prototype.$parseJson = (json) => {
-        const data = {};
-        for (const key in this) {
+        const data = new this.constructor();
+        for (const key in data.constructor.mappings) {
           if (this.hasOwnProperty(key)) {
             data[this.constructor.mappings[key]] = json[key];
+          }
+        }
+
+        for (const key in data) {
+          if (this.hasOwnProperty(key)) {
+            const setter = this[`set${key.charAt(0).toUpperCase() + key.slice(1)}`];
+            if (setter) setter.bind(data)(json[key]);
           }
         }
         return data;
@@ -51,11 +58,11 @@ class Model {
   }
 
   /**
-   * [mapObject description]
+   * Map object.
    *
-   * @param   {[type]}  json  [json description]
+   * @param   {object}  json
    *
-   * @return  {[type]}        [return description]
+   * @return  {object}
    */
   mapJson(json) {
     const data = new this.constructor();
