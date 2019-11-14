@@ -1,5 +1,5 @@
 module.exports = (container) => {
-  container.constant('roleModel', require('./role-model'));
+  container.constant('roleModel', require('./role-db-model'));
   container.service('role', require('./role'), 'roleModel');
   container.service('roleRepository', require('./role-repository'), 'role');
   container.service('roleController', require('./role-controller'), 'roleRepository');

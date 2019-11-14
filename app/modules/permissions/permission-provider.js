@@ -1,5 +1,5 @@
 module.exports = (container) => {
-  container.constant('permissionModel', require('./permission-model'));
+  container.constant('permissionModel', require('./permission-db-model'));
   container.service('permission', require('./permission'), 'permissionModel');
   container.service('permissionRepository', require('./permission-repository'), 'permission');
   container.service('permissionController', require('./permission-controller'), 'permissionRepository');
