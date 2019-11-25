@@ -1,5 +1,11 @@
 module.exports = {
   /**
+   * App config.
+   */
+  app_name: process.env.APP_NAME || '',
+  app_version: process.env.APP_VERSION || 1,
+
+  /**
    * Node config.
    */
   node_env: process.env.NODE_ENV || 'development',

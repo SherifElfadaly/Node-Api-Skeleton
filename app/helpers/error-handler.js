@@ -79,6 +79,20 @@ class ErrorHandler {
 
     throw err;
   }
+
+  /**
+   * Throw 400 wrong version.
+   *
+   * @param   {string}  name
+   *
+   * @return  {void}
+   */
+  wrongVersion(name = '') {
+    const err = new Error(`wrong version`);
+    err.statusCode = 400;
+
+    throw err;
+  }
 }
 
 module.exports = ErrorHandler;
