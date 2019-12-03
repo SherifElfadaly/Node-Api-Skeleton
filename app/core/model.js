@@ -43,6 +43,8 @@ class Model {
         for (const key in data.constructor.mappings) {
           if (this.hasOwnProperty(key)) {
             data[this.constructor.mappings[key]] = json[key];
+
+            if ( ! json[key]) delete data[this.constructor.mappings[key]];
           }
         }
 
