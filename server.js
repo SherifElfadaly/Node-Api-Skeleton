@@ -1,3 +1,8 @@
+/**
+ * Set default time zone;
+ */
+process.env.TZ = 'UTC';
+
 require('dotenv').config();
 const express = require('express');
 const http = require('http');

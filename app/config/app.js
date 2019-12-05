@@ -10,7 +10,6 @@ module.exports = {
    */
   node_env: process.env.NODE_ENV || 'development',
   port: process.env.PORT || 3000,
-  time_zone: process.env.TIME_ZONE || 'UTC',
 
   /**
    * DB config.
