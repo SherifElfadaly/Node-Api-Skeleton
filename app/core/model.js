@@ -44,7 +44,7 @@ class Model {
           if (this.hasOwnProperty(key)) {
             data[this.constructor.mappings[key]] = json[key];
 
-            if ( ! json[key]) delete data[this.constructor.mappings[key]];
+            if (json[key] === undefined) delete data[this.constructor.mappings[key]];
           }
         }
 
