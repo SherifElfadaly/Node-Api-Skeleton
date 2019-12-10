@@ -13,6 +13,25 @@ class UserModel extends DBModel {
   static tableName = 'user';
 
   /**
+   * set profile history.
+   *
+   * @param   {object}  queryOptions
+   * @param   {object}  context
+   *
+   * @return  {void}
+   */
+  $beforeUpdate(queryOptions, context) {
+    if (this.constructor.isBcryptHash(this.password)) {
+      delete this.password;
+    }
+
+    // eslint-disable-next-line no-undef
+    return Promise.resolve(super.$beforeUpdate(queryOptions, context)).then(() => {
+      //
+    });
+  }
+
+  /**
    * Return model relations.
    *
    * @return  {object}
