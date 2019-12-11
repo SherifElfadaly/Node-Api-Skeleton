@@ -40,6 +40,7 @@ class Controller {
                 await container.auth.can(argumentsList[0].user, name, this.modelName);
               }
 
+              if (argumentsList[0].user) delete argumentsList[0].user.permissions;
               const result = await method(...argumentsList);
               await this.repo.commitTransaction(argumentsList[0].trx);
               return result;

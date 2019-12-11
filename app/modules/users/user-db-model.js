@@ -13,7 +13,7 @@ class UserModel extends DBModel {
   static tableName = 'user';
 
   /**
-   * set profile history.
+   * Before update user.
    *
    * @param   {object}  queryOptions
    * @param   {object}  context
