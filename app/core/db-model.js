@@ -402,11 +402,8 @@ class DBModel extends objection {
    */
   static prepareEager(relations, query = false, trx = false) {
     query = query || this.query(trx);
-    if (relations['eager']) {
-      query.eager(relations['eager'], relations['callback']);
-    } else {
-      query.eager(relations);
-    }
+    query.withGraphFetched(relations['eager'] || relations);
+    if (relations['eager']) query.modifiers(relations['callback']);
 
     return query;
   }

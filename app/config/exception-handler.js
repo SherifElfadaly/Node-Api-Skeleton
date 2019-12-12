@@ -1,13 +1,16 @@
 const logger = require('../helpers/logger');
 const moment = require('moment');
 const {
-  DataError,
+  ValidationError,
+  NotFoundError,
+  DBError,
   ConstraintViolationError,
-  ForeignKeyViolationError,
   UniqueViolationError,
   NotNullViolationError,
-  DBError,
-} = require('objection-db-errors');
+  ForeignKeyViolationError,
+  CheckViolationError,
+  DataError,
+} = require('objection');
 
 /**
  * Error handling middleWare.
@@ -39,6 +42,12 @@ module.exports.expressExceptionHandler = (app) => {
       exceptionBody.push(`Foreign key violation `);
     } else if (err instanceof DBError) {
       exceptionBody.push(`Some unknown DB error`);
+    } else if (err instanceof ValidationError) {
+      exceptionBody.push(`Validation Error`);
+    } else if (err instanceof NotFoundError) {
+      exceptionBody.push(`Not Found Error`);
+    } else if (err instanceof CheckViolationError) {
+      exceptionBody.push(`Check Violation Error`);
     } else {
       exceptionBody.push(err.response || err.message || 'Unidentified Error');
     }
