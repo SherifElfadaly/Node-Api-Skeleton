@@ -21,6 +21,7 @@ module.exports = (container) => {
   container.constant('joi', require('@hapi/joi'));
   container.constant('jwt', require('jsonwebtoken'));
   container.constant('axios', require('axios'));
+  container.constant('cron', require('./cron'));
 
   /**
    * Register object dependencies.
