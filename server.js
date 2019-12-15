@@ -33,6 +33,12 @@ require('./app/middlewares')(app);
 require('./app/routes')(app, express);
 
 /**
+ * Tasks
+ */
+require('./app/config/cron-config').exec();
+
+
+/**
  * Register express exception handler.
  */
 require('./app/config/exception-handler').expressExceptionHandler(app);
