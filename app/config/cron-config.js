@@ -1,5 +1,9 @@
 const fs = require('fs');
 const cronFilePath = '/etc/cron.d/crons';
+/**
+ * Init cron setup
+ * @param {boolean} isCron TRUE IF FROM CRON TAB
+ */
 module.exports.exec = (isCron)=>{
   /**
    * collect taskSChedule
@@ -10,6 +14,15 @@ module.exports.exec = (isCron)=>{
    */
   container.glob.sync(`${__dirname}/../tasks/*`).forEach((taskFile) => {
     const Task = require(`${taskFile}`);
+    const tempTask = Task.run;
+    /**
+     * override the run method in every task
+     * to exec the run method then exit the process
+     */
+    Task.run = async function() {
+      await tempTask();
+      process.exit(1);
+    };
     cronTasks[Task.name] = Task;
     taskSchedule.push(new Task());
   });
