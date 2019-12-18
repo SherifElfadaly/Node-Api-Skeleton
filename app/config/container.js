@@ -2,6 +2,7 @@ const Bottle = require('bottlejs');
 const bottle = new Bottle();
 global.container = bottle.container;
 global.cronTasks = {};
+
 /**
  * Register the core provider.
  */

@@ -227,7 +227,7 @@ class DBModel extends objection {
    */
   static async insert(data, allowedRelations = '[]', upsertOptions = {}, trx = false) {
     const query = this.query(trx);
-    if (allowedRelations !== '[]') query.allowInsert(allowedRelations);
+    if (allowedRelations !== '[]') query.allowGraph(allowedRelations);
 
     return await query.insertGraph(data, upsertOptions);
   }

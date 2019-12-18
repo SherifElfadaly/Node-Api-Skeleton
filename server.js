@@ -37,7 +37,6 @@ require('./app/routes')(app, express);
  */
 require('./app/config/cron-config').exec();
 
-
 /**
  * Register express exception handler.
  */

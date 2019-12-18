@@ -2,6 +2,7 @@
  * Set default time zone;
  */
 process.env.TZ = 'UTC';
+
 // Get task name fron crontab exec command
 const taskName = process.argv[2];
 require('dotenv').config({path: `${__dirname }/.env`});

@@ -34,4 +34,10 @@ module.exports = {
    */
   redis_host: process.env.REDIS_HOST || '',
   redis_port: process.env.REDIS_PORT || '',
+
+  /**
+   * Cron config.
+   */
+  cron_path: process.env.CRON_PATH || '/usr/src/app/cron.js',
+  cron_user: process.env.CRON_USER || 'root',
 };

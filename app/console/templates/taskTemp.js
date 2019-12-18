@@ -27,20 +27,6 @@ class replaceToken extends Cron {
    // static job = 'curl localhost:3000';
 
    /**
-    * Set the path to cron js
-    * By default it's /usr/src/app/cron.js
-    * you can override it with the absolute cron.js Path in your environment
-    */
-   // static path = '/home/daviid/Projects/node_api_skeleton/cron.js';
-
-   /**
-    * Set the cron user
-    * The default is root
-    * Uncomment if you wana change it
-    */
-   // static user = 'root';
-
-   /**
     * Run task on cronTiming exec time .
     *
     * @return  {void}

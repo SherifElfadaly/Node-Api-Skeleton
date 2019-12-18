@@ -20,12 +20,12 @@ const rl = readline.createInterface({
  */
 const generatFile = () => {
   fs.readFile(`${taskTempFile}`, 'utf8', (err, data) => {
-    if (err) {
-      return console.log(err);
-    }
+    if (err) return console.log(err);
+    if ( ! fs.existsSync(taskFolderlocation)) fs.mkdirSync(taskFolderlocation);
+
     const className = taskName.charAt(0).toUpperCase() + taskName.slice(1);
     const content = data.replace(new RegExp('replaceToken', 'g'), className);
-    fs.writeFile(`${taskFolderlocation }/${taskName}.js`, content, 'utf8', function(err) {
+    fs.writeFile(`${taskFolderlocation}/${taskName}.js`, content, 'utf8', function(err) {
       if (err) return console.log(err);
       process.exit();
     });
