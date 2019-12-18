@@ -17,7 +17,8 @@
     "knex-seed": "npm run knex seed:run",
     "deploy": "npm run knex-migrate && npm run knex-seed && pm2-runtime ecosystem.config.js",
     "generate-module": "node app/console/module-generator.js",
-    "generate-key": "node app/console/app-key-generator.js"
+    "generate-key": "node app/console/app-key-generator.js",
+    "generate-task": "node app/console/task-generator.js"
   },
   "author": "",
   "license": "ISC",
@@ -86,7 +87,8 @@
       ]
     },
     "globals": {
-      "container": true
+      "container": true,
+      "cronTasks":true
     }
   },
   "eslintIgnore": [
