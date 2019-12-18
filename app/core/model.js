@@ -42,10 +42,15 @@ class Model {
         const data = new this.constructor();
         for (const key in data.constructor.mappings) {
           if (this.hasOwnProperty(key)) {
+            if (json[key] && typeof json[key] == 'object' && json[key].$parseJson) json[key] = json[key].$parseJson(json[key]);
             data[this.constructor.mappings[key]] = json[key];
-
             if (json[key] === undefined) delete data[this.constructor.mappings[key]];
           }
+        }
+
+        for (let index = 0; index < data.constructor.unFillable.length; index++) {
+          const attr = data.constructor.unFillable[index];
+          delete data[attr];
         }
 
         for (const key in data) {
@@ -76,7 +81,14 @@ class Model {
 
     for (let index = 0; index < data.constructor.hiddenFields.length; index++) {
       const attr = data.constructor.hiddenFields[index];
-      delete data[attr];
+      if ( ! json.skipHidden || ! json.skipHidden.includes(attr)) delete data[attr];
+    }
+
+    for (const key in data) {
+      if (this.hasOwnProperty(key)) {
+        const getter = this[`get${key.charAt(0).toUpperCase() + key.slice(1)}`];
+        if (getter) getter.bind(data)(json[key]);
+      }
     }
 
     return data;

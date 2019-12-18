@@ -25,6 +25,14 @@ class Report extends Model {
   }
 
   /**
+   * Specify fields that will be not be inserted
+   * or updated from the model.
+   *
+   * @return  {array}
+   */
+  static unFillable = [];
+
+  /**
    * Specify fields that will be hidden
    * from the model.
    *

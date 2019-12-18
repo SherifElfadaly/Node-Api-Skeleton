@@ -22,30 +22,30 @@ class Controller {
         // eslint-disable-next-line no-undef
         return new Proxy(method, {
           apply: async (controller, thisArg, argumentsList) => {
-            argumentsList[0].trx = await this.repo.startTransaction();
+            const req = argumentsList[0];
+            req.trx = await this.repo.startTransaction();
             try {
               /**
                * Check if the user is logged in.
                */
               if ( ! this.constructor.skipLoginCheck || ! this.constructor.skipLoginCheck.includes(name)) {
-                argumentsList[0].user = await container.auth.check(argumentsList[0].headers.authorization, argumentsList[0].trx);
+                req.user = await container.auth.check(req.headers.authorization, req.trx);
+
+                /**
+                 * Check if the user has permissions.
+                 */
+                if ( ! this.constructor.skipPermissionCheck ||
+                     ! this.constructor.skipPermissionCheck.includes(name)) {
+                  await container.auth.can(req.user, name, this.modelName);
+                }
               }
 
-              /**
-               * Check if the user has permissions.
-               */
-              if ( ! this.constructor.skipPermissionCheck ||
-                ! this.constructor.skipPermissionCheck.includes(name) &&
-                argumentsList[0].user) {
-                await container.auth.can(argumentsList[0].user, name, this.modelName);
-              }
-
-              if (argumentsList[0].user) delete argumentsList[0].user.permissions;
+              if (req.user) delete req.user.permissions;
               const result = await method(...argumentsList);
-              await this.repo.commitTransaction(argumentsList[0].trx);
+              await this.repo.commitTransaction(req.trx);
               return result;
             } catch (err) {
-              await this.repo.rollbackTransaction(argumentsList[0].trx);
+              await this.repo.rollbackTransaction(req.trx);
               argumentsList[2](err);
             }
           },
