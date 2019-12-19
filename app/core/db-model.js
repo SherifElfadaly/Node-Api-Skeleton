@@ -446,27 +446,23 @@ class DBModel extends objection {
    *
    * @return  {void}
    */
-  $beforeInsert(context) {
-    // eslint-disable-next-line no-undef
-    return Promise.resolve(super.$beforeInsert(context)).then(() => {
-      this.created_at = container.moment().format('YYYY-MM-DD HH:mm:ss');
-    });
+  async $beforeInsert(context) {
+    await super.$beforeInsert(context);
+    this.created_at = container.moment().format('YYYY-MM-DD HH:mm:ss');
   }
 
   /**
    * Parse dates before update.
    *
-   * @param   {object}  queryOptions
+   * @param   {object}  opt
    * @param   {object}  context
    *
    * @return  {void}
    */
-  $beforeUpdate(queryOptions, context) {
-    // eslint-disable-next-line no-undef
-    return Promise.resolve(super.$beforeUpdate(queryOptions, context)).then(() => {
-      this.updated_at = container.moment().format('YYYY-MM-DD HH:mm:ss');
-      if (this.created_at) this.created_at = container.moment(this.created_at).format('YYYY-MM-DD HH:mm:ss');
-    });
+  async $beforeUpdate(opt, context) {
+    await super.$beforeUpdate(opt, context);
+    this.updated_at = container.moment().format('YYYY-MM-DD HH:mm:ss');
+    if (this.created_at) this.created_at = container.moment(this.created_at).format('YYYY-MM-DD HH:mm:ss');
   }
 }
 

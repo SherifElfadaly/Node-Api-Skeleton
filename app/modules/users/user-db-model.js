@@ -13,44 +13,6 @@ class UserModel extends DBModel {
   static tableName = 'user';
 
   /**
-   * Before update user.
-   *
-   * @param   {object}  queryOptions
-   * @param   {object}  context
-   *
-   * @return  {void}
-   */
-  $beforeUpdate(queryOptions, context) {
-    if (this.constructor.isBcryptHash(this.password)) {
-      delete this.password;
-    }
-
-    // eslint-disable-next-line no-undef
-    return Promise.resolve(super.$beforeUpdate(queryOptions, context)).then(() => {
-      //
-    });
-  }
-
-  /**
-   * Before insert user.
-   *
-   * @param   {object}  queryOptions
-   * @param   {object}  context
-   *
-   * @return  {void}
-   */
-  $beforeInsert(queryOptions, context) {
-    if (this.constructor.isBcryptHash(this.password)) {
-      delete this.password;
-    }
-
-    // eslint-disable-next-line no-undef
-    return Promise.resolve(super.$beforeUpdate(queryOptions, context)).then(() => {
-      //
-    });
-  }
-
-  /**
    * Return model relations.
    *
    * @return  {object}

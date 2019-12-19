@@ -55,6 +55,19 @@ class User extends Model {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
   };
+
+  /**
+   * Remove hashed password.
+   *
+   * @param   {string}  value
+   *
+   * @return  {void}
+   */
+  setPassword(value) {
+    if (container.userModel.isBcryptHash(value)) {
+      delete this.password;
+    }
+  }
 }
 
 module.exports = User;
