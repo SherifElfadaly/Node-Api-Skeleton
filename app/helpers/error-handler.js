@@ -93,6 +93,45 @@ class ErrorHandler {
 
     throw err;
   }
+
+  /**
+   * Throw 400 not equal exception.
+   *
+   * @param   {string}  fieldOne
+   * @param   {string}  fieldTwo
+   *
+   * @return  {void}
+   */
+  notEqual(fieldOne, fieldTwo) {
+    const err = new Error(`${fieldOne} not equal ${fieldTwo}`);
+    err.statusCode = 400;
+
+    throw err;
+  }
+
+  /**
+   * Throw 400 token invalid exception.
+   *
+   * @return  {void}
+   */
+  tokenInvalid() {
+    const err = new Error(`Token invalid`);
+    err.statusCode = 400;
+
+    throw err;
+  }
+
+  /**
+   * Throw 400 not confirmed exception.
+   *
+   * @return  {void}
+   */
+  emailNotConfirmed() {
+    const err = new Error(`Email not confirmed`);
+    err.statusCode = 400;
+
+    throw err;
+  }
 }
 
 module.exports = ErrorHandler;

@@ -4,7 +4,7 @@ services:
 
 stages:
   - test
-  - deploy
+  - deploy staging
   - deploy production
 
 test:
@@ -13,7 +13,7 @@ test:
     - stag
   only:
     - master
-    - dev
+    - staging
   variables:
     DB_DRIVER: "mysql" 
   script:
@@ -22,20 +22,19 @@ test:
 
 
 deploy-staging:
-  stage: deploy
+  stage: deploy staging
   tags: 
     - stag
   only:
-    - dev
+    - staging
   script:
     - sudo docker-compose -v
     - sudo docker image prune -f
-    - sudo docker-compose build --build-arg ENV=staging 
-    - sudo docker-compose up -d
-  
+    - sudo docker-compose -f docker-compose.yml build --build-arg ENV=stag
+    - sudo docker-compose -f docker-compose.yml up -d
 
 deploy-production:
-  stage: deploy
+  stage: deploy production
   tags: 
     - prod
   only:
@@ -43,7 +42,8 @@ deploy-production:
   script:
     - sudo docker-compose -v
     - sudo docker image prune -f
-    - sudo docker-compose build --build-arg ENV=prod 
-    - sudo docker-compose up -d
+    - sudo docker-compose -f docker-compose.yml build--build-arg ENV=prod
+    - sudo docker-compose -f docker-compose.yml up -d
     
   when: manual  
+  

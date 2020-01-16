@@ -56,6 +56,7 @@ if (process.env.NODE_ENV === 'production') {
   sticky.listen(server, container.config.port);
 } else {
   server.listen(container.config.port);
+  console.log(`Listening on port ${container.config.port}`);
 }
 
 /**
@@ -72,8 +73,3 @@ io.use(async (socket, next) => {
   await container.auth.check(socket.handshake.query.token);
   next();
 });
-
-/**
- * Set default time zone;
- */
-process.env.TZ = container.config.time_zone;

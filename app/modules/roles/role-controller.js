@@ -30,6 +30,19 @@ class roleController extends Controller {
   constructor(repository) {
     super(repository);
   }
+
+  /**
+   * Assign screen permission to the given role.
+   *
+   * @param   {object}  req
+   * @param   {object}  res
+   *
+   * @return  {object}
+   */
+  async assignScreenPermission(req, res) {
+    return res.json(await this.repo.assignScreenPermission(req.body, req.trx,
+        this.getModuleConfig('allowedRelations', 'assignScreenPermission'), this.getModuleConfig('upsertOptions', 'assignScreenPermission')));
+  }
 }
 
 module.exports = roleController;

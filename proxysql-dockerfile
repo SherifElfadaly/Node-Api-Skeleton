@@ -1,0 +1,9 @@
+FROM proxysql/proxysql
+ARG ENV
+WORKDIR /usr/src/app
+COPY ./proxysql-* ./
+RUN if [ "$ENV" = "stag" ]; \
+    then cp proxysql-dev.cnf /etc/proxysql.cnf; \
+	elif [ "$ENV" = "prod" ]; \
+	then cp proxysql-prod.cnf /etc/proxysql.cnf; \
+	fi

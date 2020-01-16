@@ -22,6 +22,9 @@ module.exports = (container) => {
   container.constant('jwt', require('jsonwebtoken'));
   container.constant('axios', require('axios'));
   container.constant('cron', require('./cron'));
+  container.constant('sendgrid', require('@sendgrid/mail'));
+  container.constant('fs', require('fs'));
+  container.constant('ejs', require('ejs'));
 
   /**
    * Register object dependencies.
@@ -30,9 +33,14 @@ module.exports = (container) => {
     let Strategy;
 
     if (container.config.auth_strategy === 'local') Strategy = require('../auth/strategies/local');
-    else Strategy = require('../auth/strategies/hr');
+    else Strategy = require('../auth/strategies/external');
 
     return new Strategy();
+  });
+  container.factory('mail', function(container) {
+    const Mail = require('../mail');
+    container.sendgrid.setApiKey(container.config.send_grid_api_key);
+    return new Mail(container.sendgrid);
   });
   container.service('validator', require('../validator'));
   container.service('errorHandlers', require('../helpers/error-handler'));

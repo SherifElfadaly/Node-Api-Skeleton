@@ -27,7 +27,6 @@ class UserModel extends DBModel {
           through: {
             from: 'user_role.user_id',
             to: 'user_role.role_id',
-            extra: ['created_at', 'updated_at'],
           },
           to: 'role.id',
         },

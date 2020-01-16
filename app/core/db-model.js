@@ -68,7 +68,7 @@ class DBModel extends objection {
         findById(id).
         select(columns);
 
-    if (! model) container.errorHandlers.notFound();
+    if (! model) container.errorHandlers.notFound(`${this.model.tableName} id: ${id}`);
 
     return model;
   }
@@ -105,9 +105,9 @@ class DBModel extends objection {
    * @return  {array}
    */
   static async firstOrCreate(data, trx = false) {
-    let model = await this.first({and: data});
+    let model = await this.first({and: data}, '[]', '*', trx);
     if ( ! model) {
-      model = await this.insert(data);
+      model = await this.insert(data, '[]', {}, trx);
     }
 
     return model;
@@ -244,7 +244,7 @@ class DBModel extends objection {
    */
   static async update(data, allowedRelations = '[]', upsertOptions = {}, trx = false) {
     const query = this.query(trx);
-    if (allowedRelations !== '[]') query.allowUpsert(allowedRelations);
+    if (allowedRelations !== '[]') query.allowGraph(allowedRelations);
 
     return await query.upsertGraph(data, upsertOptions);
   }

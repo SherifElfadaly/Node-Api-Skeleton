@@ -26,8 +26,3 @@ require('./app/config/cron-config').exec(true);
  * Exec the task by name
  */
 cronTasks[`${taskName}`].run();
-
-/**
- * Set default time zone;
- */
-process.env.TZ = container.config.time_zone;

@@ -42,6 +42,18 @@ class RoleModel extends DBModel {
           to: 'permission.id',
         },
       },
+      screenPermissions: {
+        relation: DBModel.ManyToManyRelation,
+        modelClass: container.screenPermission,
+        join: {
+          from: 'role.id',
+          through: {
+            from: 'role_screen_permission.role_id',
+            to: 'role_screen_permission.screen_permission_id',
+          },
+          to: 'screen_permission.id',
+        },
+      },
     };
   }
 }

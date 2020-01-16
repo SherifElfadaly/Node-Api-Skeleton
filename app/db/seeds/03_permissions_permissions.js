@@ -3,6 +3,7 @@ exports.seed = async (knex, Promise) => {
   await knex('permission').where('model', 'permission').del();
   await knex('permission').insert([
     {
+      id: 'list-permission',
       name: 'List',
       key: 'list',
       model: 'permission',
@@ -10,6 +11,7 @@ exports.seed = async (knex, Promise) => {
       updated_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
     },
     {
+      id: 'find-permission',
       name: 'Find',
       key: 'find',
       model: 'permission',

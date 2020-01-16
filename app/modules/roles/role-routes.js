@@ -26,5 +26,10 @@ module.exports = (router) => {
    */
   router.delete('/:id', roleController.delete);
 
+  /**
+   * Assign screen permission to the given user.
+   */
+  router.put('/screen/permission/assign', container.roleValidationRules.apply('assignScreenPermission'), roleController.assignScreenPermission);
+
   return router;
 };

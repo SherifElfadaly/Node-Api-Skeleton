@@ -29,7 +29,7 @@ class Controller {
                * Check if the user is logged in.
                */
               if ( ! this.constructor.skipLoginCheck || ! this.constructor.skipLoginCheck.includes(name)) {
-                req.user = await container.auth.check(req.headers.authorization, req.trx);
+                req.user = await container.auth.userFromToken(req.headers.authorization, req.headers.platform);
 
                 /**
                  * Check if the user has permissions.
@@ -40,7 +40,11 @@ class Controller {
                 }
               }
 
-              if (req.user) delete req.user.permissions;
+              /**
+               * Add the platform to the request.
+               */
+              req.platform = req.headers.platform;
+
               const result = await method(...argumentsList);
               await this.repo.commitTransaction(req.trx);
               return result;
@@ -64,7 +68,7 @@ class Controller {
    */
   async list(req, res) {
     return res.json(await this.repo.list(this.getModuleConfig('relations', 'list'),
-        req.query, req.query.page, req.query.perPage, req.query.sortBy, req.query.desc, req.trx));
+        req.query, req.query.page, req.query.perPage, req.query.sortBy, req.query.desc));
   }
 
   /**
@@ -76,7 +80,7 @@ class Controller {
    * @return  {object}
    */
   async find(req, res) {
-    return res.json(await this.repo.find(req.params.id, this.getModuleConfig('relations', 'find'), '*', req.trx));
+    return res.json(await this.repo.find(req.params.id, this.getModuleConfig('relations', 'find')));
   }
 
   /**
@@ -89,7 +93,7 @@ class Controller {
    */
   async deleted(req, res) {
     return res.json(await this.repo.deleted(req.body, req.params.page, req.params.perPage,
-        req.headers['sort-by'], req.headers['desc'], '*', req.trx));
+        req.headers['sort-by'], req.headers['desc']));
   }
 
   /**
@@ -102,7 +106,7 @@ class Controller {
    */
   async insert(req, res) {
     return res.json(await this.repo.insert(req.body,
-        this.getModuleConfig('allowedRelations', 'insert'), this.getModuleConfig('upsertOptions', 'insert'), req.trx));
+        this.getModuleConfig('allowedRelations', 'insert'), this.getModuleConfig('upsertOptions', 'insert')));
   }
 
   /**
@@ -115,7 +119,7 @@ class Controller {
    */
   async update(req, res) {
     return res.json(await this.repo.update(req.body,
-        this.getModuleConfig('allowedRelations', 'update'), this.getModuleConfig('upsertOptions', 'update'), req.trx));
+        this.getModuleConfig('allowedRelations', 'update'), this.getModuleConfig('upsertOptions', 'update')));
   }
 
   /**
@@ -127,7 +131,7 @@ class Controller {
    * @return  {object}
    */
   async delete(req, res) {
-    return res.json(await this.repo.delete(req.params.id, req.trx));
+    return res.json(await this.repo.delete(req.params.id));
   }
 
   /**
@@ -139,7 +143,7 @@ class Controller {
    * @return  {object}
    */
   async hardDelete(req, res) {
-    return res.json(await this.repo.hardDelete(req.params.id, req.trx));
+    return res.json(await this.repo.hardDelete(req.params.id));
   }
 
   /**
@@ -151,7 +155,7 @@ class Controller {
    * @return  {object}
    */
   async restore(req, res) {
-    return res.json(await this.repo.restore(req.params.id, req.trx));
+    return res.json(await this.repo.restore(req.params.id));
   }
 
   /**

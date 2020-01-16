@@ -15,9 +15,12 @@ class User extends Model {
     super(model);
 
     this.id = null;
+    this.imageChecksum = null;
+    this.name = null;
     this.email = null;
     this.roles = null;
     this.password = null;
+    this.confirmed = null;
     this.deleted = null;
     this.createdAt = null;
     this.updatedAt = null;
@@ -31,7 +34,7 @@ class User extends Model {
    *
    * @return  {array}
    */
-  static unFillable = [];
+  static unFillable = ['screens'];
 
   /**
    * Specify fields that will be hidden
@@ -39,7 +42,7 @@ class User extends Model {
    *
    * @return  {array}
    */
-  static hiddenFields = ['deleted', 'password'];
+  static hiddenFields = ['confirmed', 'deleted', 'password'];
 
   /**
    * Specify mapping fields.
@@ -48,10 +51,13 @@ class User extends Model {
    */
   static mappings = {
     id: 'id',
+    imageChecksum: 'image_checksum',
+    name: 'name',
     email: 'email',
     roles: 'roles',
     password: 'password',
     deleted: 'deleted',
+    confirmed: 'confirmed',
     createdAt: 'created_at',
     updatedAt: 'updated_at',
   };

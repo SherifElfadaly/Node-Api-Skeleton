@@ -19,7 +19,7 @@ const {
  */
 module.exports.expressExceptionHandler = (app) => {
   app.use((err, req, res, next) => {
-    const statusCode = err.statusCode || 500;
+    let statusCode = err.statusCode || 500;
     let exceptionBody = [];
 
     /**
@@ -31,22 +31,31 @@ module.exports.expressExceptionHandler = (app) => {
      * Catch database errors.
      */
     } else if (err instanceof UniqueViolationError) {
+      statusCode = 500;
       exceptionBody.push(`Unique constraint ${err.constraint}`);
     } else if (err instanceof NotNullViolationError) {
+      statusCode = 500;
       exceptionBody.push(`Not null constraint `);
     } else if (err instanceof DataError) {
+      statusCode = 500;
       exceptionBody.push(`Data error `);
     } else if (err instanceof ConstraintViolationError) {
+      statusCode = 500;
       exceptionBody.push(`Constraint violation `);
     } else if (err instanceof ForeignKeyViolationError) {
+      statusCode = 500;
       exceptionBody.push(`Foreign key violation `);
     } else if (err instanceof DBError) {
+      statusCode = 500;
       exceptionBody.push(`Some unknown DB error`);
     } else if (err instanceof ValidationError) {
+      statusCode = 500;
       exceptionBody.push(`Validation Error`);
     } else if (err instanceof NotFoundError) {
+      statusCode = 500;
       exceptionBody.push(`Not Found Error`);
     } else if (err instanceof CheckViolationError) {
+      statusCode = 500;
       exceptionBody.push(`Check Violation Error`);
     } else {
       exceptionBody.push(err.response || err.message || 'Unidentified Error');

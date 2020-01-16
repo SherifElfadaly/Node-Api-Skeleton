@@ -28,6 +28,8 @@ module.exports = {
   token_expires_in: process.env.TOKEN_EXPIRES_IN || '',
   auth_strategy: process.env.AUTH_STRATEGY || '',
   auth_gateway: process.env.AUTH_GATEWAY || '',
+  reset_token_expires_in: process.env.RESET_TOKEN_EXPIRES_IN || '',
+  confirm_token_expires_in: process.env.CONFIRM_TOKEN_EXPIRES_IN || '',
 
   /**
    * Redis config.
@@ -40,4 +42,12 @@ module.exports = {
    */
   cron_path: process.env.CRON_PATH || '/usr/src/app/cron.js',
   cron_user: process.env.CRON_USER || 'root',
+
+  /**
+   * Mail config.
+   */
+  send_grid_api_key: process.env.SENDGRID_API_KEY || '',
+  email_from: process.env.EMAIL_FROM || '',
+  confirm_url: process.env.CONFIRM_URL || '',
+  reset_url: process.env.RESET_URL || '',
 };

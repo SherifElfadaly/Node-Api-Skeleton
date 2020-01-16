@@ -4,6 +4,7 @@ exports.up = async (knex, Promise) => {
     table.increments('id');
     table.string('name', 100).notNullable();
     table.string('key', 100).notNullable();
+    table.string('assignable_roles', 255).nullable();
     table.boolean('deleted').defaultTo(0);
     table.timestamps();
     table.unique('key');
