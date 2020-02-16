@@ -4,8 +4,9 @@ module.exports = (router) => {
     /**
      *  Set log File Name
      */
+    const moment = container.moment;
     const now = new Date();
-    const fileName = (req.params.date) ? `${req.params.date}.log` : `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}.log`;
+    const fileName = (req.params.date) ? `${req.params.date}.log` : `${moment(now).format('YYYY')}-${moment(now).format('MM')}-${moment(now).format('D')}.log`;
     const filePath = `${__dirname}/../../logs/${fileName}`;
 
     /**

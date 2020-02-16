@@ -20,7 +20,12 @@ module.exports.exec = (isCron)=>{
      * to exec the run method then exit the process
      */
     Task.run = async function() {
-      await tempTask();
+      try {
+        await tempTask();
+      } catch (err) {
+        container.logger.log('error', `[${container.moment().format('YYYY-MM-DD hh:mm:ss')}] ${err.stack}`);
+        process.exit(1);
+      }
       process.exit(1);
     };
     cronTasks[Task.name] = Task;
