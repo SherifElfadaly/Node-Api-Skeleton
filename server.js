@@ -38,6 +38,11 @@ require('./app/routes')(app, express);
 require('./app/config/cron-config').exec();
 
 /**
+ * Register oauth2.
+ */
+require('./app/auth/oAuth')(app);
+
+/**
  * Register express exception handler.
  */
 require('./app/config/exception-handler').expressExceptionHandler(app);

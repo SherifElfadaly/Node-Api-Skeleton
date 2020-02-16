@@ -2,7 +2,7 @@ module.exports = {
   'role': {
     'relations': {
       'list': '[]',
-      'find': '[screenPermissions.permission]',
+      'find': '[]',
     },
     'allowedRelations': {
       'insert': '[]',
@@ -11,7 +11,6 @@ module.exports = {
     'upsertOptions': {
       'insert': {relate: true, unrelate: true},
       'update': {relate: true, unrelate: true, noDelete: true},
-      'assignScreenPermission': {relate: true, unrelate: true, noDelete: true},
     },
   },
 };

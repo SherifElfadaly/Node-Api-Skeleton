@@ -1,7 +1,7 @@
 const DBModel = container.DBModel;
 
 /**
- * replacetoken model
+ * replacetoken.
  */
 class replacetoken extends DBModel {
   /**

@@ -34,7 +34,7 @@ class User extends Model {
    *
    * @return  {array}
    */
-  static unFillable = ['screens'];
+  static unFillable = [];
 
   /**
    * Specify fields that will be hidden

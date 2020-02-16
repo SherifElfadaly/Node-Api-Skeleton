@@ -29,21 +29,16 @@ class Controller {
                * Check if the user is logged in.
                */
               if ( ! this.constructor.skipLoginCheck || ! this.constructor.skipLoginCheck.includes(name)) {
-                req.user = await container.auth.userFromToken(req.headers.authorization, req.headers.platform);
+                req.user = await container.auth.userFromToken(req.headers.authorization);
 
                 /**
                  * Check if the user has permissions.
                  */
                 if ( ! this.constructor.skipPermissionCheck ||
                      ! this.constructor.skipPermissionCheck.includes(name)) {
-                  await container.auth.can(req.user, name, this.modelName);
+                  await container.auth.can(name, this.modelName);
                 }
               }
-
-              /**
-               * Add the platform to the request.
-               */
-              req.platform = req.headers.platform;
 
               const result = await method(...argumentsList);
               await this.repo.commitTransaction(req.trx);

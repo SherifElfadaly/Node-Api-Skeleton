@@ -30,17 +30,13 @@ class Auth {
    *
    * @param   {string}  email
    * @param   {string}  password
-   * @param   {string}  platform
-   * @param   {boolean} returnUser
-   * @param   {boolean} mobile
    *
    * @return  {string}
    */
-  async attempt(email, password, platform, returnUser = false) {
-    let user = await this.checkCredentials(email, password);
-    if (user) {
-      const token = await container.jwt.sign({id: user.id}, container.config.app_secret, {expiresIn: container.config.token_expires_in * 60});
-      user = await this.userFromToken(token, platform);
+  async attempt(email, password) {
+    const result = await this.checkCredentials(email, password);
+    if (result) {
+      const user = await this.userFromToken(result.accessToken);
 
       /**
        * Only allow confirmed users.
@@ -49,23 +45,84 @@ class Auth {
         container.errorHandlers.emailNotConfirmed();
       }
 
-      return returnUser ? user : {results: user, meta: {token: token}};
+      return {
+        results: user,
+        meta: {token: result.accessToken, refreshToken: result.refreshToken, refreshTokenExpiresAt: result.refreshTokenExpiresAt},
+      };
     }
 
     container.errorHandlers.loginFailed();
   }
 
   /**
-   * Check the user is authnicated.
+   * Refresh access token using the given refresh token.
+   *
+   * @param   {string}  refreshToken
+   *
+   * @return  {string}
+   */
+  async refreshToken(refreshToken) {
+    const result = await this.strategy.refreshToken(refreshToken);
+    if (result) {
+      return {
+        results: await this.userFromToken(result.accessToken),
+        meta: {token: result.accessToken, refreshToken: result.refreshToken, refreshTokenExpiresAt: result.refreshTokenExpiresAt},
+      };
+    }
+
+    container.errorHandlers.loginFailed();
+  }
+
+  /**
+   * Authorize the logged in user to the given client id.
+   *
+   * @param   {string}  clientId
+   * @param   {string}  authorization
+   *
+   * @return  {string}
+   */
+  async authorize(clientId, authorization) {
+    const result = await this.strategy.authorize(clientId, authorization);
+    if (result) {
+      return {
+        redirectUri: `${result.redirectUri}?code=${result.authorizationCode}`,
+      };
+    }
+
+    container.errorHandlers.loginFailed();
+  }
+
+  /**
+   * Exchange auth code with access token.
+   *
+   * @param   {string}  code
+   * @param   {string}  authorization
+   * @param   {string}  redirectUri
+   *
+   * @return  {string}
+   */
+  async getToken(code, authorization, redirectUri) {
+    const result = await this.strategy.getToken(code, authorization, redirectUri);
+    if (result) {
+      return {
+        results: await this.userFromToken(result.accessToken),
+        meta: {token: result.accessToken, refreshToken: result.refreshToken, refreshTokenExpiresAt: result.refreshTokenExpiresAt},
+      };
+    }
+
+    container.errorHandlers.loginFailed();
+  }
+
+  /**
+   * Get user from the given token.
    *
    * @param   {string}  token
-   * @param   {string}  platformKey
    *
    * @return  {object}
    */
-  async userFromToken(token, platformKey = '') {
-    let user = await this.check(token, platformKey);
-    user = await this.getUserScreens(user.id, platformKey);
+  async userFromToken(token) {
+    let user = await this.check({headers: {authorization: `Bearer ${token}`}, method: 'get', query: {}});
+    user = await container.userRepository.find(user.id, '[roles.permissions]');
     user = await this.mapUserRoles(user, user.roles);
 
     return user;
@@ -74,96 +131,21 @@ class Auth {
   /**
    * Check the user is authnicated.
    *
-   * @param   {string}  token
+   * @param   {object}  req
+   * @param   {object}  res
    *
    * @return  {object}
    */
-  async check(token) {
-    /**
-     * Verify the jwt token.
-     */
+  async check(req, res) {
     try {
-      if (token.startsWith('Bearer ')) token = token.slice(7, token.length);
-      return await container.jwt.verify(token, container.config.app_secret);
+      const request = new container.OAuth2Server.Request(req);
+      const response = new container.OAuth2Server.Response(res);
+      const data = await container.oauth.authenticate(request, response);
+
+      return data.user;
     } catch (err) {
       container.errorHandlers.unAuthorized();
     }
-  }
-
-  /**
-   * Map screens for all roles for the given user.
-   *
-   * @param   {number} id
-   * @param   {string} platformKey
-   *
-   * @return  {string}
-   */
-  async getUserScreens(id, platformKey = '') {
-    /**
-     * Get screens for the given platform.
-     */
-    const platform = await container.platformRepository.first({'platform.key': platformKey}) || {id: 0};
-    const screens = await container.screenRepository.findBy({'platform_id': platform.id});
-
-    /**
-     * Fetch the user with his roles and permissions.
-     *
-     * @return  {object}
-     */
-    const user = await container.userRepository.find(id, {
-      'eager': '[roles.[permissions, screenPermissions(filterPlatfrom).screen]]',
-      'callback': {
-        filterPlatfrom: (builder) => {
-          const screenQuery = container.screenPermission.
-              relatedQuery('screen').
-              whereIn('id', screens.map((screen) => screen.id)).
-              orWhereIn('parent_id', screens.map((screen) => screen.id));
-
-          builder.whereExists(screenQuery);
-        },
-      },
-    });
-    user.screens = user.screens || {};
-
-    for (let index = 0; index < user.roles.length; index++) {
-      const role = user.roles[index];
-
-      /**
-       * Map screens for all user roles.
-       */
-      for (let index = 0; index < role.screenPermissions.length; index++) {
-        const screenPermission = role.screenPermissions[index];
-        const screen = screenPermission.screen;
-        delete screenPermission.screen;
-
-        screen.screenPermissions = screen.screenPermissions || {};
-        screen.screenPermissions[screenPermission.id] = screenPermission;
-
-        if (screen.parent_id === null) user.screens[screen.id] = user.screens[screen.id] || screen;
-        if (screen.parent_id !== null) {
-          user.screens[screen.parent_id] = user.screens[screen.parent_id] || (await container.screenRepository.find(screen.parent_id));
-          user.screens[screen.parent_id].subScreens = user.screens[screen.parent_id].subScreens || {};
-          user.screens[screen.parent_id].subScreens[screen.id] = screen;
-        }
-      }
-
-      delete role.screenPermissions;
-    }
-
-    /**
-     * Convert screens object to array.
-     */
-    user.screens = Object.values(user.screens);
-    user.screens.forEach((screen) => {
-      screen.subScreens = screen.subScreens ? Object.values(screen.subScreens) : [];
-      screen.screenPermissions = screen.screenPermissions ? Object.values(screen.screenPermissions) : [];
-
-      screen.subScreens.forEach((subScreen) => {
-        subScreen.screenPermissions = subScreen.screenPermissions ? Object.values(subScreen.screenPermissions) : [];
-      });
-    });
-
-    return user;
   }
 
   /**
@@ -184,13 +166,6 @@ class Auth {
       user.permissions = user.permissions || [];
       user.permissions = user.permissions.concat(role.permissions);
       delete role.permissions;
-
-      /**
-       * Map assignable roles for all user roles.
-       */
-      user.assignable_roles = user.assignable_roles || [];
-      role.assignable_roles = role.assignable_roles || '';
-      user.assignable_roles = user.assignable_roles.concat(role.assignable_roles.split(','));
     }
 
     return user;

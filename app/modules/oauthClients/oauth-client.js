@@ -1,11 +1,11 @@
 const Model = container.Model;
 
 /**
- * ScreenPermission class.
+ * OauthClient class.
  */
-class ScreenPermission extends Model {
+class OauthClient extends Model {
   /**
-    * Create new ScreenPermission
+    * Create new OauthClient
     *
     * @param   {object}  model
     *
@@ -16,9 +16,10 @@ class ScreenPermission extends Model {
 
     this.id = null;
     this.name = null;
-    this.key = null;
-    this.screen = null;
-    this.permission = null;
+    this.secret = null;
+    this.redirect = null;
+    this.revoked = null;
+    this.user = null;
     this.deleted = null;
     this.created_at = null;
     this.updated_at = null;
@@ -27,36 +28,29 @@ class ScreenPermission extends Model {
   }
 
   /**
-   * Specify fields that will be not be inserted
-   * or updated from the model.
-   *
-   * @return  {array}
-   */
-  static unFillable = [];
-
-  /**
    * Specify fields that will be hidden
    * from the model.
    *
    * @return  {array}
    */
-  static hiddenFields = ['deleted'];
+  hiddenFields = ['deleted'];
 
   /**
    * Specify mapping fields.
    *
    * @return  {object}
    */
-  static mappings = {
+  mappings = {
     id: 'id',
     name: 'name',
-    key: 'key',
-    screen: 'screen',
-    permission: 'permission',
+    secret: 'secret',
+    redirect: 'redirect',
+    revoked: 'revoked',
+    user: 'user',
     deleted: 'deleted',
     created_at: 'created_at',
     updated_at: 'updated_at',
   };
 }
 
-module.exports = ScreenPermission;
+module.exports = OauthClient;

@@ -42,13 +42,5 @@ exports.seed = async (knex, Promise) => {
       created_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
       updated_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
     },
-    {
-      id: 'assignScreenPermission-role',
-      name: 'AssignScreenPermission',
-      key: 'assignScreenPermission',
-      model: 'role',
-      created_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
-      updated_at: require('moment')().format('YYYY-MM-DD hh:mm:ss'),
-    },
   ]);
 };

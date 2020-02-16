@@ -1,9 +1,9 @@
 const Controller = container.controller;
 
 /**
- * ScreenController Controller
+ * OauthClientController Controller
  */
-class ScreenController extends Controller {
+class OauthClientController extends Controller {
   /**
    * Specify methods that will not be checked
    * for login.
@@ -30,18 +30,6 @@ class ScreenController extends Controller {
   constructor(repository) {
     super(repository);
   }
-
-  /**
-   * Fetch all records from the repo.
-   *
-   * @param   {object}  req
-   * @param   {object}  res
-   *
-   * @return  {array}
-   */
-  async all(req, res) {
-    return res.json(await this.repo.all(req.platform, this.getModuleConfig('relations', 'all'), req.headers['sort-by'], req.headers['desc']));
-  }
 }
 
-module.exports = ScreenController;
+module.exports = OauthClientController;

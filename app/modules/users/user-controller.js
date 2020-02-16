@@ -10,7 +10,7 @@ class UserController extends Controller {
    *
    * @return  {array}
    */
-  static skipLoginCheck = ['login', 'forgotPassword', 'resetPassword'];
+  static skipLoginCheck = ['login', 'forgotPassword', 'resetPassword', 'refreshToken', 'getToken'];
 
   /**
    * Specify methods that will not be checked
@@ -18,7 +18,7 @@ class UserController extends Controller {
    *
    * @return  {array}
    */
-  static skipPermissionCheck = ['changePassword', 'updateProfile'];
+  static skipPermissionCheck = ['changePassword', 'updateProfile', 'authorize'];
 
   /**
    * Init new object
@@ -128,6 +128,42 @@ class UserController extends Controller {
   async updateProfile(req, res) {
     return res.json(await this.repo.updateProfile(req.user, req.body, req.trx,
         this.getModuleConfig('allowedRelations', 'updateProfile'), this.getModuleConfig('upsertOptions', 'updateProfile')));
+  }
+
+  /**
+   * Refresh access token using the given refresh token.
+   *
+   * @param   {object}  req
+   * @param   {object}  res
+   *
+   * @return  {object}
+   */
+  async refreshToken(req, res) {
+    return res.json(await this.repo.refreshToken(req.body.refreshToken));
+  }
+
+  /**
+   * Authorize the logged in user to the given client id.
+   *
+   * @param   {object}  req
+   * @param   {object}  res
+   *
+   * @return  {object}
+   */
+  async authorize(req, res) {
+    return res.json(await this.repo.authorize(req.query.client_id, req.headers.authorization));
+  }
+
+  /**
+   * Exchange auth code with access token.
+   *
+   * @param   {object}  req
+   * @param   {object}  res
+   *
+   * @return  {object}
+   */
+  async getToken(req, res) {
+    return res.json(await this.repo.getToken(req.body.code, req.body.authorization, req.body.redirectUri));
   }
 }
 

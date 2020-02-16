@@ -1,7 +1,7 @@
 const DBModel = container.DBModel;
 
 /**
- * Report model
+ * Report model.
  */
 class ReportModel extends DBModel {
   /**

@@ -37,21 +37,21 @@ mysql_servers=
 (
     {
 		hostgroup=0
- 		address="35.223.183.36"
+ 		address="127.0.0.1"
  		port=3306
 		weight=100
  		max_connections=1000
  	},
     {
 		hostgroup=1
- 		address="35.223.183.36"
+ 		address="127.0.0.1"
  		port=3306
 		weight=50
  		max_connections=1000
  	},
     {
 		hostgroup=1
- 		address="35.193.132.250"
+ 		address="127.0.0.1"
  		port=3306
 		weight=50
  		max_connections=1000
@@ -62,7 +62,7 @@ mysql_users:
 (
  	{
  		username = "skeleton"
- 		password = "hgWQR!4*$12k"
+ 		password = ""
  		default_hostgroup = 0
  		max_connections=1000
  		default_schema="skeleton"

@@ -13,7 +13,9 @@ class Hr {
   async checkCredentials(email, password) {
     try {
       const response = await container.axios.post(container.config.auth_gateway, {email: email, password: password});
-      return await container.userRepository.first({national_id: response.data.data.national_id});
+      const user = await container.userRepository.first({email: response.data.data.email});
+
+      return user ? container.oauth.options.model.tokenFromUser(user, {id: 1}) : false;
     } catch (error) {
       return false;
     }

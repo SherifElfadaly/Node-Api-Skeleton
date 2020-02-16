@@ -1,7 +1,7 @@
 module.exports = {
-  'screenPermission': {
+  'oauthClient': {
     'relations': {
-      'list': '[permission]',
+      'all': '[]',
       'find': '[]',
     },
     'allowedRelations': {

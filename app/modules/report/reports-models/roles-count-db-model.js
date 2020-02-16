@@ -1,7 +1,7 @@
 const DBModel = container.DBModel;
 
 /**
- * RolesCount model
+ * RolesCount model.
  */
 class RolesCountModel extends DBModel {
   /**

@@ -1,7 +1,7 @@
 const DBModel = container.DBModel;
 
 /**
- * Permission model
+ * Permission model.
  */
 class PermissionModel extends DBModel {
   /**
