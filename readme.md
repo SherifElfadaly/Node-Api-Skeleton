@@ -66,9 +66,9 @@ Development env must contains
  - create db schema
  - modify .env file
  - install node_modules "npm install"
- - run "npm generate-key"
  - execute Database migration "npm run knex-migrate"
  - execute Database seed "npm run knex-seed"
+ - run "npm run generate-key"
  - start server "npm start"
 ```
 

@@ -1,7 +1,7 @@
 /**
- * Local class.
+ * Oauth2 class.
  */
-class Local {
+class Oauth2 {
   /**
     * Check the given credentials.
     *
@@ -18,10 +18,11 @@ class Local {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
               'Authorization': `Basic ${container.config.auth_secret}`,
+              'app-version': container.config.app_version,
             },
           }
       );
-      return await response.data.data;
+      return response.data.data;
     } catch (error) {
       return false;
     }
@@ -42,10 +43,11 @@ class Local {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
               'Authorization': `Basic ${container.config.auth_secret}`,
+              'app-version': container.config.app_version,
             },
           }
       );
-      return await response.data.data;
+      return response.data.data;
     } catch (error) {
       return false;
     }
@@ -66,11 +68,12 @@ class Local {
           {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
-              'Authorization': authorization,
+              'Authorization': `Bearer ${authorization}`,
+              'app-version': container.config.app_version,
             },
           }
       );
-      return await response.data.data;
+      return response.data.data;
     } catch (error) {
       return false;
     }
@@ -93,14 +96,15 @@ class Local {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
               'Authorization': `Basic ${authorization}`,
+              'app-version': container.config.app_version,
             },
           }
       );
-      return await response.data.data;
+      return response.data.data;
     } catch (error) {
       return false;
     }
   }
 }
 
-module.exports = Local;
+module.exports = Oauth2;

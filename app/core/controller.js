@@ -36,7 +36,7 @@ class Controller {
                  */
                 if ( ! this.constructor.skipPermissionCheck ||
                      ! this.constructor.skipPermissionCheck.includes(name)) {
-                  await container.auth.can(name, this.modelName);
+                  await container.auth.can(req.user, name, this.modelName);
                 }
               }
 

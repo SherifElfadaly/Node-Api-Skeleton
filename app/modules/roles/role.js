@@ -19,7 +19,6 @@ class Role extends Model {
     this.key = null;
     this.users = null;
     this.permissions = null;
-    this.assignableRoles = null;
     this.deleted = null;
     this.createdAt = null;
     this.updatedAt = null;
@@ -54,37 +53,10 @@ class Role extends Model {
     key: 'key',
     users: 'users',
     permissions: 'permissions',
-    assignableRoles: 'assignable_roles',
     deleted: 'deleted',
     createdAt: 'created_at',
     updatedAt: 'updated_at',
   };
-
-  /**
-   * Set assignable roles.
-   *
-   * @param   {string}  value
-   *
-   * @return  {void}
-   */
-  setAssignableRoles(value) {
-    this.assignableRoles = value.map((e) => e.key).join(',');
-  }
-
-  /**
-   * get assignable roles.
-   *
-   * @param   {string}  value
-   *
-   * @return  {void}
-   */
-  getAssignableRoles(value) {
-    this.assignableRoles = value ? value.split(',') : [];
-
-    this.assignableRoles = this.assignableRoles.map((assignableRole) => {
-      return {key: assignableRole};
-    });
-  }
 }
 
 module.exports = Role;
