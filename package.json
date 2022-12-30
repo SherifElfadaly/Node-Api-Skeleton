@@ -54,7 +54,7 @@
     "chai": "^4.2.0",
     "eslint": "^5.16.0",
     "eslint-config-google": "^0.13.0",
-    "mocha": "^6.2.2",
+    "mocha": "^10.2.0",
     "nyc": "^14.1.1",
     "pluralize": "^8.0.0",
     "sinon": "^7.5.0"
